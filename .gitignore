@@ -1,0 +1,16 @@
+# ZCode agent session artifacts（会话计划/中间产物，不入库）
+.zcode/
+
+# 历史版本快照（DESIGN-PROPOSAL §快照与回滚；如需版本化备份可移除此行）
+snapshots/
+
+# OS junk
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Editor
+.idea/
+.vscode/
+.workbuddy/
+DESIGN-PROPOSAL.md
