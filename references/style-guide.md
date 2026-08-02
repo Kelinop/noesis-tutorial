@@ -396,17 +396,12 @@ Body base：font-sans / 1rem / line-height 1.7 / ink on paper / 必加 `-webkit-
 ```
 
 - 斜边与轴线同系；红色做方向/起点，ink 做静止指示。禁用对称正三角。
-- 场景：序列起点、仪表指针尖、消息箭头、图解指示点、爆炸框引线端点。
+- 场景：序列起点、仪表指针尖、消息箭头、图解指示点。
 
 ### Exploded Frame（爆炸框）
 
 ```css
 .x-frame { position: relative; padding: var(--gap-sm) 0 var(--gap-sm) 5rem; }
-.x-frame::before {  /* 轴线引线：沿轴线方向（斜边自右上向左下）；blue-note——steel 禁落 L2 */
-  content: ""; position: absolute; left: 2.5rem; top: 0; width: 140%;
-  height: 2px; background: var(--blue-note); transform: rotate(-70deg);
-  transform-origin: top left; pointer-events: none;
-}
 .x-level { display: flex; gap: var(--gap-sm); align-items: baseline;
            margin: var(--gap-sm) 0; }
 .x-level:nth-child(2) { margin-left: -1.5rem; }   /* 沿轴线逐级左移（错位方向与轴线同系） */
@@ -418,8 +413,8 @@ Body base：font-sans / 1rem / line-height 1.7 / ink on paper / 必加 `-webkit-
 .x-key .x-tag { background: var(--red); }
 ```
 
-- 语义：机制分解为「零件陈列」——沿轴线方向逐级错位 + 引线连接；末级（结果/丢弃/终点）用 red tag（事件）。静态，无动画。
-- 默认进图版框（全装裱）；引线方向 = 轴线方向（自右上向左下）。
+- 语义：机制分解为「零件陈列」——沿轴线方向逐级错位（无引线）；末级（结果/丢弃/终点）用 red tag（事件）。静态，无动画。
+- 默认进图版框（全装裱）；错位方向与轴线同系（自右上向左下）。
 
 ### Gauge（仪表盘）
 
