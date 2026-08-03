@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TCP 三次握手：为什么必须是三次</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;600&family=Urbanist:wght@300;400;500;600&family=Google+Sans+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f1ece2; --ink: #1c1c1c; --steel: #637880;
+  --blue: #0f4c81; --blue-note: #9db8cc; --ochre: #b8863b;
+  --white: #ffffff; --red: #e63946; --deep-red: #cc2a26;
+  --font-sans: "IBM Plex Sans", "Noto Sans SC", sans-serif;
+  --font-mono: "Google Sans Code", "Noto Sans SC", monospace;
+  --font-num: "Urbanist", "IBM Plex Sans", sans-serif;
+  --text-xs: 0.75rem; --text-sm: 0.875rem; --text-lg: 1.25rem;
+  --text-xl: 1.75rem; --text-2xl: 2.5rem; --text-3xl: 4rem;
+  --gap-xs: 0.5rem; --gap-sm: 1rem; --gap-md: 2rem; --gap-lg: 4rem;
+  --rail: 3rem; --text-rail: 46rem;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: var(--font-sans); background: var(--paper); color: var(--ink);
+  font-size: 1rem; line-height: 1.7;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+.crop-marks { display: none; }
+@media (min-width: 1100px) {
+  .crop-marks { display: block; position: fixed; inset: 0; pointer-events: none; z-index: 50; }
+  .crop-marks i { position: absolute; width: 14px; height: 14px; }
+  .crop-marks .c1 { top: 8px; left: 8px; border-top: 2px solid var(--ink); border-left: 2px solid var(--ink); }
+  .crop-marks .c2 { top: 8px; right: 8px; border-top: 2px solid var(--ink); border-right: 2px solid var(--ink); }
+  .crop-marks .c3 { bottom: 8px; left: 8px; border-bottom: 2px solid var(--ink); border-left: 2px solid var(--ink); }
+  .crop-marks .c4 { bottom: 8px; right: 8px; border-bottom: 2px solid var(--ink); border-right: 2px solid var(--ink); }
+}
+.board { display: grid; grid-template-columns: 220px 1fr; gap: var(--gap-md); max-width: 1240px; margin: 0 auto; padding: var(--gap-md); }
+.sidebar { position: sticky; top: var(--gap-md); align-self: start; background: var(--white); border: 3px solid var(--ink); }
+.sidebar .mk { position: absolute; width: 8px; height: 8px; }
+.sidebar .mk1 { top: -2px; left: -2px; border-top: 2px solid var(--ink); border-left: 2px solid var(--ink); }
+.sidebar .mk2 { top: -2px; right: -2px; border-top: 2px solid var(--ink); border-right: 2px solid var(--ink); }
+.sidebar .mk3 { bottom: -2px; left: -2px; border-bottom: 2px solid var(--ink); border-left: 2px solid var(--ink); }
+.sidebar .mk4 { bottom: -2px; right: -2px; border-bottom: 2px solid var(--ink); border-right: 2px solid var(--ink); }
+.sb-head { background: var(--ink); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; padding: 6px 12px; }
+.sidebar nav a { display: block; padding: 8px 12px; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--steel); font-size: var(--text-sm); }
+.sidebar nav a .n { font-family: var(--font-num); color: var(--steel); margin-right: 8px; }
+.sidebar nav a.active { border-left: 4px solid var(--red); color: var(--red); font-weight: 600; }
+.sb-track { position: relative; height: 64px; }
+.sidebar-progress { position: absolute; left: 0; bottom: 0; width: 4px; height: 0; background: var(--red); }
+.article { position: relative; min-width: 0; }
+.ruler-tick { display: none; }
+.sec-num { font-family: var(--font-num); font-weight: 600; font-size: var(--text-lg); margin-right: var(--gap-xs); }
+@media (min-width: 1100px) {
+  .article { padding-left: var(--rail); }
+  .ruler-tick { display: block; position: absolute; left: 0; top: var(--gap-md); transform: translateX(-100%); text-align: right; padding-right: 9px; }
+  .ruler-tick::before { content: ""; position: absolute; right: -4px; top: 50%; width: 14px; height: 2px; background: var(--ink); }
+  .sec-num { display: none; }
+}
+.rt-num { font-family: var(--font-num); font-weight: 600; font-size: var(--text-sm); display: block; }
+.rt-word { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: .25em; color: var(--steel); display: block; }
+.sec { position: relative; border-top: 4px solid var(--ink); padding: var(--gap-md) 0; }
+.sec.problem { border-top-color: var(--red); }
+.sec.problem .section-tag { background: var(--red); }
+.sec.essence { border-top-color: var(--deep-red); }
+.sec.essence .section-tag { background: var(--deep-red); }
+.sec.tradeoff { border-top-color: var(--steel); }
+.sec.tradeoff .section-tag { background: var(--steel); }
+.section-tag { display: inline-block; background: var(--ink); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; padding: 2px 10px; margin-bottom: var(--gap-sm); }
+.sec h2 { font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: var(--gap-sm); }
+.density-breather { padding: var(--gap-lg) 0; }
+.density-dense .plate { margin: var(--gap-sm) 0; }
+.section-band { display: inline-block; background: var(--ink); color: var(--paper); padding: var(--gap-xs) calc(var(--gap-md) + 16px) var(--gap-xs) var(--gap-sm); clip-path: polygon(0 0, 100% 0, calc(100% - 16px) 100%, 0 100%); margin-bottom: var(--gap-sm); }
+.section-band h2 { color: var(--paper); margin: 0; }
+.text-rail { max-width: var(--text-rail); }
+.article p { margin-bottom: var(--gap-sm); }
+.page-header { padding: var(--gap-lg) 0 var(--gap-md); }
+.kicker { display: inline-block; background: var(--ink); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; padding: 4px 18px 4px 10px; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%); }
+.page-header h1 { font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.02em; line-height: 1.05; margin: var(--gap-sm) 0 var(--gap-xs); }
+.hdr-bar { width: 4rem; height: 8px; background: var(--red); margin: var(--gap-sm) 0; }
+.subtitle { font-size: var(--text-lg); font-weight: 500; color: var(--steel); max-width: var(--text-rail); }
+.meta { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .05em; margin-top: var(--gap-sm); }
+.hook { border: 2px solid var(--ink); padding: var(--gap-md); max-width: var(--text-rail); margin: var(--gap-md) 0; }
+.kw { color: var(--deep-red); font-weight: 600; }
+.giant-num { font-family: var(--font-num); font-weight: 600; font-size: 5rem; line-height: 1; color: var(--paper); -webkit-text-stroke: 2px var(--ink); }
+@supports not (-webkit-text-stroke: 1px black) { .giant-num { color: rgba(99, 120, 128, .35); } }
+.wedge-block { width: 85%; background: var(--ink); color: var(--paper); padding: var(--gap-sm) 3rem; padding-bottom: 5rem; margin: var(--gap-md) 0; clip-path: polygon(0 0, 100% 0, calc(100% - 56px) 100%, 0 100%); font-size: var(--text-lg); font-weight: 500; line-height: 1.4; }
+.giant-verdict { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; margin: var(--gap-lg) 0; }
+.giant-verdict em { font-style: normal; border-bottom: 6px solid var(--red); }
+.plate { position: relative; margin: var(--gap-md) 0; }
+.plate.full { border: 2px solid var(--ink); padding: var(--gap-sm); }
+.plate.light { border: none; padding: var(--gap-sm) 0 0; }
+.plate-marks i { position: absolute; width: 8px; height: 8px; }
+.plate-marks .m1 { top: -2px; left: -2px; border-top: 2px solid var(--ink); border-left: 2px solid var(--ink); }
+.plate-marks .m2 { top: -2px; right: -2px; border-top: 2px solid var(--ink); border-right: 2px solid var(--ink); }
+.plate-marks .m3 { bottom: -2px; left: -2px; border-bottom: 2px solid var(--ink); border-left: 2px solid var(--ink); }
+.plate-marks .m4 { bottom: -2px; right: -2px; border-bottom: 2px solid var(--ink); border-right: 2px solid var(--ink); }
+.fig-num { display: inline-block; background: var(--ink); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); padding: 2px 10px; letter-spacing: .1em; margin-bottom: var(--gap-xs); }
+.plate-caption { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); margin-top: var(--gap-xs); }
+.plate-caption .cap-num { color: var(--deep-red); font-weight: 600; }
+.fig-ref { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--red); text-decoration: none; }
+.blueprint { background: var(--blue); background-image: linear-gradient(rgba(241,236,226,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(241,236,226,.05) 1px, transparent 1px); background-size: 24px 24px; padding: var(--gap-md); }
+.swim { display: grid; grid-template-columns: 6rem 1fr 1fr 1fr; gap: 3px; min-width: 540px; }
+.sw-h { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); text-align: center; padding: 4px 0; }
+.sw-role { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; display: flex; align-items: center; }
+.sw-c { background: rgba(241,236,226,.07); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); padding: 12px 8px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.sw-c .arr { color: var(--red); font-weight: 600; }
+.sw-c.recv { background: rgba(157,184,204,.12); }
+.sw-foot { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); margin-top: var(--gap-xs); }
+.sd { display: flex; flex-direction: column; gap: var(--gap-sm); }
+.sd-row { display: flex; align-items: center; gap: var(--gap-sm); flex-wrap: wrap; }
+.sd-node { border: 2px solid rgba(241,236,226,.85); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .05em; padding: 6px 12px; }
+.sd-node.hl { border-color: var(--red); color: var(--red); font-weight: 600; }
+.sd-arr { color: var(--red); font-weight: 600; font-family: var(--font-mono); }
+.sd-lab { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); }
+.sd-foot { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); margin-top: var(--gap-xs); }
+.dialogue { border-top: 2px solid var(--ink); max-width: var(--text-rail); margin: var(--gap-md) 0; }
+.dialogue .d-voice { padding: var(--gap-sm) 0; border-bottom: 1px solid var(--ink); }
+.dialogue .d-name { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .1em; display: block; margin-bottom: var(--gap-xs); }
+.dialogue .b { margin-left: var(--gap-md); }
+.dialogue .b .d-name { color: var(--deep-red); }
+.ascii { background: var(--blue); padding: var(--gap-md); overflow-x: auto; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--paper); line-height: 1.55; white-space: pre; }
+.ascii .rd { color: var(--red); font-weight: 600; }
+.ascii .bn { color: var(--blue-note); }
+.x-frame { position: relative; padding: var(--gap-sm) 0 var(--gap-sm) 5rem; }
+.x-level { display: flex; gap: var(--gap-sm); align-items: baseline; margin: var(--gap-sm) 0; }
+.x-level:nth-child(2) { margin-left: -1.5rem; }
+.x-level:nth-child(3) { margin-left: -3rem; }
+.x-level:nth-child(n+4) { margin-left: -4.5rem; }
+.x-tag { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--paper); background: var(--ink); padding: 1px 8px; letter-spacing: .1em; flex-shrink: 0; }
+.x-key .x-tag { background: var(--red); }
+.x-desc { font-size: var(--text-xs); color: var(--ink); }
+.warning-box { border: 2px solid var(--ink); border-left: 4px solid var(--red); padding: var(--gap-sm) var(--gap-md); max-width: var(--text-rail); margin: var(--gap-md) 0; }
+.warning-tag { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--red); font-weight: 600; display: block; margin-bottom: var(--gap-xs); }
+.warning-box strong { color: var(--deep-red); }
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-md); margin: var(--gap-md) 0; }
+.split > * { min-width: 0; }
+.split h3 { font-size: var(--text-lg); font-weight: 600; margin-bottom: var(--gap-sm); }
+.strip { display: flex; align-items: flex-end; gap: var(--gap-md); border-bottom: 2px solid var(--steel); padding-bottom: var(--gap-sm); margin: var(--gap-md) 0; flex-wrap: wrap; }
+.readout .ro-num { font-family: var(--font-num); font-weight: 600; font-size: 4rem; line-height: 1; }
+.readout .ro-lab { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .1em; }
+.checklist { list-style: none; max-width: var(--text-rail); }
+.checklist li { padding: var(--gap-xs) 0; border-bottom: 1px solid rgba(28,28,28,.2); display: flex; gap: var(--gap-sm); }
+.checklist .ck { font-family: var(--font-num); font-weight: 600; color: var(--deep-red); }
+.checklist a { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--red); text-decoration: none; }
+.colophon { border-top: 2px solid var(--ink); margin-top: var(--gap-lg); padding: var(--gap-xs) 0; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .05em; display: flex; gap: var(--gap-md); flex-wrap: wrap; }
+@media (max-width: 768px) {
+  .board { grid-template-columns: 1fr; padding: var(--gap-sm); }
+  .sidebar { position: static; width: 100%; }
+  .page-header h1 { font-size: var(--text-2xl); }
+  .sec h2 { font-size: var(--text-xl); }
+  .giant-num { font-size: 3rem; }
+  .giant-verdict { font-size: clamp(1.8rem, 7vw, 2.5rem); }
+  .wedge-block { width: 100%; padding-bottom: 3rem; }
+  .split { grid-template-columns: 1fr; }
+  .dialogue .b { margin-left: 0; }
+  .readout .ro-num { font-size: 3rem; }
+  .x-frame { padding-left: 2rem; }
+  .x-level:nth-child(n) { margin-left: 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="crop-marks" aria-hidden="true"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+
+<div class="board">
+
+  <aside class="sidebar">
+    <i class="mk mk1"></i><i class="mk mk2"></i><i class="mk mk3"></i><i class="mk mk4"></i>
+    <div class="sb-head">目录</div>
+    <nav>
+      <a href="#s-problem"><span class="n">01</span>两次握手的失败</a>
+      <a href="#s-essence"><span class="n">02</span>数学下界</a>
+      <a href="#s-mechanism"><span class="n">03</span>三次握手机制</a>
+      <a href="#s-tradeoff"><span class="n">04</span>权衡</a>
+      <a href="#s-review"><span class="n">05</span>要点回顾</a>
+    </nav>
+    <div class="sb-track"><div class="sidebar-progress"></div></div>
+  </aside>
+
+  <main class="article">
+
+    <header class="page-header">
+      <span class="kicker">COMPUTER NETWORKS · 传输层</span>
+      <h1>TCP 三次握手：为什么必须是三次</h1>
+      <div class="hdr-bar"></div>
+      <p class="subtitle">两条消息无法让双方都相信「对方收到了」；第三次不是礼貌，是双向确认的数学下界。</p>
+      <p class="meta">2026-08 · 计算机网络 · 阅读 ≈ 18 MIN · 范围声明：以单连接建立为例；拥塞控制 / 窗口管理 / 重传定时器不展开</p>
+    </header>
+
+    <!-- ═══ 01 原始问题 ═══ -->
+    <section class="sec problem" id="s-problem">
+      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">01</span><span class="rt-word">PROB.</span></span>
+      <span class="section-tag">原始问题 · PROBLEM</span>
+      <h2><span class="sec-num">01</span>两次握手的失败：确认本身需要被确认</h2>
+      <div class="text-rail">
+        <p>TCP 在不可靠的 IP 之上提供可靠字节流。建立连接的第一件事是互相确认：<strong>「我想连你」「我同意」</strong>——两句就够了？不够。第二次消息（SYN-ACK）到达客户端之后，客户端才知道服务器同意；但<strong>服务器无法知道客户端是否收到了这句同意</strong>。如果 SYN-ACK 在网络里被延迟或丢失，客户端会重发 SYN，服务器会收到重复请求；更糟的是，一条多年前延迟到达的旧 SYN（Tomlinson 1975 年描述的经典问题）会骗服务器分配资源。</p>
+        <p>问题是双向的：每条「确认」本身都需要被确认，而这条「对确认的确认」又需要被确认——直接递归下去没有尽头。工程压力很明确：在不可靠信道里，<strong>最少需要几条消息，才能让双方都确定连接建立</strong>？</p>
+      </div>
+      <div class="wedge-block">
+        两条消息无法让双方同时确认——服务器的资源会花在死连接上。
+      </div>
+    </section>
+
+    <!-- ═══ 02 本质 ═══ -->
+    <section class="sec essence density-breather" id="s-essence">
+      <span class="section-tag">本质 · ESSENCE</span>
+      <h2>数学下界：三次是必要条件，不是惯例</h2>
+      <div class="giant-num" aria-hidden="true">02</div>
+      <div class="hook">
+        <p>TCP 的三次握手不是约定俗成，而是<span class="kw">双向确认的数学下界</span>：第一条让服务器知道「客户端想连」，第二条让客户端知道「服务器同意」，第三条让服务器知道「客户端收到了我的同意」。两条不安全——服务器会把资源分配给无法确认的连接；四条冗余——第三条之后双方都已确定，第四条不再传递新信息。</p>
+      </div>
+      <div class="text-rail">
+        <p>这个模型的断裂点在「消息可能重复」：握手保证的是「此刻双方状态一致」，不保证「后来的每条数据都被送达」——数据可靠靠序号与重传，那是握手之外的另一套机制（见页头范围声明）。</p>
+      </div>
+    </section>
+
+    <!-- ═══ 03 机制 ═══ -->
+    <section class="sec density-dense" id="s-mechanism">
+      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">03</span><span class="rt-word">MECH.</span></span>
+      <span class="section-tag">机制 · HANDSHAKE</span>
+      <div class="section-band"><h2><span class="sec-num">03</span>SYN → SYN-ACK → ACK：状态机怎么转</h2></div>
+      <div class="text-rail">
+        <p>三条消息对应两次「角色翻转」（<a class="fig-ref" href="#fig-1">见图 1</a>）：客户端先发 SYN（初始序号 seq=x），服务器回 SYN-ACK（自己的初始序号 seq=y，同时确认 x+1），客户端最后回 ACK（确认 y+1）。第三次之后，双方各自持有一组「对方的确认号」，连接建立。</p>
+      </div>
+
+      <figure class="plate full" id="fig-1">
+        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
+        <span class="fig-num">图 1</span>
+        <div class="blueprint">
+          <div class="swim" role="img" aria-label="三次握手时序：客户端发 SYN，服务器回 SYN-ACK，客户端回 ACK，时间为从左到右三个阶段">
+            <span class="sw-h"></span><span class="sw-h">阶段 1</span><span class="sw-h">阶段 2</span><span class="sw-h">阶段 3</span>
+            <span class="sw-role">客户端</span><span class="sw-c">SYN seq=x <span class="arr">▼</span></span><span class="sw-c recv">▲ <span class="arr">SYN-ACK</span> seq=y ack=x+1</span><span class="sw-c">ACK ack=y+1 <span class="arr">▼</span></span>
+            <span class="sw-role">服务器</span><span class="sw-c recv">▲ SYN</span><span class="sw-c">SYN-ACK <span class="arr">▼</span></span><span class="sw-c recv">▲ ACK</span>
+          </div>
+          <p class="sw-foot">红色 = 主动路径：消息方向即确认方向——第三条 ACK 是「对 SYN-ACK 的确认」，闭环在此完成</p>
+        </div>
+        <figcaption class="plate-caption"><span class="cap-num">图 1</span>：三条消息两次翻转——第三条的 ACK 闭合了「服务器 → 客户端」这条确认链</figcaption>
+      </figure>
+
+      <div class="dialogue">
+        <div class="d-voice a">
+          <span class="d-name">误解 · 「两次就够」</span>
+          <p>客户端发 SYN，服务器回 SYN-ACK，客户端收到后自己心里有数了——凭什么还要再发一条 ACK？服务器收到 ACK 与否，连接不都已经能用了吗？</p>
+        </div>
+        <div class="d-voice b">
+          <span class="d-name">正解 · 服务器是信息少的那一方</span>
+          <p>客户端收到 SYN-ACK 后确实确信连接建立；但服务器只知道自己<strong>发出过</strong> SYN-ACK，不知道它<strong>有没有被收到</strong>。如果 SYN-ACK 丢失，客户端重发 SYN，服务器会分配第二份资源；如果旧 SYN 延迟到达，服务器还会为早已结束的连接再分配一次。第三次 ACK 让服务器把「已分配资源」与「客户端确实在等待」对上号——<span class="kw">资源分配必须等确认，这是可靠性的前提</span>。</p>
+        </div>
+      </div>
+
+      <div class="text-rail">
+        <p>把三次握手翻译成状态机的样子，客户端与服务器各自走一条状态链（<a class="fig-ref" href="#fig-2">见图 2</a>）。注意服务器多出一个中间态：<strong>SYN_RCVD（半连接）</strong>——它已经分配了传输控制块，却还没等到客户端的最终确认。</p>
+      </div>
+
+      <figure class="plate light" id="fig-2">
+        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
+        <span class="fig-num">图 2</span>
+        <div class="blueprint">
+          <div class="sd">
+            <div class="sd-row"><span class="sd-node">CLOSED</span><span class="sd-arr">→</span><span class="sd-node">SYN_SENT</span><span class="sd-arr">→</span><span class="sd-node hl">ESTABLISHED</span><span class="sd-lab">客户端：发 SYN → 收 SYN-ACK → 发 ACK</span></div>
+            <div class="sd-row"><span class="sd-node">LISTEN</span><span class="sd-arr">→</span><span class="sd-node hl">SYN_RCVD</span><span class="sd-arr">→</span><span class="sd-node">ESTABLISHED</span><span class="sd-lab">服务器：收 SYN（半连接）→ 发 SYN-ACK → 收 ACK</span></div>
+            <div class="sd-row"><span class="sd-node">ESTABLISHED</span><span class="sd-arr">→</span><span class="sd-node">FIN_WAIT_1</span><span class="sd-arr">→</span><span class="sd-node">FIN_WAIT_2</span><span class="sd-arr">→</span><span class="sd-node">TIME_WAIT</span><span class="sd-lab">拆除：四次挥手，TIME_WAIT ≈ 2×MSL</span></div>
+          </div>
+          <p class="sd-foot">半连接态 SYN_RCVD 是攻击者的目标：只发 SYN 不回 ACK，就能让服务器把资源堆在 SYN_RCVD 上</p>
+        </div>
+        <figcaption class="plate-caption"><span class="cap-num">图 2</span>：握手是状态机的三次转移——SYN_RCVD 是资源已分配、确认未到的中间态</figcaption>
+      </figure>
+
+      <div class="text-rail">
+        <p>SYN、ACK 这些旗标住在报文头里（<a class="fig-ref" href="#fig-3">见图 3</a>）。头部的等宽排布本身就是规范：每个字段的位数是协议的一部分——这正是 ASCII 图而不是示意图的原因。</p>
+      </div>
+
+      <figure class="plate full" id="fig-3">
+        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
+        <span class="fig-num">图 3</span>
+        <div class="ascii" role="img" aria-label="TCP 报文段头 20 字节等宽排布：源端口 16 位，目的端口 16 位，序号 32 位，确认号 32 位，数据偏移 4 位，保留 6 位，六个标志位各 1 位，窗口 16 位，校验和 16 位，紧急指针 16 位">
+<span class="bn"> 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
+|         源端口 16          |       目的端口 16                 |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                        序号 32                                  |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                       确认号 32                                 |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+<span class="rd">| 数据偏移 4 | 保留 6 |U|A|P|R|S|F|          窗口 16             |</span>
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|         校验和 16          |       紧急指针 16                 |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
+        </div>
+        <figcaption class="plate-caption"><span class="cap-num">图 3</span>：20 字节头部等宽排布——标志位行（红色）只有 6 个 1 位旗标，握手只用到其中三个</figcaption>
+      </figure>
+
+      <div class="text-rail">
+        <p>六个旗标各管一件事，拆开看（<a class="fig-ref" href="#fig-4">见图 4</a>）：SYN 是「开始」，ACK 是「确认」，FIN 是「结束」。三次握手只踩 SYN 与 ACK；拆除走 FIN——这也是为什么拆除需要四条消息：两个方向各需一次 FIN + 一次 ACK。</p>
+      </div>
+
+      <figure class="plate full" id="fig-4">
+        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
+        <span class="fig-num">图 4</span>
+        <div class="x-frame">
+          <div class="x-level"><span class="x-tag">SYN</span><span class="x-desc">同步序号——握手第 1、2 条消息携带，初始化序号</span></div>
+          <div class="x-level"><span class="x-tag">ACK</span><span class="x-desc">确认号有效——第 2 条起每条消息都带，确认链由此延续</span></div>
+          <div class="x-level"><span class="x-tag">RST</span><span class="x-desc">复位——收到不属于任何连接的报文时强制断开</span></div>
+          <div class="x-level"><span class="x-tag">PSH / URG</span><span class="x-desc">立即交付 / 紧急指针——数据面的加速通道</span></div>
+          <div class="x-level x-key"><span class="x-tag">FIN</span><span class="x-desc"><b>结束——拆除时两个方向各发一次 FIN，各被 ACK 一次，共四条消息</b></span></div>
+        </div>
+        <figcaption class="plate-caption"><span class="cap-num">图 4</span>：旗标零件陈列——SYN 与 ACK 建链，FIN 拆链，四次挥手是两次握手的叠加</figcaption>
+      </figure>
+
+      <div class="warning-box">
+        <span class="warning-tag">易错 · 三个高频陷阱</span>
+        <p><strong>① 第三次 ACK 不带数据。</strong>它只是一条确认，但它不是「白发的」——没有它，服务器永远停在 SYN_RCVD。② <strong>SYN flood 攻的是半连接</strong>：攻击者只发 SYN 不回 ACK，服务器 SYN_RCVD 占满监听队列，正常客户端进不来。③ <strong>三次握手 ≠ 双方同时就绪</strong>：客户端在发出 ACK 时已就绪，服务器要等收到 ACK 才就绪——两者差一个 RTT 的「感知差」。</p>
+      </div>
+
+      <div class="split">
+        <div>
+          <h3>两次握手：资源悬置</h3>
+          <p>SYN-ACK 丢失或延迟时，服务器无法区分「客户端没收到」与「客户端放弃了」。旧 SYN 到达 → 服务器分配资源 → 客户端根本不在等待 → 资源变成死占用。服务器的确认闭环是开的。</p>
+        </div>
+        <div>
+          <h3>三次握手：闭环闭合</h3>
+          <p>第三条 ACK 把「服务器发出的同意」闭环。此后任何一条消息丢失都能被对端的重传兜住：客户端重发 SYN，服务器重发 SYN-ACK。确认链是闭合的，死资源不再可能产生。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 巨字判词（机制 → 权衡 转折点）═══ -->
+    <p class="giant-verdict" id="verdict-1">第三次不是礼貌，是<em>双向确认的数学下界</em>——少一次不安全，多一次冗余。</p>
+
+    <!-- ═══ 04 权衡 ═══ -->
+    <section class="sec tradeoff" id="s-tradeoff">
+      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">04</span><span class="rt-word">TRAD.</span></span>
+      <span class="section-tag">权衡 · TRADEOFF</span>
+      <h2><span class="sec-num">04</span>可靠性的租金：每个连接先付一个 RTT</h2>
+      <div class="text-rail">
+        <p>三次握手用「每个新连接一次往返」换来了「建立过程不需要任何状态回收机制」。对长连接这是小钱；对请求-响应式的短连接（一次 HTTP 请求一条连接），握手延迟可能超过数据传输本身。</p>
+      </div>
+      <div class="strip">
+        <div class="readout">
+          <div class="ro-num">1 RTT</div>
+          <div class="ro-lab">连接建立的固定延迟</div>
+        </div>
+        <div class="readout">
+          <div class="ro-num">3</div>
+          <div class="ro-lab">握手消息条数（数学下界）</div>
+        </div>
+        <div class="readout">
+          <div class="ro-num">2³²</div>
+          <div class="ro-lab">序号空间——ISN 随机化防伪造</div>
+        </div>
+      </div>
+      <div class="text-rail">
+        <p>这笔租金促生了整整一代「0-RTT」方案：TCP Fast Open 用 cookie 让后续连接跳过握手，QUIC 把加密与传输握手合并——它们不是推翻了三次握手的逻辑，而是<strong>把「已经验证过的对端」缓存起来，省掉重复验证</strong>。第一次连接仍然是三次握手，数学下界没有被绕过，只是不再每笔交易都付。</p>
+      </div>
+    </section>
+
+    <!-- ═══ 05 回顾 ═══ -->
+    <section class="sec" id="s-review">
+      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">05</span><span class="rt-word">REV.</span></span>
+      <span class="section-tag">回顾 · REVIEW</span>
+      <h2><span class="sec-num">05</span>要点回顾</h2>
+      <ul class="checklist">
+        <li><span class="ck">01</span>两次握手不安全：服务器无法确认 SYN-ACK 是否送达，资源会花在死连接上（Tomlinson 旧 SYN 问题）。</li>
+        <li><span class="ck">02</span>三次握手 = 双向确认的数学下界：SYN → SYN-ACK → ACK，第三条闭合确认链（<a href="#fig-1">图 1</a>）。</li>
+        <li><span class="ck">03</span>状态机：服务器多一个半连接态 SYN_RCVD——资源已分配、确认未到（<a href="#fig-2">图 2</a>）。</li>
+        <li><span class="ck">04</span>头部等宽排布：六个 1 位旗标，建链只踩 SYN/ACK，拆链走 FIN × 2 + ACK × 2（<a href="#fig-3">图 3</a>、<a href="#fig-4">图 4</a>）。</li>
+        <li><span class="ck">05</span>核心判词回顾：<a href="#verdict-1">「少一次不安全，多一次冗余」</a>——租金是每个连接 1 RTT，TFO/QUIC 0-RTT 是缓存而非绕过。</li>
+      </ul>
+    </section>
+
+    <footer class="colophon">
+      <span>版式 图版制 · 双轨</span>
+      <span>字体 IBM PLEX SANS · NOTO SANS SC · URBANIST · GOOGLE SANS CODE</span>
+      <span>色版 INK · RED · BLUE · OCHRE</span>
+      <span>图版数 4</span>
+      <span>轴线 20°</span>
+    </footer>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.sidebar nav a'));
+  var secs = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          links.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id); });
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    secs.forEach(function (s) { if (s) io.observe(s); });
+  }
+  var bars = document.querySelectorAll('.sidebar-progress');
+  if (bars.length) {
+    var update = function () {
+      var d = document.documentElement;
+      var max = d.scrollHeight - d.clientHeight;
+      var p = max > 0 ? (d.scrollTop / max) * 100 : 0;
+      bars.forEach(function (b) { b.style.height = p + '%'; });
+    };
+    addEventListener('scroll', function () { requestAnimationFrame(update); }, { passive: true });
+    update();
+  }
+})();
+</script>
+</main>
+</div>
+</body>
+</html>

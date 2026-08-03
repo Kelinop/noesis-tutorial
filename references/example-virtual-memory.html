@@ -27,7 +27,6 @@ body {
   -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
-
 .crop-marks { display: none; }
 @media (min-width: 1100px) {
   .crop-marks { display: block; position: fixed; inset: 0; pointer-events: none; z-index: 50; }
@@ -37,9 +36,7 @@ body {
   .crop-marks .c3 { bottom: 8px; left: 8px; border-bottom: 2px solid var(--ink); border-left: 2px solid var(--ink); }
   .crop-marks .c4 { bottom: 8px; right: 8px; border-bottom: 2px solid var(--ink); border-right: 2px solid var(--ink); }
 }
-
 .board { display: grid; grid-template-columns: 220px 1fr; gap: var(--gap-md); max-width: 1240px; margin: 0 auto; padding: var(--gap-md); }
-
 .sidebar { position: sticky; top: var(--gap-md); align-self: start; background: var(--white); border: 3px solid var(--ink); }
 .sidebar .mk { position: absolute; width: 8px; height: 8px; }
 .sidebar .mk1 { top: -2px; left: -2px; border-top: 2px solid var(--ink); border-left: 2px solid var(--ink); }
@@ -52,7 +49,6 @@ body {
 .sidebar nav a.active { border-left: 4px solid var(--red); color: var(--red); font-weight: 600; }
 .sb-track { position: relative; height: 64px; }
 .sidebar-progress { position: absolute; left: 0; bottom: 0; width: 4px; height: 0; background: var(--red); }
-
 .article { position: relative; min-width: 0; }
 .ruler-tick { display: none; }
 .sec-num { font-family: var(--font-num); font-weight: 600; font-size: var(--text-lg); margin-right: var(--gap-xs); }
@@ -64,7 +60,6 @@ body {
 }
 .rt-num { font-family: var(--font-num); font-weight: 600; font-size: var(--text-sm); display: block; }
 .rt-word { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: .25em; color: var(--steel); display: block; }
-
 .sec { position: relative; border-top: 4px solid var(--ink); padding: var(--gap-md) 0; }
 .sec.essence { border-top-color: var(--deep-red); }
 .sec.essence .section-tag { background: var(--deep-red); }
@@ -78,23 +73,21 @@ body {
 .section-band h2 { color: var(--paper); margin: 0; }
 .text-rail { max-width: var(--text-rail); }
 .article p { margin-bottom: var(--gap-sm); }
-
 .page-header { padding: var(--gap-lg) 0 var(--gap-md); }
 .kicker { display: inline-block; background: var(--ink); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; padding: 4px 18px 4px 10px; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%); }
 .page-header h1 { font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.02em; line-height: 1.05; margin: var(--gap-sm) 0 var(--gap-xs); }
 .hdr-bar { width: 4rem; height: 8px; background: var(--red); margin: var(--gap-sm) 0; }
 .subtitle { font-size: var(--text-lg); font-weight: 500; color: var(--steel); max-width: var(--text-rail); }
 .meta { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .05em; margin-top: var(--gap-sm); }
-
 .hook { border: 2px solid var(--ink); padding: var(--gap-md); max-width: var(--text-rail); margin: var(--gap-md) 0; }
 .kw { color: var(--deep-red); font-weight: 600; }
 .giant-num { font-family: var(--font-num); font-weight: 600; font-size: 5rem; line-height: 1; color: var(--paper); -webkit-text-stroke: 2px var(--ink); }
 @supports not (-webkit-text-stroke: 1px black) { .giant-num { color: rgba(99, 120, 128, .35); } }
 .giant-verdict { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; margin: var(--gap-lg) 0; }
 .giant-verdict em { font-style: normal; border-bottom: 6px solid var(--red); }
-
 .plate { position: relative; margin: var(--gap-md) 0; }
 .plate.full { border: 2px solid var(--ink); padding: var(--gap-sm); }
+.plate.light { border: none; }
 .plate-marks i { position: absolute; width: 8px; height: 8px; }
 .plate-marks .m1 { top: -2px; left: -2px; border-top: 2px solid var(--ink); border-left: 2px solid var(--ink); }
 .plate-marks .m2 { top: -2px; right: -2px; border-top: 2px solid var(--ink); border-right: 2px solid var(--ink); }
@@ -105,8 +98,7 @@ body {
 .plate-caption .cap-num { color: var(--deep-red); font-weight: 600; }
 .fig-ref { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--red); text-decoration: none; }
 .blueprint { background: var(--blue); background-image: linear-gradient(rgba(241,236,226,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(241,236,226,.05) 1px, transparent 1px); background-size: 24px 24px; padding: var(--gap-md); }
-
-/* ── Punch card（双材料区 + 超宽横向滚动）── */
+@media (min-width: 1100px) { .rail-hang { margin-left: -1.5rem; } }
 .punch-card { display: grid; gap: 2px; }
 .pc-row { display: grid; grid-template-columns: 5rem 1fr; align-items: stretch; }
 .pc-key { background: var(--paper); color: var(--deep-red); font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 600; letter-spacing: .1em; display: flex; align-items: center; justify-content: center; text-align: center; padding: var(--gap-xs); }
@@ -120,17 +112,13 @@ body {
 .pc-bit.pc-hole { background: var(--white); border: none; }
 .pc-sep { width: 12px; flex-shrink: 0; }
 .pc-note { color: var(--blue-note); font-size: var(--text-xs); }
-
-/* ── Memory map ── */
 .mmap-row { display: grid; grid-template-columns: 7rem 1fr; gap: var(--gap-xs); align-items: stretch; margin-bottom: 2px; }
 .mm-addr { font-family: var(--font-num); font-size: var(--text-xs); color: var(--blue-note); text-align: right; padding-top: 4px; }
-.mm-addr.red { color: var(--red); font-weight: 600; }
+.mm-addr.red { color: var(--red); font-weight: 600; font-size: var(--text-sm); }
 .mm-seg { border: 2px solid rgba(241,236,226,.85); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .05em; padding: 6px 12px; display: flex; justify-content: space-between; align-items: center; }
 .mm-hatch { border-color: rgba(157,184,204,.4); color: var(--blue-note); background-image: repeating-linear-gradient(110deg, rgba(241,236,226,.35) 0 2px, transparent 2px 10px); }
 .mm-legend { display: flex; gap: var(--gap-sm); align-items: center; margin-top: var(--gap-xs); color: var(--blue-note); font-size: var(--text-xs); font-family: var(--font-mono); }
 .mm-swatch { width: 28px; height: 14px; border: 1px solid rgba(157,184,204,.4); background-image: repeating-linear-gradient(110deg, rgba(241,236,226,.5) 0 2px, transparent 2px 8px); }
-
-/* ── Nested tree ── */
 .nt-node { border: 2px solid rgba(241,236,226,.85); padding: var(--gap-sm); margin-top: var(--gap-xs); }
 .nt-lab { display: block; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--blue-note); letter-spacing: .1em; margin-bottom: var(--gap-xs); }
 .nt-cells { display: flex; gap: 4px; flex-wrap: wrap; }
@@ -140,8 +128,6 @@ body {
 .nt-note { color: var(--blue-note); font-size: var(--text-xs); margin-top: var(--gap-xs); }
 .nt-cr3 { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--paper); }
 .nt-cr3 b { color: var(--red); font-weight: 600; }
-
-/* ── Exploded frame（L0 上，spec 原版 CSS）── */
 .x-frame { position: relative; padding: var(--gap-sm) 0 var(--gap-sm) 5rem; }
 .x-level { display: flex; gap: var(--gap-sm); align-items: baseline; margin: var(--gap-sm) 0; }
 .x-level:nth-child(2) { margin-left: -1.5rem; }
@@ -151,28 +137,22 @@ body {
 .x-key .x-tag { background: var(--red); }
 .x-desc { font-size: var(--text-xs); color: var(--ink); }
 .x-desc b { font-family: var(--font-mono); }
-
-/* ── Step trace ── */
 .st-grid { display: grid; grid-template-columns: 2.2rem 1fr 1.4fr; gap: 3px; }
 .st-n { font-family: var(--font-num); color: var(--blue-note); display: flex; align-items: center; justify-content: center; }
 .st-c { background: rgba(241,236,226,.07); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); padding: 6px 10px; }
 .st-c .red-b { color: var(--red); font-weight: 600; }
 .st-foot { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); margin-top: var(--gap-xs); }
-
-/* ── Instrument strip / readout / gauge ── */
 .strip { display: flex; align-items: flex-end; gap: var(--gap-md); border-bottom: 2px solid var(--steel); padding-bottom: var(--gap-sm); margin: var(--gap-md) 0; flex-wrap: wrap; }
 .readout .ro-num { font-family: var(--font-num); font-weight: 600; font-size: 4rem; line-height: 1; }
 .readout .ro-lab { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .1em; }
 .gauge { width: 180px; }
 .svg-num { font-family: var(--font-num); }
 .svg-lab { font-family: var(--font-mono); }
-
 .checklist { list-style: none; max-width: var(--text-rail); }
 .checklist li { padding: var(--gap-xs) 0; border-bottom: 1px solid rgba(28,28,28,.2); display: flex; gap: var(--gap-sm); }
 .checklist .ck { font-family: var(--font-num); font-weight: 600; color: var(--deep-red); }
 .checklist a { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--red); text-decoration: none; }
 .colophon { border-top: 2px solid var(--ink); margin-top: var(--gap-lg); padding: var(--gap-xs) 0; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .05em; display: flex; gap: var(--gap-md); flex-wrap: wrap; }
-
 @media (max-width: 768px) {
   .board { grid-template-columns: 1fr; padding: var(--gap-sm); }
   .sidebar { position: static; width: 100%; }
@@ -184,6 +164,7 @@ body {
   .pc-key { justify-content: flex-start; }
   .pc-bit { width: 20px; height: 20px; }
   .pc-idx i { width: 20px; }
+  .st-grid { grid-template-columns: 1.8rem 1fr 1.4fr; }
   .readout .ro-num { font-size: 3rem; }
   .x-frame { padding-left: 2rem; }
   .x-level:nth-child(n) { margin-left: 0; }
@@ -217,14 +198,13 @@ body {
       <h1>虚拟内存：每个进程都住在自己的假象里</h1>
       <div class="hdr-bar"></div>
       <p class="subtitle">一页讲透地址翻译：页号切分、两级页表、PTE 字段，以及一次完整的手工走查。</p>
-      <p class="meta">2026-08 · 操作系统 · 阅读 ≈ 20 MIN · 范围声明：以 32 位两级页表为例；按需调页 / swap / 大页仅提及不展开</p>
+      <p class="meta">2026-08 · 操作系统 · 阅读 ≈ 20 MIN · 范围声明：以 32 位两级页表为例；PTE 标志位仅列关键位（省略 G / PS / PCD / PWT 等）；按需调页 / swap / 大页仅提及不展开</p>
     </header>
 
     <!-- ═══ 01 本质 ═══ -->
     <section class="sec essence density-breather" id="s-essence">
-      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">01</span><span class="rt-word">ESS.</span></span>
       <span class="section-tag">本质 · ESSENCE</span>
-      <h2><span class="sec-num">01</span>翻译层：页表是前台的翻译簿</h2>
+      <h2>翻译层：页表是前台的翻译簿</h2>
       <div class="giant-num" aria-hidden="true">01</div>
       <div class="hook">
         <p>虚拟内存不是更大的内存，而是<span class="kw">一层翻译</span>。每个进程拿着虚拟门牌号来要房间，页表是酒店前台的翻译簿，把门牌号换成真实的物理位置。酒店（物理内存）只有一栋楼，但每位客人都以为整栋是自己的。</p>
@@ -313,10 +293,10 @@ body {
       </figure>
 
       <div class="text-rail">
-        <p>每一级查表读出的都是一个 <strong>PTE（页表项）</strong>。它的 32 个位被切成两份材料：高 20 位是物理页框号 PPN——翻译的答案；低 12 位是标志位——这次访问合不合法（<a class="fig-ref" href="#fig-4">见图 4</a>）。</p>
+        <p>每一级查表读出的都是一个 <strong>PTE（页表项）</strong>。它的 32 个位被切成两份材料：高 20 位是物理页框号 PPN——翻译的答案；低 12 位是标志位——这次访问合不合法。图 4 把这堆零件沿轴线拆开（<a class="fig-ref" href="#fig-4">见图 4</a>）：PTE 是本页翻译的核心，让它挂出标尺轨，由页缘标尺直接「测量」。</p>
       </div>
 
-      <figure class="plate full" id="fig-4">
+      <figure class="plate full rail-hang" id="fig-4">
         <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
         <span class="fig-num">图 4</span>
         <div class="x-frame">

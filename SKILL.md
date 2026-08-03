@@ -1,6 +1,6 @@
 ---
 name: noesis-tutorial
-description: Create HTML learning notes that explain scientific and technical concepts through engineering causality. Use when the user asks for technical tutorials, concept explanations, or learning resources. 适用于：技术教程、概念讲解、学习笔记、考点整理、知识梳理（输出中文 HTML 学习页）。
+description: Use when the user asks for technical tutorials, concept explanations, learning notes, or exam-point study material, to be delivered as HTML learning pages.
 ---
 
 # noesis-tutorial
@@ -11,40 +11,29 @@ Create complete, runnable HTML learning notes for technical topics. The page sho
 
 The result should feel like a designed engineering knowledge product, not a textbook dump, Markdown-to-HTML conversion, or generic summary.
 
+## When NOT to Use（何时不用）
+
+- 用户只要简短口头解释或一问一答，不需要交付页面 → 直接回答，不套用本技能。
+- 用户明确要求 Markdown / 纯文本 / 幻灯片等其他格式 → 不套用本技能。
+- 主题过于单薄（单句事实、术语速查）→ 不值得完整页面结构。
+- 用户显式要求轻量快速输出（「简单点」「粗略讲讲」）→ 除非确认仍要 HTML 页面，否则不套用装裱 / 密度 / 轴线体系；唯一降级通道是 Step 1 的 Cheatsheet 模式（轻装裱、全 dense、无判词），不是「随便做做」。
+- 非教学类任务（编码、调试、评审、数据分析）→ 本技能不适用。
+
 ## How to Use References
 
 - `references/visual-system.md` — design philosophy: 三原则（构造可见/色彩即职能/几何即仪器）、色层模型 L0–L5 + 叠加矩阵、轴线系统（20°）、几何仪器库（core/extended）、构图系统（双轨/图版制/天际线）、教学类型映射. **Read this first**.
 - `references/style-guide.md` — design methodology + CSS tokens + component specs: Layout Specs（板面/标尺/图版三级装裱/横向构成）、Geometric Specs（G1–G8 + 轴线公式）、Instrument Specs（爆炸框/仪表盘/三角指针/剖面线/巨字判词）. **Write your own CSS based on the rules and adjust it to fit the specific needs of the context**. **Read this second**.
-- `references/example-twos-complement.html` — Golden example: how the system composes into a full page (plate system, ruler, skyline, mounting). It is a reference, not a shackle.
-- `references/example-virtual-memory.html` — Spike example: the system validated on fresh content (multi-level page tables, exploded frame, hatching). A second data point for how plates and instruments instantiate.
+- `references/example-twos-complement.html` — 补码：图版制、punch card（plate-row 三码对照）、trace、blueprint callout 的完整装配；印刷族主导。
+- `references/example-virtual-memory.html` — 虚拟内存：memory map、nested tree、exploded frame、gauge、rail-hang、剖面线的图纸族装配。
+- `references/example-tcp.html` — TCP 三次握手：swimlane、state diagram（plate.light）、ascii、dialogue、split。
+- `references/example-kmp.html` — KMP（完整 408 考点）：archival panel、stepper/step-through、causal chain、ratio bar、warning box、G6 嵌套面板、真题演练。
+- `references/example-maxwell-equations.html` — 麦克斯韦方程组：海报式页头、timetable、archive card、G5 色场、G7 stair、G8 拼贴、asym。
+- `references/example-photoelectric-effect.html` — 光电效应实验：G1 切角、G3 红圆、gauge（红限）、dialogue、staggered、insight panel、split。
+- `references/example-coverage.md` — 组件 × 例文覆盖矩阵（六篇合覆盖全部 core + extended 组件；落新组件前先查此矩阵）。
 
-## Rules Quick Card（规则速查卡）
+## Rules Source（规则来源）
 
-已通读参考文档后，可仅凭本卡执行；不确定处回查对应章节。
-
-**色层（六层固定叠印，层序永不错位）**
-- **L0 paper 图底**：连续深色 ≤60%/屏（结构性约束）
-- **L1 ink/steel 结构**：steel 永不成面
-- **L2 blue 图纸**：只承载可测量内容；注释用 blue-note，禁 ochre/steel
-- **L3 ochre 档案**：不与 L2 相邻、永不做文字色
-- **L4 white**：仅 sidebar / 页面级浮起 UI / punch 孔位三处
-- **L5 red / deep-red**：red=动词、deep-red=名词；**双红不成面**——<24×24 忽略、≥24×24 且 <64×64 小块允许、≥64×64 违规、每屏红 ≤1% 视口、红圆 ≤128px 唯一例外
-
-**轴线与硬几何**
-- **轴线**：全页唯一倾角 **20°（自水平线量取，即与垂直成 70°）**、唯一方向（斜边自右上向左下）；切角深度 = `tan(20deg) × 元素高度`（比例 ≈0.36）；斜切只在组件底部呼吸区，**禁止切入文本区**；不进入机制图解内部；正文文字绝不斜置；G1 小切角与戳记 rotate(-4deg) 为豁免
-- **硬几何与视觉禁令**：`border-radius: 0`（两处例外：punch card 孔位 + G3 圆形标注）；4–16px 非对称边框、直角面板、硬投影无模糊。Avoid：gradients / glow / soft bubbles / rounded-corner mind maps / noisy animations / card-stack templates / UI copy that explains its own design
-
-**组件与装裱**
-- **core（每页在线）**：双轨（文字轨 ≈46rem / 图版轨全宽）、标尺轨 + 编号（≥1100px；<1100px 由 `.sec-num` 承接）、装裱三级 + 图号、轴线、密度标注、色层、版权条
-- **extended（语义命中才用）**：爆炸框、仪表盘、三角指针、红圆、巨字判词、错位双栏、图版横列、仪器带、剖面线——每个必须通过「它测量/指示/传动什么」审查
-- **装裱**：机制类组件默认全装裱（2px ink 框 + 对版十字 + 图号 + 图题）；**图版必须被正文引用（见图 N）或图题传达机制结论**——无人引用的图版是装饰；图版框正交，框内 L2 容器内衬 ≥ gap-md
-- **密度三档**：breather（essence/impact：padding gap-lg、组件稀疏、判词巨大）/ standard / dense（mechanism：组件紧凑、图纸连片）；dense ≠ 深色，呼吸带规则始终有效
-- **退化形式禁令**：>16 个同构单元仅靠颜色区分、编码不了移动/方向/转移/连接 → 形态失效，必须重选既有形态（trace / swimlane / SVG / punch card / 爆炸框…）
-
-**技术约束**
-- **JS 预算**：sidebar 进度条 + scroll-spy + stepper = 上限；爆炸框/仪表盘只做静态 SVG，禁止动画；无 JS 时页面完整可读（渐进增强）
-- **断点**：768px 单断点；标尺轨独立阈值 ≥1100px
-- **字重纪律**：正文/标签 400–600；300 仅大字号展示；600 仅展示巨字；同屏 ≤3 种字重（新增字重需同步更新 CDN）
+所有规则以 `references/` 为唯一源：执行前**通读** `references/visual-system.md`（为什么——色层 / 轴线 / 几何语义）与 `references/style-guide.md`（怎么实现——tokens / 组件规格 / 处置动作）全文；执行中不确定处回查对应章节。数值规则以标注「数值源」处为准。
 
 ## Research Mandate
 
@@ -112,7 +101,7 @@ Build in phases — generating a full-length technical document in one pass inev
 
 ## Output Contract
 
-- One HTML file, starts with `<!DOCTYPE html>`; inline CSS; inline JS only when interaction genuinely teaches.
+- 每份交付为独立 HTML 文件，以 `<!DOCTYPE html>` 开头（内容过长时按子主题拆分多文件，每份自包含、可导航）；inline CSS；inline JS 仅在交互真正促进理解时使用。
 - 文件名：小写 kebab-case 英文主题名（`twos-complement.html`、`kmp-algorithm.html`）；`<title>` 用中文主题名。
 - Chinese-first explanations; semantic HTML; responsive（768px 单断点）。
 - 唯一外部依赖：Google Fonts CDN（见 Font System）。
@@ -130,13 +119,7 @@ Build in phases — generating a full-length technical document in one pass inev
 | 数字 | Urbanist | Google Fonts CDN |
 | 代码 | Google Sans Code | Google Fonts CDN |
 
-CDN `<link>`（放在 `<head>` 中）：
-
-```html
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;600&family=Urbanist:wght@300;400;500;600&family=Google+Sans+Code:wght@400;500;600&display=swap" rel="stylesheet">
-```
+CDN `<link>`（放在 `<head>` 中；完整代码见 `references/style-guide.md` → Tokens）：
 
 CSS 变量与完整 tokens 见 `references/style-guide.md` → Tokens。数字场景（序号、位置标记、纯数字单元格）使用 `var(--font-num)`。字重纪律（不设硬性白名单）：正文/标签 400–600；300 仅大字号展示（海报标题、巨型数字）；600 仅展示巨字（Urbanist / Noto Sans SC），不进正文；同屏不超过 3 种字重——CDN 未声明的字重不会生效，字重变更（新增或移除）需同步更新 CDN。
 
@@ -310,6 +293,7 @@ First ask what cognitive type this information is, then choose the form — **ta
 | Multi-role / multi-stage process handoff | swimlane |
 | Hierarchical containment (address space, scope) | nested tree |
 | Evidence / historical fact / quotation | archive card |
+| Strict formal definitions / fixed rules | archival panel（档案面板，定义签） |
 | Key readings / state / verdict figures | readout |
 | Threshold readings (load factor, water level, utilization) | gauge（仪表盘） |
 | Precise time series | timetable |
@@ -325,11 +309,11 @@ Specifications in `references/style-guide.md` → Form Specs（认知形态）.
 
 Default is a constructivist technical-editorial style (defer to user preferences when stated). 参照系是**图版 / 工程图纸 / 展板 / 苏联统计图形**，不是海报——技术教程与图版内容天生同构。
 
-Core rules（一句话总纲；数值细节见前文 Rules Quick Card，规范源见 references）：
+Core rules（一句话总纲；规范源见 references）：
 
 | 纪律 | 一句话 | 规范源 |
 |---|---|---|
-| **色层模型** | 六层固定叠印、层序永不错位：L0 图底 → L1 结构 → L2 图纸（只承载可测量内容）→ L3 档案（不与 L2 相邻）→ L4 白卡（仅 sidebar / 浮起 UI / punch 孔位三处）→ L5 红系（双红不成面）。阈值细节（60%/屏、红面阈值、红圆例外）见速查卡 | visual-system → 色层模型 |
+| **色层模型** | 六层固定叠印、层序永不错位：L0 图底 → L1 结构 → L2 图纸（只承载可测量内容）→ L3 档案（不与 L2 相邻）→ L4 白卡（仅 sidebar / 浮起 UI / punch 孔位三处）→ L5 红系（双红不成面）。阈值细节见 visual-system → 色层模型 | visual-system → 色层模型 |
 | **轴线纪律** | 全页唯一倾角 20°（自水平线量取），唯一方向；斜切只在组件底部呼吸区，**禁入文本区**、禁入图解内部；正文文字绝不斜置；G1 小切角与戳记（rotate(-4deg)）豁免 | visual-system → Axis |
 | **仪器分级** | core 每页在线；extended 语义命中才用，每个必须通过「它测量什么」审查。**多样性是语义匹配的自然结果，不是目标** | visual-system → Geometry |
 | **装裱** | 机制类组件默认进图版框（全装裱 + 图号 + 图题）；**图版必须被正文引用（见图 N）或图题传达机制结论**——无人引用的图版是装饰 | style-guide → Plate Specs |
@@ -376,7 +360,7 @@ Verify every item before delivery (13 items):
     - **13-3 装裱**：机制类组件按 Step 5 判定进图版框；分级合理（主图全装裱/次图轻装裱/小件不装裱）；图版框无多余装饰动作。
     - **13-4 60% 密度**：取 3–4 个滚动位置，目测 L1+L2+L3 联合面积 ≤60% 视口。处置：判词改回 L0 或撤装裱。
     - **13-5 图版引用**：图版须被正文交叉引用（见图 N）或图题传达机制结论；无人引用则删除；巨字判词须被回顾段引用（锚点闭环）。
-    - **13-6 红面**：纯红连通区域 ≥64×64（4096px²）即违规；每屏红系总像素 ≤1% 视口；红圆唯一例外（≤128px、语义=压力/转折结论）。处置：ratio bar 红段改描边或 ≤24px 高；表头禁红底（deep-red 文字 + 红左划线）。
-    - **13-7 白卡作用域**：内容区（trace/swimlane/stepper/ascii/code-block/punch-card/inset/essence-hook/dialogue 答案/warning/stair/collage/circle-callout）出现 white 填充即违规；豁免仅三处：sidebar、页面级浮起 UI、punch 孔位。
-    - **13-8 深色间距**：任意两个深色填充（ink/blue/ochre，面积 >900px²）间距——同层 ≥12px、跨层 ≥gap-md（32px）；图版框内 L2 容器 padding ≥ gap-md（图版内衬）。
+    - **13-6 红面**：按 style-guide → 红面阈值 定义核验（≥64×64 即面违规、每屏 ≤1% 视口、红圆 ≤128px 唯一例外）。处置：ratio bar 红段改描边或 ≤24px 高；表头禁红底（deep-red 文字 + 红左划线）。
+    - **13-7 白卡作用域**：内容区（trace/swimlane/stepper/ascii/code-block/punch-card/inset/essence-hook/dialogue 答案/warning/stair/circle-callout）出现 white 填充即违规；豁免仅三处：sidebar、页面级浮起 UI（含 G8 拼贴浮动平面）、punch 孔位；禁白底容器全量清单见 style-guide → 白卡作用域。
+    - **13-8 深色间距**：按 visual-system → 禁令·深色间距表（数值源）核验——同层 ≥12px、跨层 ≥gap-md（32px）、图版内衬 ≥gap-md。
     - **13-9 形态有效性**：每个机制组件须能回答「这个形态编码了什么语义操作」，按 Step 5 形态理由逐条核验，站不住即打回重选形态（不是删组件）；同构格阵（>16 单元仅靠颜色、编码不了移动/方向/转移/连接）即退化。不查几何种类数量——多样性不是目标，形态与语义的对应才是。
