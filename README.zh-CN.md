@@ -44,12 +44,9 @@ references/
   example-*.html ×6             # 六篇中文例文——组件覆盖与教学样例
   example-kmp.en.html           # 英文旗舰例文（组件密集、完整教学）
   example-coverage.md           # 组件 × 例文覆盖矩阵
-  component-catalog.html        # 作者工作稿：组件目录（非执行输入）
-  color-options.html            # 作者工作稿：配色选型表（非执行输入）
 ```
 
 - **执行输入**：SKILL.md + visual-system.md + style-guide.md + 例文 + 覆盖矩阵。
-- **工作稿**：`component-catalog.html` 与 `color-options.html` 仅作作者设计参考，skill 不依赖。
 
 ## 例文
 

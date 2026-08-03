@@ -43,12 +43,9 @@ references/
   example-*.html ×6             # Six Chinese example pages — component coverage & teaching samples
   example-kmp.en.html           # English flagship example (component-heavy, complete teaching notes)
   example-coverage.md           # Component × example coverage matrix
-  component-catalog.html        # Author workspace: component gallery (not an execution input)
-  color-options.html            # Author workspace: palette selection sheet (not an execution input)
 ```
 
 - **Execution inputs**: SKILL.md + visual-system.md + style-guide.md + examples + coverage matrix.
-- **Workspace files**: `component-catalog.html` and `color-options.html` are the author's design reference only; the skill never requires them.
 
 ## Examples
 
