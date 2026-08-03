@@ -29,6 +29,14 @@ Not a textbook dump. Not a Markdown-to-HTML conversion.</p>
 
 <p><a href="README.zh-CN.md">简体中文</a> · <a href="#live-preview">Live Preview</a> · <a href="#install">Install</a> · <a href="#usage">Usage</a></p>
 
+<br>
+
+<a href="https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-kmp.en.html">
+  <img src="assets/preview-kmp.png" alt="KMP Algorithm — noesis-tutorial preview" width="720">
+</a>
+
+<p><em>KMP Algorithm: The Main-String Pointer Never Backtracks — <a href="https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-kmp.en.html">open in browser →</a></em></p>
+
 </div>
 
 ---
