@@ -26,7 +26,7 @@ The result should feel like a designed engineering knowledge product, not a text
 - `references/example-twos-complement.html` — 补码：图版制、punch card（plate-row 三码对照）、trace、blueprint callout 的完整装配；印刷族主导。
 - `references/example-virtual-memory.html` — 虚拟内存：memory map、nested tree、exploded frame、gauge、rail-hang、剖面线的图纸族装配。
 - `references/example-tcp.html` — TCP 三次握手：swimlane、state diagram（plate.light）、ascii、dialogue、split。
-- `references/example-kmp.html` — KMP（完整 408 考点）：archival panel、stepper/step-through、causal chain、ratio bar、warning box、G6 嵌套面板、真题演练。
+- `references/example-kmp.html` — KMP（完整 408 考点）：archival panel、stepper/step-through、causal chain、ratio bar、warning box、code block（黑底语法色）、真题演练。
 - `references/example-maxwell-equations.html` — 麦克斯韦方程组：海报式页头、timetable、archive card、G5 色场、G7 stair、G8 拼贴、asym。
 - `references/example-photoelectric-effect.html` — 光电效应实验：G1 切角、G3 红圆、gauge（红限）、dialogue、staggered、insight panel、split。
 - `references/example-coverage.md` — 组件 × 例文覆盖矩阵（六篇合覆盖全部 core + extended 组件；落新组件前先查此矩阵）。
@@ -355,12 +355,12 @@ Verify every item before delivery (13 items):
 11. **Technical**: Single file starting with `<!DOCTYPE html>`? Only Google Fonts CDN? Font weights follow the discipline (400–600 for body/labels, 300/600 display-only, ≤3 weights per screen)? Semantic tags? 768px responsive? Inline styles for one-off only? Scroll-progress JS is progressive enhancement (page fully readable without JS)?
 12. **Delivery**: Page Header complete (kicker + title + metadata)? Chinese `<title>`? kebab-case filename? Colophon present（版式 / 字体 / 色版 / 图版数）?
 13. **Rule-driven review（规则驱动审查，九项核验）**：逐屏核验九项纪律，每项「判定标准 + 违规处置」如下。
-    - **13-1 色层**：非 L0 层不直接相邻堆叠；双红只以线/点/小块/字级出现（永不成面）；ochre 只落 L0；图版内无 L4 白卡；与 Step 4 标注一致。ochre-blue「相邻」按包围盒间距判定（< gap-md 32px），**禁「同屏共现即判违规」**。
+    - **13-1 色层**：非 L0 层不直接相邻堆叠；双红只以线/点/小块/字级出现（永不成面）；ochre 只落 L0；图版内无 L4 白卡；与 Step 4 标注一致。ochre-blue「相邻」按包围盒间距判定（< gap-md 32px），**禁「同屏共现即判违规」**。olive（L0 材料档）与 steel 结构面例外（G6 内层 / G7 机制级）不属层序违规——按 visual-system → 色层模型 L0/L1 行核验。
     - **13-2 轴线**：所有斜切件（楔形/标题带/kicker/爆炸框/分隔线/三角指针）与全页轴线同系同向；斜切不切进文本区；机制图解内部无斜线；正文文字不斜置。
     - **13-3 装裱**：机制类组件按 Step 5 判定进图版框；分级合理（主图全装裱/次图轻装裱/小件不装裱）；图版框无多余装饰动作。
     - **13-4 60% 密度**：取 3–4 个滚动位置，目测 L1+L2+L3 联合面积 ≤60% 视口。处置：判词改回 L0 或撤装裱。
     - **13-5 图版引用**：图版须被正文交叉引用（见图 N）或图题传达机制结论；无人引用则删除；巨字判词须被回顾段引用（锚点闭环）。
     - **13-6 红面**：按 style-guide → 红面阈值 定义核验（≥64×64 即面违规、每屏 ≤1% 视口、红圆 ≤128px 唯一例外）。处置：ratio bar 红段改描边或 ≤24px 高；表头禁红底（deep-red 文字 + 红左划线）。
-    - **13-7 白卡作用域**：内容区（trace/swimlane/stepper/ascii/code-block/punch-card/inset/essence-hook/dialogue 答案/warning/stair/circle-callout）出现 white 填充即违规；豁免仅三处：sidebar、页面级浮起 UI（含 G8 拼贴浮动平面）、punch 孔位；禁白底容器全量清单见 style-guide → 白卡作用域。
+    - **13-7 白卡作用域**：内容区（trace/swimlane/stepper/ascii/code-block/punch-card/inset/essence-hook/dialogue 答案/warning/stair/circle-callout）出现 white 填充即违规；豁免仅三处：sidebar、页面级浮起 UI（含 G8 拼贴浮动平面）、punch 孔位。内容表面按 style-guide → 白卡作用域四类执行：机制 → L2 图纸底 / 代码 → ink 材料面 / 陈述 → L0 或 olive 橄榄纸 / 档案 → L3 ochre 带；steel 结构面例外（G6 内层 / G7 机制级）与 G7 层级色阶（级 3 steel / 级 4 ink）见对应 Specs。禁白底容器全量清单见 style-guide → 白卡作用域。
     - **13-8 深色间距**：按 visual-system → 禁令·深色间距表（数值源）核验——同层 ≥12px、跨层 ≥gap-md（32px）、图版内衬 ≥gap-md。
     - **13-9 形态有效性**：每个机制组件须能回答「这个形态编码了什么语义操作」，按 Step 5 形态理由逐条核验，站不住即打回重选形态（不是删组件）；同构格阵（>16 单元仅靠颜色、编码不了移动/方向/转移/连接）即退化。不查几何种类数量——多样性不是目标，形态与语义的对应才是。

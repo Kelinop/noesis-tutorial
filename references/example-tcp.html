@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TCP 三次握手：为什么必须是三次</title>
+<title>TCP 三次握手：双向确认的数学下界</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;600&family=Urbanist:wght@300;400;500;600&family=Google+Sans+Code:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --paper: #f1ece2; --ink: #1c1c1c; --steel: #637880;
+  --paper: #f1ece2; --olive: #cfd6c0; --ink: #1c1c1c; --steel: #637880;
   --blue: #0f4c81; --blue-note: #9db8cc; --ochre: #b8863b;
-  --white: #ffffff; --red: #e63946; --deep-red: #cc2a26;
+  --white: #ffffff; --red: #e63946; --deep-red: #cc2a26; --amber: #e6b04a;
   --font-sans: "IBM Plex Sans", "Noto Sans SC", sans-serif;
   --font-mono: "Google Sans Code", "Noto Sans SC", monospace;
   --font-num: "Urbanist", "IBM Plex Sans", sans-serif;
@@ -20,7 +20,7 @@
   --gap-xs: 0.5rem; --gap-sm: 1rem; --gap-md: 2rem; --gap-lg: 4rem;
   --rail: 3rem; --text-rail: 46rem;
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font-family: var(--font-sans); background: var(--paper); color: var(--ink);
   font-size: 1rem; line-height: 1.7;
@@ -65,8 +65,6 @@ body {
 .sec.problem .section-tag { background: var(--red); }
 .sec.essence { border-top-color: var(--deep-red); }
 .sec.essence .section-tag { background: var(--deep-red); }
-.sec.tradeoff { border-top-color: var(--steel); }
-.sec.tradeoff .section-tag { background: var(--steel); }
 .section-tag { display: inline-block; background: var(--ink); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; padding: 2px 10px; margin-bottom: var(--gap-sm); }
 .sec h2 { font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: var(--gap-sm); }
 .density-breather { padding: var(--gap-lg) 0; }
@@ -81,16 +79,16 @@ body {
 .hdr-bar { width: 4rem; height: 8px; background: var(--red); margin: var(--gap-sm) 0; }
 .subtitle { font-size: var(--text-lg); font-weight: 500; color: var(--steel); max-width: var(--text-rail); }
 .meta { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .05em; margin-top: var(--gap-sm); }
-.hook { border: 2px solid var(--ink); padding: var(--gap-md); max-width: var(--text-rail); margin: var(--gap-md) 0; }
+.hook { background: var(--olive); border: 2px solid var(--ink); padding: var(--gap-md); max-width: var(--text-rail); margin: var(--gap-md) 0; }
 .kw { color: var(--deep-red); font-weight: 600; }
 .giant-num { font-family: var(--font-num); font-weight: 600; font-size: 5rem; line-height: 1; color: var(--paper); -webkit-text-stroke: 2px var(--ink); }
 @supports not (-webkit-text-stroke: 1px black) { .giant-num { color: rgba(99, 120, 128, .35); } }
 .wedge-block { width: 85%; background: var(--ink); color: var(--paper); padding: var(--gap-sm) 3rem; padding-bottom: 5rem; margin: var(--gap-md) 0; clip-path: polygon(0 0, 100% 0, calc(100% - 56px) 100%, 0 100%); font-size: var(--text-lg); font-weight: 500; line-height: 1.4; }
-.giant-verdict { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; margin: var(--gap-lg) 0; }
+.giant-verdict { font-size: clamp(1.75rem, 4.2vw, 3.2rem); font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; margin: var(--gap-lg) 0; }
 .giant-verdict em { font-style: normal; border-bottom: 6px solid var(--red); }
 .plate { position: relative; margin: var(--gap-md) 0; }
 .plate.full { border: 2px solid var(--ink); padding: var(--gap-sm); }
-.plate.light { border: none; padding: var(--gap-sm) 0 0; }
+.plate.light { border: none; }
 .plate-marks i { position: absolute; width: 8px; height: 8px; }
 .plate-marks .m1 { top: -2px; left: -2px; border-top: 2px solid var(--ink); border-left: 2px solid var(--ink); }
 .plate-marks .m2 { top: -2px; right: -2px; border-top: 2px solid var(--ink); border-right: 2px solid var(--ink); }
@@ -115,28 +113,60 @@ body {
 .sd-arr { color: var(--red); font-weight: 600; font-family: var(--font-mono); }
 .sd-lab { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); }
 .sd-foot { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); margin-top: var(--gap-xs); }
-.dialogue { border-top: 2px solid var(--ink); max-width: var(--text-rail); margin: var(--gap-md) 0; }
-.dialogue .d-voice { padding: var(--gap-sm) 0; border-bottom: 1px solid var(--ink); }
-.dialogue .d-name { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .1em; display: block; margin-bottom: var(--gap-xs); }
-.dialogue .b { margin-left: var(--gap-md); }
-.dialogue .b .d-name { color: var(--deep-red); }
 .ascii { background: var(--blue); padding: var(--gap-md); overflow-x: auto; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--paper); line-height: 1.55; white-space: pre; }
 .ascii .rd { color: var(--red); font-weight: 600; }
 .ascii .bn { color: var(--blue-note); }
-.x-frame { position: relative; padding: var(--gap-sm) 0 var(--gap-sm) 5rem; }
-.x-level { display: flex; gap: var(--gap-sm); align-items: baseline; margin: var(--gap-sm) 0; }
-.x-level:nth-child(2) { margin-left: -1.5rem; }
-.x-level:nth-child(3) { margin-left: -3rem; }
-.x-level:nth-child(n+4) { margin-left: -4.5rem; }
-.x-tag { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--paper); background: var(--ink); padding: 1px 8px; letter-spacing: .1em; flex-shrink: 0; }
-.x-key .x-tag { background: var(--red); }
-.x-desc { font-size: var(--text-xs); color: var(--ink); }
-.warning-box { border: 2px solid var(--ink); border-left: 4px solid var(--red); padding: var(--gap-sm) var(--gap-md); max-width: var(--text-rail); margin: var(--gap-md) 0; }
+.tri { display: inline-block; width: 14px; height: 14px; background: var(--red); clip-path: polygon(0 0, 100% 0, calc(100% - 5px) 100%); vertical-align: middle; margin-right: 2px; }
+.tri.ink { background: var(--ink); }
+.tri.paper { background: var(--paper); }
+@media (min-width: 1100px) { .rail-hang { margin-left: -1.5rem; } }
+.trace { background: var(--blue); background-image: linear-gradient(rgba(241,236,226,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(241,236,226,.05) 1px, transparent 1px); background-size: 24px 24px; padding: var(--gap-md); overflow-x: auto; }
+.tr-grid { display: grid; grid-template-columns: 4.5rem repeat(9, minmax(2.2rem, auto)); gap: 3px; width: max-content; }
+.tr-grid.c3 { grid-template-columns: 4.5rem repeat(3, minmax(2.2rem, auto)); }
+.tr-grid.c4 { grid-template-columns: 4.5rem repeat(4, minmax(2.2rem, auto)); }
+.tr-grid.c5 { grid-template-columns: 4.5rem repeat(5, minmax(2.2rem, auto)); }
+.tr-h { color: var(--blue-note); font-family: var(--font-num); font-size: var(--text-xs); text-align: center; }
+.tr-lab { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); display: flex; align-items: center; }
+.tr-c { color: var(--paper); font-family: var(--font-num); font-weight: 600; text-align: center; background: rgba(241,236,226,.07); padding: 4px 2px; }
+.tr-c.red { background: var(--red); color: var(--paper); }
+.trace-header { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); margin-bottom: var(--gap-xs); }
+.trace-action { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); margin-top: var(--gap-sm); }
+.code { background: var(--ink); padding: var(--gap-md); overflow-x: auto; font-family: var(--font-mono); font-size: var(--text-sm); color: var(--paper); line-height: 1.7; }
+.code .kw-s { color: var(--red); font-weight: 600; }
+.code .st { color: var(--amber); }
+.code .num { color: var(--blue-note); }
+.code .cm { color: var(--steel); }
+.code .hl { border-left: 2px solid var(--red); padding-left: var(--gap-xs); display: block; }
+.dialogue { background: var(--olive); border-top: 3px solid var(--ink); max-width: var(--text-rail); margin: var(--gap-md) 0; }
+.d-voice { padding: var(--gap-sm) var(--gap-md); border-bottom: 1px solid rgba(28,28,28,.2); }
+.d-voice:last-child { border-bottom: none; }
+.d-name { display: inline-block; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--paper); background: var(--ink); padding: 2px 10px; letter-spacing: .1em; margin-right: var(--gap-xs); }
+.d-voice.b { margin-left: var(--gap-md); }
+.d-voice.b::before { content: ""; display: inline-block; width: 14px; height: 14px; background: var(--red); clip-path: polygon(0 0, 100% 0, calc(100% - 5px) 100%); margin-right: var(--gap-xs); vertical-align: -2px; }
+.d-voice.b .d-name { background: var(--red); }
+.archival-panel { background: var(--ochre); color: var(--ink); border: 3px solid var(--ink); padding: var(--gap-sm) var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
+.archival-panel p { font-size: var(--text-sm); line-height: 1.6; margin-bottom: 0; }
+.archival-panel p + p { margin-top: var(--gap-xs); }
+.archival-tag { display: inline-block; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--paper); background: var(--ink); padding: 2px 8px; margin-bottom: var(--gap-xs); letter-spacing: .1em; }
+.warning-box { background: var(--olive); border: 2px solid var(--ink); border-left: 4px solid var(--red); padding: var(--gap-sm) var(--gap-md); max-width: var(--text-rail); margin: var(--gap-md) 0; }
 .warning-tag { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--red); font-weight: 600; display: block; margin-bottom: var(--gap-xs); }
 .warning-box strong { color: var(--deep-red); }
-.split { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-md); margin: var(--gap-md) 0; }
-.split > * { min-width: 0; }
-.split h3 { font-size: var(--text-lg); font-weight: 600; margin-bottom: var(--gap-sm); }
+.inset-panel { background: var(--olive); border: 2px solid var(--ink); padding: var(--gap-sm) var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
+.inset-label { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--steel); display: block; margin-bottom: var(--gap-xs); }
+.bp-callout { position: relative; border: 2px solid var(--ink); background: var(--olive); padding: var(--gap-sm) var(--gap-md); max-width: var(--text-rail); margin: var(--gap-lg) 0 var(--gap-md); }
+.bp-callout::before { content: ""; position: absolute; left: 2rem; top: calc(-1 * var(--gap-md)); width: 2px; height: var(--gap-md); background: var(--steel); }
+.bp-callout .bp-tag { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--steel); display: block; margin-bottom: var(--gap-xs); }
+.data-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+.data-table th { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--deep-red); text-align: left; padding: var(--gap-xs); border-bottom: 2px solid var(--ink); }
+.data-table td { padding: var(--gap-xs); border-bottom: 1px solid var(--ink); }
+.data-table .key-cell { color: var(--deep-red); font-weight: 600; font-family: var(--font-num); }
+.table-scroll { overflow-x: auto; margin: var(--gap-md) 0; }
+.cmp-wrap { overflow-x: auto; margin: var(--gap-md) 0; }
+.cmp { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+.cmp th { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .05em; color: var(--deep-red); text-align: left; padding: var(--gap-xs); border-bottom: 2px solid var(--ink); }
+.cmp th:first-child { border-left: 3px solid var(--red); padding-left: var(--gap-xs); }
+.cmp td { padding: var(--gap-xs); border-bottom: 1px solid var(--ink); vertical-align: top; }
+.cmp td.num { font-family: var(--font-num); }
 .strip { display: flex; align-items: flex-end; gap: var(--gap-md); border-bottom: 2px solid var(--steel); padding-bottom: var(--gap-sm); margin: var(--gap-md) 0; flex-wrap: wrap; }
 .readout .ro-num { font-family: var(--font-num); font-weight: 600; font-size: 4rem; line-height: 1; }
 .readout .ro-lab { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .1em; }
@@ -151,13 +181,14 @@ body {
   .page-header h1 { font-size: var(--text-2xl); }
   .sec h2 { font-size: var(--text-xl); }
   .giant-num { font-size: 3rem; }
-  .giant-verdict { font-size: clamp(1.8rem, 7vw, 2.5rem); }
+  .giant-verdict { font-size: clamp(1.25rem, 4.9vw, 1.75rem); }
   .wedge-block { width: 100%; padding-bottom: 3rem; }
-  .split { grid-template-columns: 1fr; }
-  .dialogue .b { margin-left: 0; }
+  .d-voice.b { margin-left: 0; }
+  .tr-grid { grid-template-columns: 4rem repeat(9, minmax(1.8rem, auto)); }
+  .tr-grid.c3 { grid-template-columns: 4rem repeat(3, minmax(1.8rem, auto)); }
+  .tr-grid.c4 { grid-template-columns: 4rem repeat(4, minmax(1.8rem, auto)); }
+  .tr-grid.c5 { grid-template-columns: 4rem repeat(5, minmax(1.8rem, auto)); }
   .readout .ro-num { font-size: 3rem; }
-  .x-frame { padding-left: 2rem; }
-  .x-level:nth-child(n) { margin-left: 0; }
 }
 </style>
 </head>
@@ -171,11 +202,15 @@ body {
     <i class="mk mk1"></i><i class="mk mk2"></i><i class="mk mk3"></i><i class="mk mk4"></i>
     <div class="sb-head">目录</div>
     <nav>
-      <a href="#s-problem"><span class="n">01</span>两次握手的失败</a>
-      <a href="#s-essence"><span class="n">02</span>数学下界</a>
-      <a href="#s-mechanism"><span class="n">03</span>三次握手机制</a>
-      <a href="#s-tradeoff"><span class="n">04</span>权衡</a>
-      <a href="#s-review"><span class="n">05</span>要点回顾</a>
+      <a href="#s-problem"><span class="n">01</span>不可靠的 IP 层</a>
+      <a href="#s-essence"><span class="n">02</span>本质钩 · 数学下界</a>
+      <a href="#s-handshake"><span class="n">03</span>三次握手</a>
+      <a href="#s-twotimes"><span class="n">04</span>为什么两次不够</a>
+      <a href="#s-reliable"><span class="n">05</span>可靠传输</a>
+      <a href="#s-close"><span class="n">06</span>关闭与半连接</a>
+      <a href="#s-tradeoff"><span class="n">07</span>权衡与影响</a>
+      <a href="#s-zhenti"><span class="n">08</span>真题演练</a>
+      <a href="#s-review"><span class="n">09</span>考点清单</a>
     </nav>
     <div class="sb-track"><div class="sidebar-progress"></div></div>
   </aside>
@@ -183,200 +218,310 @@ body {
   <main class="article">
 
     <header class="page-header">
-      <span class="kicker">COMPUTER NETWORKS · 传输层</span>
-      <h1>TCP 三次握手：为什么必须是三次</h1>
+      <span class="kicker">COMPUTER NETWORKS · 计算机网络</span>
+      <h1>TCP 三次握手：双向确认的数学下界</h1>
       <div class="hdr-bar"></div>
-      <p class="subtitle">两条消息无法让双方都相信「对方收到了」；第三次不是礼貌，是双向确认的数学下界。</p>
-      <p class="meta">2026-08 · 计算机网络 · 阅读 ≈ 18 MIN · 范围声明：以单连接建立为例；拥塞控制 / 窗口管理 / 重传定时器不展开</p>
+      <p class="subtitle">为什么面向连接要从三次握手开始：不可靠的 IP 层、双向确认的下界、序号与重传、四次挥手——每次消息数都不是惯例，而是约束的必然。</p>
+      <p class="meta">2026-08 · 计算机网络 · 阅读 ≈ 35 MIN · 范围声明：TCP 经典模型（RFC 793 语义），握手/挥手消息数为「双向确认的数学下界」论证</p>
     </header>
 
     <!-- ═══ 01 原始问题 ═══ -->
     <section class="sec problem" id="s-problem">
       <span class="ruler-tick" aria-hidden="true"><span class="rt-num">01</span><span class="rt-word">PROB.</span></span>
-      <span class="section-tag">原始问题 · PROBLEM</span>
-      <h2><span class="sec-num">01</span>两次握手的失败：确认本身需要被确认</h2>
+      <span class="section-tag">原始问题 · THE PROBLEM</span>
+      <h2><span class="sec-num">01</span>IP 层只保证尽力而为：丢包、乱序、重复都是日常</h2>
       <div class="text-rail">
-        <p>TCP 在不可靠的 IP 之上提供可靠字节流。建立连接的第一件事是互相确认：<strong>「我想连你」「我同意」</strong>——两句就够了？不够。第二次消息（SYN-ACK）到达客户端之后，客户端才知道服务器同意；但<strong>服务器无法知道客户端是否收到了这句同意</strong>。如果 SYN-ACK 在网络里被延迟或丢失，客户端会重发 SYN，服务器会收到重复请求；更糟的是，一条多年前延迟到达的旧 SYN（Tomlinson 1975 年描述的经典问题）会骗服务器分配资源。</p>
-        <p>问题是双向的：每条「确认」本身都需要被确认，而这条「对确认的确认」又需要被确认——直接递归下去没有尽头。工程压力很明确：在不可靠信道里，<strong>最少需要几条消息，才能让双方都确定连接建立</strong>？</p>
+        <p>TCP 建立在 IP 之上，而 IP 是<strong>尽力而为</strong>的服务：报文可能丢失、可能乱序、可能重复到达、可能被延迟很久后重放。应用层需要的是「字节流可靠交付」——一个字节不多、不少、不错、不乱。这两者之间的鸿沟，就是 TCP 存在的全部理由：<strong>在不可靠的信道上，用编号、确认与重传造出可靠的抽象</strong>（<a class="fig-ref" href="#fig-1">见图 1</a>）。</p>
+      </div>
+      <div class="cause-chain">
+        <div class="cause-node"><span class="cause-tag">问题</span><p>发送方不知道报文是否到达；接收方不知道下一个来的是哪个；双方都不知道对方的状态。</p></div>
+        <div class="cause-arrow">↓</div>
+        <div class="cause-node"><span class="cause-tag">压力</span><p>网络既不保证送达也不保证顺序（IP 无状态）；但应用（文件传输、HTTP）必须拿到完整正确的字节流。</p></div>
+        <div class="cause-arrow">↓</div>
+        <div class="cause-node cause-solution"><span class="cause-tag">方向</span><p>先建立「双方都确认对方活着且愿意通信」的连接——而建立连接本身也要对抗丢包：需要多少条消息才够？</p></div>
       </div>
       <div class="wedge-block">
-        两条消息无法让双方同时确认——服务器的资源会花在死连接上。
+        问题不在丢包本身——在「没有一种可靠的方式让对方知道我知道」。
       </div>
     </section>
 
     <!-- ═══ 02 本质 ═══ -->
     <section class="sec essence density-breather" id="s-essence">
       <span class="section-tag">本质 · ESSENCE</span>
-      <h2>数学下界：三次是必要条件，不是惯例</h2>
+      <h2>本质钩：三次是双向确认的数学下界</h2>
       <div class="giant-num" aria-hidden="true">02</div>
       <div class="hook">
-        <p>TCP 的三次握手不是约定俗成，而是<span class="kw">双向确认的数学下界</span>：第一条让服务器知道「客户端想连」，第二条让客户端知道「服务器同意」，第三条让服务器知道「客户端收到了我的同意」。两条不安全——服务器会把资源分配给无法确认的连接；四条冗余——第三条之后双方都已确定，第四条不再传递新信息。</p>
+        <p>连接 = <span class="kw">双向确认</span>：客户端要确认「服务器活着」，服务器也要确认「客户端活着」。一条消息只能承载一个方向的信息——客户端发 SYN 证明自己存在，服务器回 SYN-ACK 同时确认客户端并宣告自己存在，客户端再回 ACK 确认服务器。三次之后，<strong>双方都确认了对方的确认</strong>。一次太少（服务器不能确认客户端），两次不够（客户端不能确认服务器的确认），四次多余（第三次 ACK 已经完成双向闭环）。</p>
       </div>
       <div class="text-rail">
-        <p>这个模型的断裂点在「消息可能重复」：握手保证的是「此刻双方状态一致」，不保证「后来的每条数据都被送达」——数据可靠靠序号与重传，那是握手之外的另一套机制（见页头范围声明）。</p>
+        <p>这个模型的断裂点：三次握手只能确认「双方可达且愿意通信」，<strong>不能防止 SYN 延迟重放</strong>——这正是第 06 节半连接攻击的根源。下界解决的是「最少需要几条」，防重放需要的是另一套机制（随机初始序号 + 时间戳）。</p>
       </div>
     </section>
 
-    <!-- ═══ 03 机制 ═══ -->
-    <section class="sec density-dense" id="s-mechanism">
-      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">03</span><span class="rt-word">MECH.</span></span>
+    <!-- ═══ 03 三次握手 ═══ -->
+    <section class="sec density-dense" id="s-handshake">
+      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">03</span><span class="rt-word">HANDSHAKE</span></span>
       <span class="section-tag">机制 · HANDSHAKE</span>
-      <div class="section-band"><h2><span class="sec-num">03</span>SYN → SYN-ACK → ACK：状态机怎么转</h2></div>
+      <div class="section-band"><h2><span class="sec-num">03</span>三次握手：谁先说话，各自确认了什么</h2></div>
       <div class="text-rail">
-        <p>三条消息对应两次「角色翻转」（<a class="fig-ref" href="#fig-1">见图 1</a>）：客户端先发 SYN（初始序号 seq=x），服务器回 SYN-ACK（自己的初始序号 seq=y，同时确认 x+1），客户端最后回 ACK（确认 y+1）。第三次之后，双方各自持有一组「对方的确认号」，连接建立。</p>
+        <p>客户端主动打开（active open），服务器被动监听（passive open）。三条消息、四个语义动作——第三条 ACK 同时是「客户端对服务器 SYN-ACK 的确认」，不需要第四条（<a class="fig-ref" href="#fig-1">见图 1</a>）。</p>
       </div>
-
-      <figure class="plate full" id="fig-1">
-        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
+      <figure class="plate full rail-hang" id="fig-1">
         <span class="fig-num">图 1</span>
+        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
         <div class="blueprint">
-          <div class="swim" role="img" aria-label="三次握手时序：客户端发 SYN，服务器回 SYN-ACK，客户端回 ACK，时间为从左到右三个阶段">
-            <span class="sw-h"></span><span class="sw-h">阶段 1</span><span class="sw-h">阶段 2</span><span class="sw-h">阶段 3</span>
-            <span class="sw-role">客户端</span><span class="sw-c">SYN seq=x <span class="arr">▼</span></span><span class="sw-c recv">▲ <span class="arr">SYN-ACK</span> seq=y ack=x+1</span><span class="sw-c">ACK ack=y+1 <span class="arr">▼</span></span>
-            <span class="sw-role">服务器</span><span class="sw-c recv">▲ SYN</span><span class="sw-c">SYN-ACK <span class="arr">▼</span></span><span class="sw-c recv">▲ ACK</span>
+          <div class="swim" role="img" aria-label="三次握手泳道：客户端发 SYN，服务器回 SYN-ACK，客户端回 ACK">
+            <div class="sw-h"></div><div class="sw-h">客户端</div><div class="sw-h">网络</div><div class="sw-h">服务器</div>
+            <div class="sw-role">第 1 步</div><div class="sw-c">SYN<br>seq=100</div><div class="sw-c"><span class="tri"></span></div><div class="sw-c recv">收到 SYN：我活着 ✓ 客户端可达 ✓</div>
+            <div class="sw-role">第 2 步</div><div class="sw-c recv">收到 SYN-ACK：服务器活着 ✓</div><div class="sw-c"><span class="tri"></span></div><div class="sw-c">SYN-ACK<br>seq=200, ack=101</div>
+            <div class="sw-role">第 3 步</div><div class="sw-c">ACK<br>ack=201</div><div class="sw-c"><span class="tri"></span></div><div class="sw-c recv">收到 ACK：客户端确认我了 ✓</div>
+            <div class="sw-foot">三次后双方状态均为 ESTABLISHED；seq 初始化随机（防延迟重放）。主图版左轨出血（rail-hang）：被标尺测量</div>
           </div>
-          <p class="sw-foot">红色 = 主动路径：消息方向即确认方向——第三条 ACK 是「对 SYN-ACK 的确认」，闭环在此完成</p>
         </div>
-        <figcaption class="plate-caption"><span class="cap-num">图 1</span>：三条消息两次翻转——第三条的 ACK 闭合了「服务器 → 客户端」这条确认链</figcaption>
+        <figcaption class="plate-caption"><span class="cap-num">图 1</span>：三次握手——每条消息同时确认一个方向；第三条 ACK 让服务器确认「客户端的确认」，双向闭环完成</figcaption>
       </figure>
+      <figure class="plate light" id="fig-2">
+        <span class="fig-num">图 2</span>
+        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
+        <div class="blueprint">
+          <div class="sd" role="img" aria-label="TCP 连接建立状态图">
+            <div class="sd-row"><div class="sd-node">CLOSED</div><div class="sd-arr">→</div><div class="sd-node">SYN_SENT</div><div class="sd-lab">客户端：发 SYN</div></div>
+            <div class="sd-row"><div class="sd-node">SYN_SENT</div><div class="sd-arr">→</div><div class="sd-node hl">ESTABLISHED</div><div class="sd-lab">收到 SYN-ACK → 发 ACK</div></div>
+            <div class="sd-row"><div class="sd-node">CLOSED</div><div class="sd-arr">→</div><div class="sd-node">LISTEN</div><div class="sd-lab">服务器：被动监听</div></div>
+            <div class="sd-row"><div class="sd-node">LISTEN</div><div class="sd-arr">→</div><div class="sd-node">SYN_RCVD</div><div class="sd-lab">收到 SYN → 发 SYN-ACK</div></div>
+            <div class="sd-row"><div class="sd-node">SYN_RCVD</div><div class="sd-arr">→</div><div class="sd-node hl">ESTABLISHED</div><div class="sd-lab">收到 ACK</div></div>
+            <div class="sd-foot">ESTABLISHED 之后才能传数据；半开状态（SYN_SENT / SYN_RCVD）就是握手失败可重试的中间态</div>
+          </div>
+        </div>
+        <figcaption class="plate-caption"><span class="cap-num">图 2</span>：状态图（轻装裱）——握手的每个动作对应一个状态迁移，ESTABLISHED 是唯一能传数据的点</figcaption>
+      </figure>
+      <figure class="plate full" id="fig-3">
+        <span class="fig-num">图 3</span>
+        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
+        <div class="ascii" role="img" aria-label="TCP 报文段头：源端口目标端口序号确认号标志位窗口">
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|          源端口           |           目标端口           |     |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                        序号 (seq)                         |    |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                    确认号 (ack)                          |    |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+| 数据偏移 | 保留 | U A P R S F |         窗口 (window)      |
+|         |      | R C S S Y I |                             |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ 标志位：<span class="rd">SYN</span>=同步 / <span class="rd">ACK</span>=确认 / <span class="rd">FIN</span>=结束 / RST=重置
+        </div>
+        <figcaption class="plate-caption"><span class="cap-num">图 3</span>：可靠传输的全部字段都在这 20 字节里——seq/ack 编号、窗口、六个标志位</figcaption>
+      </figure>
+    </section>
 
+    <!-- ═══ 04 为什么两次不够 ═══ -->
+    <section class="sec" id="s-twotimes">
+      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">04</span><span class="rt-word">WHY 3?</span></span>
+      <span class="section-tag">误解 · MISCONCEPTION</span>
+      <h2><span class="sec-num">04</span>两次握手会发生什么：一个真实的重放场景</h2>
+      <div class="text-rail">
+        <p>反对意见很自然：「客户端发 SYN、服务器回 ACK，不就互相确认了吗？」——错在<strong>服务器的 ACK 没有被确认</strong>。看这个真实场景：客户端连接 1 的 SYN 在网络中延迟，客户端超时重试连接 2 成功并传输完毕、正常关闭；此时延迟的 SYN 到达服务器，服务器以为新连接到来，分配资源并回 ACK——但客户端根本不知道这个连接存在，<strong>服务器为一个死连接分配了资源</strong>（<a class="fig-ref" href="#fig-4">见图 4</a>）。</p>
+      </div>
       <div class="dialogue">
         <div class="d-voice a">
-          <span class="d-name">误解 · 「两次就够」</span>
-          <p>客户端发 SYN，服务器回 SYN-ACK，客户端收到后自己心里有数了——凭什么还要再发一条 ACK？服务器收到 ACK 与否，连接不都已经能用了吗？</p>
+          <span class="d-name">常见误解：</span>「两次握手就够了——客户端发 SYN，服务器回 ACK，连接就建立了。」
         </div>
         <div class="d-voice b">
-          <span class="d-name">正解 · 服务器是信息少的那一方</span>
-          <p>客户端收到 SYN-ACK 后确实确信连接建立；但服务器只知道自己<strong>发出过</strong> SYN-ACK，不知道它<strong>有没有被收到</strong>。如果 SYN-ACK 丢失，客户端重发 SYN，服务器会分配第二份资源；如果旧 SYN 延迟到达，服务器还会为早已结束的连接再分配一次。第三次 ACK 让服务器把「已分配资源」与「客户端确实在等待」对上号——<span class="kw">资源分配必须等确认，这是可靠性的前提</span>。</p>
+          <span class="d-name">工程现实：</span>服务器的 ACK 无法确认。延迟的 SYN 重放时，服务器会<strong>为一个不存在的连接分配资源</strong>。第三次 ACK 不是礼仪——它是 <span class="kw">双向确认的下界</span>：让服务器知道「客户端知道我在线」。
+        </div>
+        <div class="d-voice a">
+          <span class="d-name">追问：</span>「那四次握手不是更安全？」
+        </div>
+        <div class="d-voice b">
+          <span class="d-name">工程现实：</span>四次对双向确认是冗余的——第三次 ACK 之后，双方的确认链已经闭合：客户端确认服务器（SYN-ACK）、服务器确认客户端（ACK）。四次只是重复第三次的语义。<span class="kw">一次太少，两次不够，三次是下界，四次多余。</span>
         </div>
       </div>
-
-      <div class="text-rail">
-        <p>把三次握手翻译成状态机的样子，客户端与服务器各自走一条状态链（<a class="fig-ref" href="#fig-2">见图 2</a>）。注意服务器多出一个中间态：<strong>SYN_RCVD（半连接）</strong>——它已经分配了传输控制块，却还没等到客户端的最终确认。</p>
-      </div>
-
-      <figure class="plate light" id="fig-2">
-        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
-        <span class="fig-num">图 2</span>
-        <div class="blueprint">
-          <div class="sd">
-            <div class="sd-row"><span class="sd-node">CLOSED</span><span class="sd-arr">→</span><span class="sd-node">SYN_SENT</span><span class="sd-arr">→</span><span class="sd-node hl">ESTABLISHED</span><span class="sd-lab">客户端：发 SYN → 收 SYN-ACK → 发 ACK</span></div>
-            <div class="sd-row"><span class="sd-node">LISTEN</span><span class="sd-arr">→</span><span class="sd-node hl">SYN_RCVD</span><span class="sd-arr">→</span><span class="sd-node">ESTABLISHED</span><span class="sd-lab">服务器：收 SYN（半连接）→ 发 SYN-ACK → 收 ACK</span></div>
-            <div class="sd-row"><span class="sd-node">ESTABLISHED</span><span class="sd-arr">→</span><span class="sd-node">FIN_WAIT_1</span><span class="sd-arr">→</span><span class="sd-node">FIN_WAIT_2</span><span class="sd-arr">→</span><span class="sd-node">TIME_WAIT</span><span class="sd-lab">拆除：四次挥手，TIME_WAIT ≈ 2×MSL</span></div>
-          </div>
-          <p class="sd-foot">半连接态 SYN_RCVD 是攻击者的目标：只发 SYN 不回 ACK，就能让服务器把资源堆在 SYN_RCVD 上</p>
-        </div>
-        <figcaption class="plate-caption"><span class="cap-num">图 2</span>：握手是状态机的三次转移——SYN_RCVD 是资源已分配、确认未到的中间态</figcaption>
-      </figure>
-
-      <div class="text-rail">
-        <p>SYN、ACK 这些旗标住在报文头里（<a class="fig-ref" href="#fig-3">见图 3</a>）。头部的等宽排布本身就是规范：每个字段的位数是协议的一部分——这正是 ASCII 图而不是示意图的原因。</p>
-      </div>
-
-      <figure class="plate full" id="fig-3">
-        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
-        <span class="fig-num">图 3</span>
-        <div class="ascii" role="img" aria-label="TCP 报文段头 20 字节等宽排布：源端口 16 位，目的端口 16 位，序号 32 位，确认号 32 位，数据偏移 4 位，保留 6 位，六个标志位各 1 位，窗口 16 位，校验和 16 位，紧急指针 16 位">
-<span class="bn"> 0                   1                   2                   3
- 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
-|         源端口 16          |       目的端口 16                 |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|                        序号 32                                  |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|                       确认号 32                                 |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-<span class="rd">| 数据偏移 4 | 保留 6 |U|A|P|R|S|F|          窗口 16             |</span>
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|         校验和 16          |       紧急指针 16                 |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span>
-        </div>
-        <figcaption class="plate-caption"><span class="cap-num">图 3</span>：20 字节头部等宽排布——标志位行（红色）只有 6 个 1 位旗标，握手只用到其中三个</figcaption>
-      </figure>
-
-      <div class="text-rail">
-        <p>六个旗标各管一件事，拆开看（<a class="fig-ref" href="#fig-4">见图 4</a>）：SYN 是「开始」，ACK 是「确认」，FIN 是「结束」。三次握手只踩 SYN 与 ACK；拆除走 FIN——这也是为什么拆除需要四条消息：两个方向各需一次 FIN + 一次 ACK。</p>
-      </div>
-
       <figure class="plate full" id="fig-4">
-        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
         <span class="fig-num">图 4</span>
-        <div class="x-frame">
-          <div class="x-level"><span class="x-tag">SYN</span><span class="x-desc">同步序号——握手第 1、2 条消息携带，初始化序号</span></div>
-          <div class="x-level"><span class="x-tag">ACK</span><span class="x-desc">确认号有效——第 2 条起每条消息都带，确认链由此延续</span></div>
-          <div class="x-level"><span class="x-tag">RST</span><span class="x-desc">复位——收到不属于任何连接的报文时强制断开</span></div>
-          <div class="x-level"><span class="x-tag">PSH / URG</span><span class="x-desc">立即交付 / 紧急指针——数据面的加速通道</span></div>
-          <div class="x-level x-key"><span class="x-tag">FIN</span><span class="x-desc"><b>结束——拆除时两个方向各发一次 FIN，各被 ACK 一次，共四条消息</b></span></div>
+        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
+        <div class="blueprint">
+          <div class="swim" role="img" aria-label="延迟 SYN 重放：连接 1 的 SYN 延迟到达，服务器错误建立半连接">
+            <div class="sw-h"></div><div class="sw-h">客户端</div><div class="sw-h">网络</div><div class="sw-h">服务器</div>
+            <div class="sw-role">连接 1</div><div class="sw-c">SYN（延迟！）</div><div class="sw-c"><span class="tri paper"></span></div><div class="sw-c recv">—</div>
+            <div class="sw-role">超时</div><div class="sw-c">SYN（重试）</div><div class="sw-c"><span class="tri"></span></div><div class="sw-c recv">SYN-ACK → ACK：正常建立、传输、关闭</div>
+            <div class="sw-role">之后</div><div class="sw-c">（已关闭）</div><div class="sw-c"><span class="tri"></span></div><div class="sw-c recv">延迟的 SYN 到达：<span class="rd">误以为新连接</span>，分配资源回 SYN-ACK</div>
+            <div class="sw-foot">两次握手：服务器从此挂着一个永远等不到 ACK 的半连接——三次握手让第三次 ACK 成为「服务器侧的最后确认」</div>
+          </div>
         </div>
-        <figcaption class="plate-caption"><span class="cap-num">图 4</span>：旗标零件陈列——SYN 与 ACK 建链，FIN 拆链，四次挥手是两次握手的叠加</figcaption>
+        <figcaption class="plate-caption"><span class="cap-num">图 4</span>：延迟重放是两次握手的致命伤——第三次 ACK 让服务器在分配资源前先得到确认</figcaption>
       </figure>
-
       <div class="warning-box">
-        <span class="warning-tag">易错 · 三个高频陷阱</span>
-        <p><strong>① 第三次 ACK 不带数据。</strong>它只是一条确认，但它不是「白发的」——没有它，服务器永远停在 SYN_RCVD。② <strong>SYN flood 攻的是半连接</strong>：攻击者只发 SYN 不回 ACK，服务器 SYN_RCVD 占满监听队列，正常客户端进不来。③ <strong>三次握手 ≠ 双方同时就绪</strong>：客户端在发出 ACK 时已就绪，服务器要等收到 ACK 才就绪——两者差一个 RTT 的「感知差」。</p>
-      </div>
-
-      <div class="split">
-        <div>
-          <h3>两次握手：资源悬置</h3>
-          <p>SYN-ACK 丢失或延迟时，服务器无法区分「客户端没收到」与「客户端放弃了」。旧 SYN 到达 → 服务器分配资源 → 客户端根本不在等待 → 资源变成死占用。服务器的确认闭环是开的。</p>
-        </div>
-        <div>
-          <h3>三次握手：闭环闭合</h3>
-          <p>第三条 ACK 把「服务器发出的同意」闭环。此后任何一条消息丢失都能被对端的重传兜住：客户端重发 SYN，服务器重发 SYN-ACK。确认链是闭合的，死资源不再可能产生。</p>
-        </div>
+        <span class="warning-tag">易错 · 第三次 ACK 不能携带数据？</span>
+        <p><strong>第三次 ACK 可以携带数据</strong>（TCP 允许捎带）——「三次握手要等确认再发数据」是错的；真正的语义是「第三次 ACK 发出后，客户端侧确认链闭合」。面试写「第三次 ACK 后双方才 ESTABLISHED」时，注意状态迁移是<strong>收到</strong>第三条才算数。</p>
       </div>
     </section>
 
-    <!-- ═══ 巨字判词（机制 → 权衡 转折点）═══ -->
-    <p class="giant-verdict" id="verdict-1">第三次不是礼貌，是<em>双向确认的数学下界</em>——少一次不安全，多一次冗余。</p>
-
-    <!-- ═══ 04 权衡 ═══ -->
-    <section class="sec tradeoff" id="s-tradeoff">
-      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">04</span><span class="rt-word">TRAD.</span></span>
-      <span class="section-tag">权衡 · TRADEOFF</span>
-      <h2><span class="sec-num">04</span>可靠性的租金：每个连接先付一个 RTT</h2>
+    <!-- ═══ 05 可靠传输 ═══ -->
+    <section class="sec density-dense" id="s-reliable">
+      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">05</span><span class="rt-word">RELIABLE</span></span>
+      <span class="section-tag">机制 · RELIABLE TRANSFER</span>
+      <h2><span class="sec-num">05</span>编号 · 确认 · 重传：在不可靠信道上造可靠</h2>
       <div class="text-rail">
-        <p>三次握手用「每个新连接一次往返」换来了「建立过程不需要任何状态回收机制」。对长连接这是小钱；对请求-响应式的短连接（一次 HTTP 请求一条连接），握手延迟可能超过数据传输本身。</p>
+        <p>连接建立后，数据面用三件套对抗不可靠：<strong>seq 编号</strong>（每个字节一个序号，重排的基础）、<strong>累积确认</strong>（ack = 期望的下一个字节号，隐含「之前全部收到」）、<strong>重传</strong>（超时重传 + 快速重传）。走一遍真实场景：客户端发 3 个报文，第二个丢失（<a class="fig-ref" href="#fig-5">见图 5</a>）。</p>
       </div>
+      <figure class="plate full" id="fig-5">
+        <span class="fig-num">图 5</span>
+        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
+        <div class="trace">
+          <div class="trace-header">丢包与快速重传 · 客户端发送 3 段（seq 1000 / 2000 / 3000）</div>
+          <div class="tr-grid c5">
+            <div class="tr-h"></div><div class="tr-h">发送</div><div class="tr-h">seq</div><div class="tr-h">接收</div><div class="tr-h">ack（累积）</div><div class="tr-h">动作</div>
+            <div class="tr-lab">①</div><div class="tr-c">段 1</div><div class="tr-c">1000</div><div class="tr-c">✓</div><div class="tr-c">2000</div><div class="tr-c">正常</div>
+            <div class="tr-lab">②</div><div class="tr-c">段 2</div><div class="tr-c red">2000</div><div class="tr-c red">✗ 丢失</div><div class="tr-c">—</div><div class="tr-c">接收方不知</div>
+            <div class="tr-lab">③</div><div class="tr-c">段 3</div><div class="tr-c">3000</div><div class="tr-c">✓（乱序）</div><div class="tr-c">2000（重复）</div><div class="tr-c">缓存，等 2000</div>
+            <div class="tr-lab">④</div><div class="tr-c red">重复 ACK ×3</div><div class="tr-c">—</div><div class="tr-c">—</div><div class="tr-c">2000</div><div class="tr-c">快速重传段 2</div>
+          </div>
+          <p class="trace-action">快速重传：收到 3 个重复 ACK 不等超时直接重发；累积确认 = ack 2000 表示「1000..1999 全部收到」</p>
+        </div>
+        <figcaption class="plate-caption"><span class="cap-num">图 5</span>：乱序到达不丢数据（接收方缓存 + 累积确认），只有真正缺失才触发重传——重传粒度是报文段，语义是字节</figcaption>
+      </figure>
+      <div class="bp-callout">
+        <span class="bp-tag">BLUEPRINT CALLOUT · 滑动窗口</span>
+        <p><span class="kw">窗口 = 允许未确认的最大字节数</span>：发送窗口 = min(接收方通告窗口，拥塞窗口)。窗口让「等确认再发」变成「流水线发送」——吞吐量从 RTT 分之一提升到窗口/RTT，代价是内存与丢包后重传的代价变大。</p>
+      </div>
+      <figure class="plate full" id="fig-6">
+        <span class="fig-num">图 6</span>
+        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
+        <div class="code" role="img" aria-label="滑动窗口伪代码：窗口内流水线发送，窗口外等待">
+<span class="cm">// 发送方：窗口 [base, base + win) 内可流水线发送</span>
+<span class="kw-s">while</span> (nextseq &lt; base + win)
+    send(seq = nextseq++);              <span class="cm">// 窗口内：不等确认直接发</span>
+<span class="cm">// 收到累积确认：base = ack（窗口前滑）</span>
+<span class="kw-s">if</span> (ack &gt; base) base = ack;           <span class="cm">// 一个 ack 前滑整个窗口</span>
+        </div>
+        <figcaption class="plate-caption"><span class="cap-num">图 6</span>：窗口把「逐段等待」变成「流水线」——确认是累积的，所以一个 ACK 能前滑整个窗口</figcaption>
+      </figure>
+    </section>
+
+    <!-- ═══ 06 关闭与半连接 ═══ -->
+    <section class="sec density-dense" id="s-close">
+      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">06</span><span class="rt-word">CLOSE</span></span>
+      <span class="section-tag">机制 · CLOSE &amp; ATTACK</span>
+      <h2><span class="sec-num">06</span>四次挥手与半连接洪泛：关闭也要双向确认</h2>
+      <div class="text-rail">
+        <p>关闭与建立对称：连接是双向的，每一方向独立关闭。A 发 FIN（我不再发送）、B 回 ACK（收到）、B 发 FIN（我也不再发送）、A 回 ACK——四个方向性动作，所以是四次（<a class="fig-ref" href="#fig-7">见图 7</a>）。中间的 ACK 与 FIN 可以合并（B 无数据待发时），三次挥手是合法优化，不是新的下界。</p>
+      </div>
+      <figure class="plate full" id="fig-7">
+        <span class="fig-num">图 7</span>
+        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
+        <div class="blueprint">
+          <div class="swim" role="img" aria-label="四次挥手：FIN ACK FIN ACK，主动关闭方进入 TIME_WAIT">
+            <div class="sw-h"></div><div class="sw-h">主动关闭方</div><div class="sw-h">网络</div><div class="sw-h">被动关闭方</div>
+            <div class="sw-role">①</div><div class="sw-c">FIN<br>seq=400</div><div class="sw-c"><span class="tri"></span></div><div class="sw-c recv">半关闭：我不再发送</div>
+            <div class="sw-role">②</div><div class="sw-c recv">ack=401</div><div class="sw-c"><span class="tri"></span></div><div class="sw-c">ACK</div>
+            <div class="sw-role">③</div><div class="sw-c recv">收到 FIN</div><div class="sw-c"><span class="tri"></span></div><div class="sw-c">FIN<br>seq=500</div>
+            <div class="sw-role">④</div><div class="sw-c">ACK<br>ack=501</div><div class="sw-c"><span class="tri"></span></div><div class="sw-c recv">→ 进入 TIME_WAIT（2MSL）</div>
+            <div class="sw-foot">TIME_WAIT 2MSL：等可能还在途中的报文消失，避免新旧连接序号串扰</div>
+          </div>
+        </div>
+        <figcaption class="plate-caption"><span class="cap-num">图 7</span>：四次挥手 = 两个方向的独立关闭；TIME_WAIT 是「让旧报文死透」的保险期</figcaption>
+      </figure>
+      <div class="warning-box">
+        <span class="warning-tag">易错 · SYN flood 与半连接队列</span>
+        <p><strong>SYN flood</strong>：攻击者只发 SYN 不回 ACK，服务器为每个 SYN 分配半连接（SYN_RCVD）占满队列——后续正常连接全被拒。防御：SYN cookie（不分配资源，用序号编码状态）。考试问「为什么两次握手更容易被攻击」——两次握手时服务器在第一条消息就分配资源，三次握手也只在 SYN-ACK 后暂存，真正的资源分配推迟到 ESTABLISHED。</p>
+      </div>
+    </section>
+
+    <!-- ═══ 07 权衡 ═══ -->
+    <section class="sec" id="s-tradeoff">
+      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">07</span><span class="rt-word">TRADEOFF</span></span>
+      <span class="section-tag">权衡 · TRADEOFF</span>
+      <h2><span class="sec-num">07</span>可靠的代价：一次握手多一跳，一个连接多一份状态</h2>
+      <div class="text-rail">
+        <p>面向连接买到的是可靠与有序，付出的是三笔账：<strong>建立延迟</strong>（三次握手至少 1.5 RTT 才能发数据，UDP 首包即发）、<strong>每连接状态</strong>（发送/接收窗口、序号、缓冲区——服务器受限于连接数）、<strong>队头阻塞</strong>（一个段丢失，后续有序数据全部等待重传）。这就是为什么短小请求（DNS）选 UDP、长流与可靠性要求（HTTP/文件）选 TCP（<a class="fig-ref" href="#fig-8">见图 8</a>）。</p>
+      </div>
+      <figure class="plate full" id="fig-8">
+        <span class="fig-num">图 8</span>
+        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
+        <div class="blueprint">
+          <div class="mmap-row" style="grid-template-columns:6rem minmax(0,1fr)"><span class="mm-addr" style="text-align:right">TCP</span><div class="mm-seg" style="color:var(--blue-note)">可靠 · 有序 · 流式 · 面向连接 —— 状态多、首包慢、队头阻塞</div></div>
+          <div class="mmap-row" style="grid-template-columns:6rem minmax(0,1fr)"><span class="mm-addr" style="text-align:right">UDP</span><div class="mm-seg">尽力而为 · 无连接 · 报文 —— 零状态、首包即发、乱序自付</div></div>
+          <div class="mm-legend">选择不是「哪个更好」，是「这个应用愿付哪笔账」</div>
+        </div>
+        <figcaption class="plate-caption"><span class="cap-num">图 8</span>：TCP vs UDP——可靠是买来的，账单是延迟、状态与阻塞</figcaption>
+      </figure>
       <div class="strip">
         <div class="readout">
-          <div class="ro-num">1 RTT</div>
-          <div class="ro-lab">连接建立的固定延迟</div>
+          <div class="ro-num">1.5 RTT</div>
+          <div class="ro-lab">握手完成前不能发数据</div>
         </div>
         <div class="readout">
-          <div class="ro-num">3</div>
-          <div class="ro-lab">握手消息条数（数学下界）</div>
-        </div>
-        <div class="readout">
-          <div class="ro-num">2³²</div>
-          <div class="ro-lab">序号空间——ISN 随机化防伪造</div>
+          <div class="ro-num">2MSL</div>
+          <div class="ro-lab">TIME_WAIT 保险期（≈4 分钟）</div>
         </div>
       </div>
-      <div class="text-rail">
-        <p>这笔租金促生了整整一代「0-RTT」方案：TCP Fast Open 用 cookie 让后续连接跳过握手，QUIC 把加密与传输握手合并——它们不是推翻了三次握手的逻辑，而是<strong>把「已经验证过的对端」缓存起来，省掉重复验证</strong>。第一次连接仍然是三次握手，数学下界没有被绕过，只是不再每笔交易都付。</p>
+      <p class="giant-verdict" id="verdict-1">三次握手不是惯例，<em>是双向确认的数学下界</em>——一次太少，两次不够，三次正好。</p>
+    </section>
+
+    <!-- ═══ 08 真题演练 ═══ -->
+    <section class="sec density-dense" id="s-zhenti">
+      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">08</span><span class="rt-word">408</span></span>
+      <span class="section-tag">真题演练 · WORKED EXAMPLES</span>
+      <h2><span class="sec-num">08</span>常考问答：从握手到挥手的一问一答</h2>
+      <div class="inset-panel">
+        <span class="inset-label">Q1 · 为什么是三次而不是两次？</span>
+        <p style="font-size:var(--text-sm);margin:0">双向确认的下界：第三次 ACK 让服务器确认「客户端收到了我的 SYN-ACK」。两次握手在延迟 SYN 重放时会为死连接分配资源（<a class="fig-ref" href="#fig-4">见图 4</a>）。答「防半连接」不够精确——准确说法是「服务器侧确认链无法闭合」。</p>
+      </div>
+      <div class="inset-panel">
+        <span class="inset-label">Q2 · seq 初始值为什么随机？</span>
+        <p style="font-size:var(--text-sm);margin:0">防<strong>延迟重放与序号猜测</strong>：固定的初始序号让攻击者能伪造在途报文；随机 ISN + 时间戳让旧连接的延迟报文无法冒充新连接的数据（RFC 793 要求初始序号随时间变化）。</p>
+      </div>
+      <div class="inset-panel">
+        <span class="inset-label">Q3 · 快速重传与超时重传的区别？</span>
+        <p style="font-size:var(--text-sm);margin:0">超时重传依赖 RTO 定时器（慢，且 RTO 估算困难）；快速重传收到 <strong>3 个重复 ACK</strong> 立即重发，不等待超时（<a class="fig-ref" href="#fig-5">见图 5</a>）。代价：重复 ACK 需要接收方「缓存乱序段」配合——这是接收窗口存在的另一层理由。</p>
+      </div>
+      <div class="inset-panel">
+        <span class="inset-label">Q4 · TIME_WAIT 为什么是 2MSL？</span>
+        <p style="font-size:var(--text-sm);margin:0">MSL = 报文最大生存时间。主动关闭方等 2MSL：<strong>保证最后一个 ACK 如果丢失，对方重发的 FIN 还能到达</strong>（一来一回 2MSL）；同时让在途报文死透，避免与复用同一四元组的新连接串扰（<a class="fig-ref" href="#fig-7">见图 7</a>）。</p>
+      </div>
+      <div class="cmp-wrap">
+        <table class="cmp">
+          <thead>
+            <tr><th>对比项</th><th>UDP</th><th>TCP</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>连接</td><td>无连接</td><td>面向连接（三次握手）</td></tr>
+            <tr><td>可靠性</td><td>尽力而为</td><td>编号 + 确认 + 重传</td></tr>
+            <tr><td>有序性</td><td>不保证</td><td>字节流有序</td></tr>
+            <tr><td>首包延迟</td><td class="num">0</td><td class="num">≥1.5 RTT</td></tr>
+            <tr><td>开销</td><td class="num">8B 头</td><td class="num">20B 头 + 连接状态</td></tr>
+            <tr><td>典型应用</td><td>DNS / 音视频 / 游戏</td><td>HTTP / 文件 / 邮件</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
-    <!-- ═══ 05 回顾 ═══ -->
+    <!-- ═══ 09 回顾 ═══ -->
     <section class="sec" id="s-review">
-      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">05</span><span class="rt-word">REV.</span></span>
-      <span class="section-tag">回顾 · REVIEW</span>
-      <h2><span class="sec-num">05</span>要点回顾</h2>
+      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">09</span><span class="rt-word">REV.</span></span>
+      <span class="section-tag">回顾 · 考点清单</span>
+      <h2><span class="sec-num">09</span>考点清单（索引）</h2>
       <ul class="checklist">
-        <li><span class="ck">01</span>两次握手不安全：服务器无法确认 SYN-ACK 是否送达，资源会花在死连接上（Tomlinson 旧 SYN 问题）。</li>
-        <li><span class="ck">02</span>三次握手 = 双向确认的数学下界：SYN → SYN-ACK → ACK，第三条闭合确认链（<a href="#fig-1">图 1</a>）。</li>
-        <li><span class="ck">03</span>状态机：服务器多一个半连接态 SYN_RCVD——资源已分配、确认未到（<a href="#fig-2">图 2</a>）。</li>
-        <li><span class="ck">04</span>头部等宽排布：六个 1 位旗标，建链只踩 SYN/ACK，拆链走 FIN × 2 + ACK × 2（<a href="#fig-3">图 3</a>、<a href="#fig-4">图 4</a>）。</li>
-        <li><span class="ck">05</span>核心判词回顾：<a href="#verdict-1">「少一次不安全，多一次冗余」</a>——租金是每个连接 1 RTT，TFO/QUIC 0-RTT 是缓存而非绕过。</li>
+        <li><span class="ck">01</span>IP 层不可靠：丢包 / 乱序 / 重复 / 延迟重放——TCP 的问题域（<a href="#s-problem">第 01 节</a>）。</li>
+        <li><span class="ck">02</span>本质钩：三次 = 双向确认下界（<a href="#s-essence">第 02 节</a>）。</li>
+        <li><span class="ck">03</span>握手过程与状态迁移：SYN → SYN-ACK → ACK（<a href="#fig-1">图 1</a>、<a href="#fig-2">图 2</a>）。</li>
+        <li><span class="ck">04</span>报文段头字段：seq / ack / 窗口 / 标志位（<a href="#fig-3">图 3</a>）。</li>
+        <li><span class="ck">05</span>两次握手的失败场景：延迟重放（<a href="#fig-4">图 4</a> + dialogue）。</li>
+        <li><span class="ck">06</span>可靠传输：累积确认 / 快速重传 / 滑动窗口（<a href="#fig-5">图 5</a>、<a href="#fig-6">图 6</a>）。</li>
+        <li><span class="ck">07</span>四次挥手与 TIME_WAIT 2MSL；SYN flood 与半连接（<a href="#fig-7">图 7</a> + warning box）。</li>
+        <li><span class="ck">08</span>TCP vs UDP 权衡：延迟 / 状态 / 队头阻塞（<a href="#fig-8">图 8</a>）。</li>
+        <li><span class="ck">09</span>核心判词回顾：<a href="#verdict-1">「三次握手是双向确认的数学下界」</a>。</li>
       </ul>
     </section>
 
     <footer class="colophon">
       <span>版式 图版制 · 双轨</span>
       <span>字体 IBM PLEX SANS · NOTO SANS SC · URBANIST · GOOGLE SANS CODE</span>
-      <span>色版 INK · RED · BLUE · OCHRE</span>
-      <span>图版数 4</span>
+      <span>色版 INK · RED · BLUE · OCHRE · OLIVE</span>
+      <span>图版数 8</span>
       <span>轴线 20°</span>
     </footer>
 
