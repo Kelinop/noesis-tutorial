@@ -31,11 +31,11 @@
 
 <br>
 
-<a href="https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-kmp.en.html">
-  <img src="assets/preview-kmp.png" alt="KMP 算法 — noesis-tutorial 预览" width="720">
+<a href="https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-maxwell-equations.html">
+  <img src="assets/preview-mac.png" alt="麦克斯韦方程组 — noesis-tutorial 预览" width="720">
 </a>
 
-<p><em>KMP Algorithm: The Main-String Pointer Never Backtracks — <a href="https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-kmp.en.html">在浏览器中打开 →</a></em></p>
+<p><em>麦克斯韦方程组 — <a href="https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-maxwell-equations.html">在浏览器中打开 →</a></em></p>
 
 </div>
 
