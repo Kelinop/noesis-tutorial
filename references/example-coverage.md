@@ -1,6 +1,8 @@
-# Example Coverage Matrix — 例文 × 组件覆盖矩阵
+# Example Coverage Matrix — 例文 × 组件覆盖矩阵 / Component × Example Coverage Matrix
 
-六篇例文共同覆盖全部 core + extended 组件（SKILL.md 组件与装裱 → style-guide 全部 Specs）。**新页面落组件时以此矩阵查例文实现**；矩阵中「—」= 该组件未在该页出现，属语义未命中，不是遗漏。
+六篇中文例文共同覆盖全部 core + extended 组件（SKILL.md 组件与装裱 → style-guide 全部 Specs）；`example-kmp.en.html` 为英文旗舰例文（同一系统、全考点、语言与实现双模板）。**新页面落组件时以此矩阵查例文实现**；矩阵中「—」= 该组件未在该页出现，属语义未命中，不是遗漏。
+
+The six Chinese examples together cover every core + extended component; `example-kmp.en.html` is the English flagship example (same system, full exam points — the language & implementation template). Consult this matrix when placing a component on a new page; "—" means the component is semantically absent from that page, not an omission.
 
 | 组件 / 形态 | 例文 |
 |---|---|
@@ -52,7 +54,7 @@
 | 密度标注（density-breather / density-dense 类） | 全部六篇 |
 | 图版数约定 | 按**图号**计（plate-row 分图 图 2a/2b/2c 计入同号 图 2）；colophon 与正文图号一致 |
 
-## 六篇例文的主题分工
+## 六篇例文的主题分工 / Theme Division
 
 | 例文 | 教学模式 | 谱系 | 重点覆盖 |
 |---|---|---|---|
@@ -62,3 +64,4 @@
 | `example-kmp.html` | 考点教学（408） | 图纸族 | archival panel、stepper/step-through、causal chain、ratio bar、warning box、code block |
 | `example-maxwell-equations.html` | 工程理解（R3 档案） | 印刷族 | 海报式页头、timetable、archive card、G5 色场、G7 stair（层级色阶）、G8 collage、asym |
 | `example-photoelectric-effect.html` | 工程理解（R1 + R3） | 印刷族 | G1、G3 红圆、gauge、dialogue、staggered、insight panel、split |
+| `example-kmp.en.html` | 考点教学（EN） | 图纸族 | English flagship — same 10 figures & complete teaching coverage as example-kmp.html (no exam-oriented framing); language & implementation template |

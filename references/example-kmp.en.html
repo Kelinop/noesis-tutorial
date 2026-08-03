@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KMP Algorithm: The Main-String Pointer Never Backtracks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;600&family=Urbanist:wght@300;400;500;600&family=Google+Sans+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f1ece2; --olive: #cfd6c0; --ink: #1c1c1c; --steel: #637880;
+  --blue: #0f4c81; --blue-note: #9db8cc; --ochre: #b8863b;
+  --white: #ffffff; --red: #e63946; --deep-red: #cc2a26; --amber: #e6b04a;
+  --font-sans: "IBM Plex Sans", "Noto Sans SC", sans-serif;
+  --font-mono: "Google Sans Code", "Noto Sans SC", monospace;
+  --font-num: "Urbanist", "IBM Plex Sans", sans-serif;
+  --text-xs: 0.75rem; --text-sm: 0.875rem; --text-lg: 1.25rem;
+  --text-xl: 1.75rem; --text-2xl: 2.5rem; --text-3xl: 4rem;
+  --gap-xs: 0.5rem; --gap-sm: 1rem; --gap-md: 2rem; --gap-lg: 4rem;
+  --rail: 3rem; --text-rail: 46rem;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: var(--font-sans); background: var(--paper); color: var(--ink);
+  font-size: 1rem; line-height: 1.7;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+.crop-marks { display: none; }
+@media (min-width: 1100px) {
+  .crop-marks { display: block; position: fixed; inset: 0; pointer-events: none; z-index: 50; }
+  .crop-marks i { position: absolute; width: 14px; height: 14px; }
+  .crop-marks .c1 { top: 8px; left: 8px; border-top: 2px solid var(--ink); border-left: 2px solid var(--ink); }
+  .crop-marks .c2 { top: 8px; right: 8px; border-top: 2px solid var(--ink); border-right: 2px solid var(--ink); }
+  .crop-marks .c3 { bottom: 8px; left: 8px; border-bottom: 2px solid var(--ink); border-left: 2px solid var(--ink); }
+  .crop-marks .c4 { bottom: 8px; right: 8px; border-bottom: 2px solid var(--ink); border-right: 2px solid var(--ink); }
+}
+.board { display: grid; grid-template-columns: 220px 1fr; gap: var(--gap-md); max-width: 1240px; margin: 0 auto; padding: var(--gap-md); }
+.sidebar { position: sticky; top: var(--gap-md); align-self: start; background: var(--white); border: 3px solid var(--ink); }
+.sidebar .mk { position: absolute; width: 8px; height: 8px; }
+.sidebar .mk1 { top: -2px; left: -2px; border-top: 2px solid var(--ink); border-left: 2px solid var(--ink); }
+.sidebar .mk2 { top: -2px; right: -2px; border-top: 2px solid var(--ink); border-right: 2px solid var(--ink); }
+.sidebar .mk3 { bottom: -2px; left: -2px; border-bottom: 2px solid var(--ink); border-left: 2px solid var(--ink); }
+.sidebar .mk4 { bottom: -2px; right: -2px; border-bottom: 2px solid var(--ink); border-right: 2px solid var(--ink); }
+.sb-head { background: var(--ink); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; padding: 6px 12px; }
+.sidebar nav a { display: block; padding: 8px 12px; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--steel); font-size: var(--text-sm); }
+.sidebar nav a .n { font-family: var(--font-num); color: var(--steel); margin-right: 8px; }
+.sidebar nav a.active { border-left: 4px solid var(--red); color: var(--red); font-weight: 600; }
+.sb-track { position: relative; height: 64px; }
+.sidebar-progress { position: absolute; left: 0; bottom: 0; width: 4px; height: 0; background: var(--red); }
+.article { position: relative; min-width: 0; }
+.ruler-tick { display: none; }
+.sec-num { font-family: var(--font-num); font-weight: 600; font-size: var(--text-lg); margin-right: var(--gap-xs); }
+@media (min-width: 1100px) {
+  .article { padding-left: var(--rail); }
+  .ruler-tick { display: block; position: absolute; left: 0; top: var(--gap-md); transform: translateX(-100%); text-align: right; padding-right: 9px; }
+  .ruler-tick::before { content: ""; position: absolute; right: -4px; top: 50%; width: 14px; height: 2px; background: var(--ink); }
+  .sec-num { display: none; }
+}
+.rt-num { font-family: var(--font-num); font-weight: 600; font-size: var(--text-sm); display: block; }
+.rt-word { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: .25em; color: var(--steel); display: block; }
+.sec { position: relative; border-top: 4px solid var(--ink); padding: var(--gap-md) 0; }
+.sec.problem { border-top-color: var(--red); }
+.sec.problem .section-tag { background: var(--red); }
+.sec.essence { border-top-color: var(--deep-red); }
+.sec.essence .section-tag { background: var(--deep-red); }
+.section-tag { display: inline-block; background: var(--ink); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; padding: 2px 10px; margin-bottom: var(--gap-sm); }
+.sec h2 { font-size: var(--text-2xl); font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: var(--gap-sm); }
+.density-breather { padding: var(--gap-lg) 0; }
+.density-dense .plate { margin: var(--gap-sm) 0; }
+.section-band { display: inline-block; background: var(--ink); color: var(--paper); padding: var(--gap-xs) calc(var(--gap-md) + 16px) var(--gap-xs) var(--gap-sm); clip-path: polygon(0 0, 100% 0, calc(100% - 16px) 100%, 0 100%); margin-bottom: var(--gap-sm); }
+.section-band h2 { color: var(--paper); margin: 0; }
+.text-rail { max-width: var(--text-rail); }
+.article p { margin-bottom: var(--gap-sm); }
+.page-header { padding: var(--gap-lg) 0 var(--gap-md); }
+.kicker { display: inline-block; background: var(--ink); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; padding: 4px 18px 4px 10px; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%); }
+.page-header h1 { font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.02em; line-height: 1.05; margin: var(--gap-sm) 0 var(--gap-xs); }
+.hdr-bar { width: 4rem; height: 8px; background: var(--red); margin: var(--gap-sm) 0; }
+.subtitle { font-size: var(--text-lg); font-weight: 500; color: var(--steel); max-width: var(--text-rail); }
+.meta { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .05em; margin-top: var(--gap-sm); }
+.hook { background: var(--olive); border: 2px solid var(--ink); padding: var(--gap-md); max-width: var(--text-rail); margin: var(--gap-md) 0; }
+.kw { color: var(--deep-red); font-weight: 600; }
+.giant-num { font-family: var(--font-num); font-weight: 600; font-size: 5rem; line-height: 1; color: var(--paper); -webkit-text-stroke: 2px var(--ink); }
+@supports not (-webkit-text-stroke: 1px black) { .giant-num { color: rgba(99, 120, 128, .35); } }
+.wedge-block { width: 85%; background: var(--ink); color: var(--paper); padding: var(--gap-sm) 3rem; padding-bottom: 5rem; margin: var(--gap-md) 0; clip-path: polygon(0 0, 100% 0, calc(100% - 56px) 100%, 0 100%); font-size: var(--text-lg); font-weight: 500; line-height: 1.4; }
+.giant-verdict { font-size: clamp(1.75rem, 4.2vw, 3.2rem); font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; margin: var(--gap-lg) 0; }
+.giant-verdict em { font-style: normal; border-bottom: 6px solid var(--red); }
+.plate { position: relative; margin: var(--gap-md) 0; }
+.plate.full { border: 2px solid var(--ink); padding: var(--gap-sm); }
+.plate.light { border: none; }
+.plate-marks i { position: absolute; width: 8px; height: 8px; }
+.plate-marks .m1 { top: -2px; left: -2px; border-top: 2px solid var(--ink); border-left: 2px solid var(--ink); }
+.plate-marks .m2 { top: -2px; right: -2px; border-top: 2px solid var(--ink); border-right: 2px solid var(--ink); }
+.plate-marks .m3 { bottom: -2px; left: -2px; border-bottom: 2px solid var(--ink); border-left: 2px solid var(--ink); }
+.plate-marks .m4 { bottom: -2px; right: -2px; border-bottom: 2px solid var(--ink); border-right: 2px solid var(--ink); }
+.fig-num { display: inline-block; background: var(--ink); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); padding: 2px 10px; letter-spacing: .1em; margin-bottom: var(--gap-xs); }
+.plate-caption { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); margin-top: var(--gap-xs); }
+.plate-caption .cap-num { color: var(--deep-red); font-weight: 600; }
+.fig-ref { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--red); text-decoration: none; }
+.blueprint { background: var(--blue); background-image: linear-gradient(rgba(241,236,226,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(241,236,226,.05) 1px, transparent 1px); background-size: 24px 24px; padding: var(--gap-md); }
+.trace { background: var(--blue); background-image: linear-gradient(rgba(241,236,226,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(241,236,226,.05) 1px, transparent 1px); background-size: 24px 24px; padding: var(--gap-md); overflow-x: auto; }
+.legend { display: flex; gap: var(--gap-sm); align-items: center; margin-top: var(--gap-xs); color: var(--blue-note); font-size: var(--text-xs); font-family: var(--font-mono); }
+.legend-box { width: 14px; height: 14px; display: inline-block; }
+.legend-box.match { background: rgba(241,236,226,.35); }
+.legend-box.fail { background: var(--red); }
+.legend-box.repeat { background-image: repeating-linear-gradient(110deg, rgba(241,236,226,.35) 0 2px, transparent 2px 6px); }
+.legend-box.hit { border: 2px solid var(--red); background: transparent; }
+.bf-grid { display: grid; grid-template-columns: 4.5rem repeat(6, minmax(2.2rem, auto)); gap: 3px; width: max-content; margin-top: var(--gap-sm); }
+.bf-h { color: var(--blue-note); font-family: var(--font-num); font-size: var(--text-xs); text-align: center; padding: 2px 0; }
+.bf-lab { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); display: flex; align-items: center; }
+.bf-c { color: var(--paper); font-family: var(--font-num); font-weight: 600; text-align: center; background: rgba(241,236,226,.07); padding: 2px 0; }
+.bf-c.dim { opacity: .4; background: transparent; }
+.bf-c.fail { background: var(--red); }
+.bf-c.repeat { background-image: repeating-linear-gradient(110deg, rgba(241,236,226,.28) 0 2px, transparent 2px 6px); }
+.bf-c.hit { border: 2px solid var(--red); background: rgba(241,236,226,.07); }
+.tr-grid { display: grid; grid-template-columns: 4.5rem repeat(9, minmax(2.2rem, auto)); gap: 3px; width: max-content; }
+.tr-grid.c3 { grid-template-columns: 4.5rem repeat(3, minmax(2.2rem, auto)); }
+.tr-grid.c4 { grid-template-columns: 4.5rem repeat(4, minmax(2.2rem, auto)); }
+.tr-grid.c5 { grid-template-columns: 4.5rem repeat(5, minmax(2.2rem, auto)); }
+.tr-h { color: var(--blue-note); font-family: var(--font-num); font-size: var(--text-xs); text-align: center; }
+.tr-lab { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); display: flex; align-items: center; }
+.tr-c { color: var(--paper); font-family: var(--font-num); font-weight: 600; text-align: center; background: rgba(241,236,226,.07); padding: 4px 2px; }
+.tr-c.red { background: var(--red); color: var(--paper); }
+.trace-header { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); margin-bottom: var(--gap-xs); }
+.trace-action { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); margin-top: var(--gap-sm); }
+.pf-grid { display: grid; grid-template-columns: 3rem 6rem 1fr 1fr 1fr 3rem; gap: 3px; }
+.pf-grid span { background: rgba(241,236,226,.07); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); padding: 6px 8px; }
+.pf-grid .pf-h { color: var(--blue-note); background: transparent; }
+.pf-grid .pf-key { color: var(--red); font-weight: 600; }
+.code { background: var(--ink); padding: var(--gap-md); overflow-x: auto; font-family: var(--font-mono); font-size: var(--text-sm); color: var(--paper); line-height: 1.7; }
+.code .kw-s { color: var(--red); font-weight: 600; }
+.code .st { color: var(--amber); }
+.code .num { color: var(--blue-note); }
+.code .cm { color: var(--steel); }
+.code .hl { border-left: 2px solid var(--red); padding-left: var(--gap-xs); display: block; }
+.stepper { max-width: var(--text-rail); margin: var(--gap-md) 0; background: var(--blue); background-image: linear-gradient(rgba(241,236,226,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(241,236,226,.05) 1px, transparent 1px); background-size: 24px 24px; padding: var(--gap-md); }
+.step { display: grid; grid-template-columns: 2.5rem 1fr; gap: var(--gap-sm); padding: var(--gap-sm) 0; border-bottom: 1px solid rgba(241,236,226,.25); }
+.step-n { font-family: var(--font-num); font-weight: 600; color: var(--blue-note); }
+.step.cur .step-n { color: var(--red); }
+.step p { margin: 0; color: var(--paper); }
+.step .state { font-family: var(--font-mono); font-size: var(--text-sm); }
+.step .state b { color: var(--red); }
+.step-controls { display: flex; gap: var(--gap-sm); align-items: center; margin-top: var(--gap-sm); }
+.step-controls button { background: var(--ink); color: var(--paper); border: none; font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; padding: 6px 14px; cursor: pointer; }
+.step-controls button:hover { background: var(--red); }
+.step-ind { font-family: var(--font-num); font-size: var(--text-sm); color: var(--blue-note); }
+.archival-panel { background: var(--ochre); color: var(--ink); border: 3px solid var(--ink); padding: var(--gap-sm) var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
+.archival-panel p { font-size: var(--text-sm); line-height: 1.6; margin-bottom: 0; }
+.archival-panel p + p { margin-top: var(--gap-xs); }
+.archival-tag { display: inline-block; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--paper); background: var(--ink); padding: 2px 8px; margin-bottom: var(--gap-xs); letter-spacing: .1em; }
+.inset-panel { background: var(--olive); border: 2px solid var(--ink); padding: var(--gap-sm) var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
+.inset-label { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--steel); display: block; margin-bottom: var(--gap-xs); }
+.g6-outer { background: var(--olive); border: 2px solid var(--ink); padding: var(--gap-sm) var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
+.g6-outer .g6-label { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .1em; margin-bottom: var(--gap-sm); display: block; }
+.g6-inner { border: 2px solid var(--ink); padding: var(--gap-sm); background: var(--steel); }
+.g6-inner > span { color: var(--paper); font-weight: 600; }
+.g6-inner .data-table th { color: var(--paper); border-bottom-color: rgba(241,236,226,.35); }
+.g6-inner .data-table td { color: var(--paper); border-bottom-color: rgba(241,236,226,.2); }
+.g6-inner .data-table .key-cell { color: var(--paper); }
+.warning-box { background: var(--olive); border: 2px solid var(--ink); border-left: 4px solid var(--red); padding: var(--gap-sm) var(--gap-md); max-width: var(--text-rail); margin: var(--gap-md) 0; }
+.warning-tag { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--red); font-weight: 600; display: block; margin-bottom: var(--gap-xs); }
+.warning-box strong { color: var(--deep-red); }
+.cause-chain { display: flex; flex-direction: column; gap: var(--gap-xs); max-width: var(--text-rail); margin: var(--gap-md) 0; }
+.cause-node { background: var(--olive); border: 2px solid var(--ink); padding: var(--gap-sm) var(--gap-md); }
+.cause-node p { margin: 0; font-size: var(--text-sm); }
+.cause-tag { display: inline-block; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--paper); background: var(--ink); padding: 1px 8px; letter-spacing: .1em; margin-bottom: var(--gap-xs); }
+.cause-solution .cause-tag { background: var(--red); }
+.cause-arrow { text-align: center; font-size: var(--text-xl); color: var(--steel); line-height: 1; padding: var(--gap-xs) 0; }
+.bp-callout { position: relative; border: 2px solid var(--ink); background: var(--olive); padding: var(--gap-sm) var(--gap-md); max-width: var(--text-rail); margin: var(--gap-lg) 0 var(--gap-md); }
+.bp-callout::before { content: ""; position: absolute; left: 2rem; top: calc(-1 * var(--gap-md)); width: 2px; height: var(--gap-md); background: var(--steel); }
+.bp-callout .bp-tag { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--steel); display: block; margin-bottom: var(--gap-xs); }
+.tri { display: inline-block; width: 14px; height: 14px; background: var(--red); clip-path: polygon(0 0, 100% 0, calc(100% - 5px) 100%); vertical-align: middle; margin-right: 2px; }
+.tri.ink { background: var(--ink); }
+.tri.paper { background: var(--paper); }
+.data-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+.data-table th { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--deep-red); text-align: left; padding: var(--gap-xs); border-bottom: 2px solid var(--ink); }
+.data-table td { padding: var(--gap-xs); border-bottom: 1px solid var(--ink); }
+.data-table .key-cell { color: var(--deep-red); font-weight: 600; font-family: var(--font-num); }
+.table-scroll { overflow-x: auto; margin: var(--gap-md) 0; }
+.cmp-wrap { overflow-x: auto; margin: var(--gap-md) 0; }
+.cmp { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+.cmp th { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .05em; color: var(--deep-red); text-align: left; padding: var(--gap-xs); border-bottom: 2px solid var(--ink); }
+.cmp th:first-child { border-left: 3px solid var(--red); padding-left: var(--gap-xs); }
+.cmp td { padding: var(--gap-xs); border-bottom: 1px solid var(--ink); vertical-align: top; }
+.cmp td.num { font-family: var(--font-num); }
+.ratio { display: flex; height: 24px; margin: var(--gap-md) 0; max-width: var(--text-rail); }
+.ratio-seg { display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: var(--text-xs); }
+.ratio-seg.ink { background: var(--ink); color: var(--paper); }
+.ratio-seg.alt { background: var(--paper); color: var(--red); border-left: 2px dashed var(--red); font-weight: 600; }
+.ratio-legend { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); display: flex; gap: var(--gap-md); flex-wrap: wrap; margin-bottom: var(--gap-md); }
+.strip { display: flex; align-items: flex-end; gap: var(--gap-md); border-bottom: 2px solid var(--steel); padding-bottom: var(--gap-sm); margin: var(--gap-md) 0; flex-wrap: wrap; }
+.readout .ro-num { font-family: var(--font-num); font-weight: 600; font-size: 4rem; line-height: 1; }
+.readout .ro-lab { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .1em; }
+.insight-panel { background: var(--olive); border: 2px solid var(--ink); box-shadow: 6px 6px 0 rgba(28,28,28,.15); padding: var(--gap-md); max-width: 85%; margin: var(--gap-md) 0; }
+.checklist { list-style: none; max-width: var(--text-rail); }
+.checklist li { padding: var(--gap-xs) 0; border-bottom: 1px solid rgba(28,28,28,.2); display: flex; gap: var(--gap-sm); }
+.checklist .ck { font-family: var(--font-num); font-weight: 600; color: var(--deep-red); }
+.checklist a { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--red); text-decoration: none; }
+.colophon { border-top: 2px solid var(--ink); margin-top: var(--gap-lg); padding: var(--gap-xs) 0; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .05em; display: flex; gap: var(--gap-md); flex-wrap: wrap; }
+@media (max-width: 768px) {
+  .board { grid-template-columns: 1fr; padding: var(--gap-sm); }
+  .sidebar { position: static; width: 100%; }
+  .page-header h1 { font-size: var(--text-2xl); }
+  .sec h2 { font-size: var(--text-xl); }
+  .giant-num { font-size: 3rem; }
+  .giant-verdict { font-size: clamp(1.25rem, 4.9vw, 1.75rem); }
+  .wedge-block { width: 100%; padding-bottom: 3rem; }
+  .d-voice.b { margin-left: 0; }
+  .tr-grid { grid-template-columns: 4rem repeat(9, minmax(1.8rem, auto)); }
+  .tr-grid.c3 { grid-template-columns: 4rem repeat(3, minmax(1.8rem, auto)); }
+  .tr-grid.c4 { grid-template-columns: 4rem repeat(4, minmax(1.8rem, auto)); }
+  .tr-grid.c5 { grid-template-columns: 4rem repeat(5, minmax(1.8rem, auto)); }
+  .pf-grid { grid-template-columns: 2.5rem 1fr 1fr 1fr 2.5rem; }
+  .pf-grid span:nth-child(6n+2) { display: none; }
+  .bf-grid { grid-template-columns: 4rem repeat(6, minmax(1.8rem, auto)); }
+  .readout .ro-num { font-size: 3rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="crop-marks" aria-hidden="true"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+
+<div class="board">
+
+  <aside class="sidebar">
+    <i class="mk mk1"></i><i class="mk mk2"></i><i class="mk mk3"></i><i class="mk mk4"></i>
+    <div class="sb-head">CONTENTS</div>
+    <nav>
+      <a href="#s-problem"><span class="n">01</span>BF waste</a>
+      <a href="#s-essence"><span class="n">02</span>Essence hook</a>
+      <a href="#s-next"><span class="n">03</span>next array</a>
+      <a href="#s-match"><span class="n">04</span>Matching loop</a>
+      <a href="#s-nextval"><span class="n">05</span>nextval</a>
+      <a href="#s-complex"><span class="n">06</span>Complexity</a>
+      <a href="#s-zhenti"><span class="n">07</span>Worked examples</a>
+      <a href="#s-related"><span class="n">08</span>Related topics</a>
+      <a href="#s-code"><span class="n">09</span>Code essentials</a>
+      <a href="#s-review"><span class="n">10</span>Checklist</a>
+    </nav>
+    <div class="sb-track"><div class="sidebar-progress"></div></div>
+  </aside>
+
+  <main class="article">
+
+    <header class="page-header">
+      <span class="kicker">DATA STRUCTURES · GRADUATE ENTRANCE</span>
+      <h1>KMP Algorithm: The Main-String Pointer Never Backtracks</h1>
+      <div class="hdr-bar"></div>
+      <p class="subtitle">Complete coverage: next / nextval with two hand-computation methods, a step-by-step matching walkthrough, an amortized complexity proof, the classic Yan Weimin pattern and convention comparison — every topic taught in depth, not listed.</p>
+      <p class="meta">2026-08 · Data Structures · ≈ 40 MIN READ · Conventions: Yan Weimin 1-indexed (the convention this page follows); §07 gives the 0-indexed comparison; worked examples follow Yan Weimin's classic KMP patterns</p>
+    </header>
+
+    <!-- ═══ 01 Original problem ═══ -->
+    <section class="sec problem" id="s-problem">
+      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">01</span><span class="rt-word">PROB.</span></span>
+      <span class="section-tag">THE PROBLEM · BRUTE FORCE</span>
+      <h2><span class="sec-num">01</span>BF waste: comparing characters you already verified</h2>
+      <div class="text-rail">
+        <p>String pattern matching: find the first occurrence of pattern T (length m) in text S (length n). The most direct approach is <strong>BF (Brute Force)</strong>: start at every position of S and compare character by character; on failure, S's pointer retreats to the round's start +1 and T's pointer resets to 1. Walk through real data S = "aaaaab", T = "aaab" (<a class="fig-ref" href="#fig-1">see Fig. 1</a>):</p>
+      </div>
+      <figure class="plate full" id="fig-1">
+        <span class="fig-num">Fig. 1</span>
+        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
+        <div class="trace">
+          <div class="trace-header">BF three rounds · S = "aaaaab" · T = "aaab"</div>
+          <div class="bf-grid" role="img" aria-label="BF three-round grid: one row per round, cells are S positions; match, fail, repeated comparison, final hit">
+            <span class="bf-h"></span><span class="bf-h">S[1]</span><span class="bf-h">S[2]</span><span class="bf-h">S[3]</span><span class="bf-h">S[4]</span><span class="bf-h">S[5]</span><span class="bf-h">S[6]</span>
+            <span class="bf-lab">Round 1</span><span class="bf-c">a</span><span class="bf-c">a</span><span class="bf-c">a</span><span class="bf-c fail">a</span><span class="bf-c dim">·</span><span class="bf-c dim">·</span>
+            <span class="bf-lab">Round 2</span><span class="bf-c dim">·</span><span class="bf-c repeat">a</span><span class="bf-c repeat">a</span><span class="bf-c repeat">a</span><span class="bf-c fail">a</span><span class="bf-c dim">·</span>
+            <span class="bf-lab">Round 3</span><span class="bf-c dim">·</span><span class="bf-c dim">·</span><span class="bf-c repeat">a</span><span class="bf-c repeat">a</span><span class="bf-c repeat">a</span><span class="bf-c hit">b</span>
+          </div>
+          <div class="legend"><span class="legend-box match"></span> match <span class="legend-box fail"></span> fail (retreat) <span class="legend-box repeat"></span> repeated comparison (already verified) <span class="legend-box hit"></span> final hit</div>
+          <p class="trace-action">Round 1: S[1..4] vs T[1..4], <b>position 4 fails</b> → S retreats to 2, T resets to 1 (4 comparisons)</p>
+          <p class="trace-action">Round 2: S[2..5] vs T[1..4], <b>position 4 fails</b> → S retreats to 3 (4 comparisons)</p>
+          <p class="trace-action">Round 3: S[3..6] vs T[1..4], all match → success at position 3 (4 comparisons)</p>
+          <p class="trace-action"><b>12 comparisons total</b> — after round 1 fails, S[2..3] = "aa" was already verified, yet round 2 recompares both</p>
+        </div>
+        <figcaption class="plate-caption"><span class="cap-num">Fig. 1</span>: every BF failure discards the round's progress — the hatched cells are the repeated comparisons KMP eliminates</figcaption>
+      </figure>
+      <div class="cause-chain">
+        <div class="cause-node"><span class="cause-tag">Cause</span><p>BF retreats the text pointer on failure, discarding structural information about the matched part — "aa" was verified, then recompares from scratch.</p></div>
+        <div class="cause-arrow">↓</div>
+        <div class="cause-node"><span class="cause-tag">Pressure</span><p>Worst case O(n×m): inputs with a long repeated prefix (S = "aaaaaaaaaab", T = "aaaab") make every BF round almost complete before failing.</p></div>
+        <div class="cause-arrow">↓</div>
+        <div class="cause-node cause-solution"><span class="cause-tag">Design</span><p>KMP: exploit the pattern's own "prefix = suffix" structure — on failure the <strong>text pointer stays put</strong>, the pattern pointer jumps to next[j]; the pattern remembers what was already verified.</p></div>
+      </div>
+      <div class="wedge-block">
+        BF recompares characters it already matched — the waste is not in comparing, it's in retreating.
+      </div>
+    </section>
+
+    <!-- ═══ 02 Essence ═══ -->
+    <section class="sec essence density-breather" id="s-essence">
+      <span class="section-tag">ESSENCE</span>
+      <h2>Essence hook: the pattern remembers progress for the text</h2>
+      <div class="giant-num" aria-hidden="true">02</div>
+      <div class="hook">
+        <p>When S[i] and T[j] fail, we already know <span class="kw">S[i−j+1 .. i−1] = T[1 .. j−1]</span>. If the pattern has an overlap where its first k−1 characters equal its last k−1, slide it right to that overlap — the overlap auto-aligns with the verified part of S, and <span class="kw">we continue directly from S[i] vs T[k] with no re-comparison</span>. The text pointer i never retreats; only the pattern pointer does.</p>
+      </div>
+      <div class="text-rail">
+        <p>Where this model breaks: the no-retreat guarantee depends on prefix-suffix information computed in advance — an O(m) preprocessing. If the pattern changes often, the benefit disappears. next must be computed once and reused; KMP pays off when one pattern matches long texts repeatedly.</p>
+      </div>
+    </section>
+
+    <!-- ═══ 03 next array ═══ -->
+    <section class="sec density-dense" id="s-next">
+      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">03</span><span class="rt-word">NEXT</span></span>
+      <span class="section-tag">MECHANISM · NEXT ARRAY</span>
+      <div class="section-band"><h2><span class="sec-num">03</span>next: definition, two hand-computation methods, code</h2></div>
+
+      <div class="text-rail">
+        <p>Computing the next array is the single most-asked string task — given a pattern, find next, or reverse-engineer the pattern from next (variant 2 in §07); it is also the first step of any KMP application. This section gives the definition, two hand-computation methods, and code; traps and quick methods follow.</p>
+      </div>
+
+      <aside class="archival-panel">
+        <span class="archival-tag">DEFINITION · YAN WEIMIN 1-INDEXED</span>
+        <p><strong>next[1] = 0</strong> (sentinel); <strong>next[j]</strong> = length of the longest common prefix-suffix of T[1 .. j−1], plus 1; no common prefix-suffix (length 0) → next[j] = 1.</p>
+        <p><strong>Physical meaning</strong>: where the pattern pointer should jump when T[j] fails — after the jump, T[1 .. next[j]−1] is guaranteed to match the corresponding part of S by the prefix-suffix structure, with no re-verification.</p>
+      </aside>
+
+      <div class="text-rail">
+        <p>Two hand-computation methods, cross-verify both: <strong>Method 1 (definition)</strong> — for each position, list the longest common prefix-suffix of T[1..j−1] and add 1; <strong>Method 2 (recurrence)</strong> — derive next[j] from next[j−1] (either next[j−1]+1 or walk back the next chain). Worked example for T = "ababa" (outer layer = context, inner layer = content):</p>
+      </div>
+
+      <div class="g6-outer">
+        <span class="g6-label">Outer context: two methods for T = "ababa" — definition and recurrence cross-check</span>
+        <div class="g6-inner">
+          <span style="font-family:var(--font-mono);font-size:var(--text-xs)">Inner · Method 1 (definition) row-by-row derivation</span>
+          <div class="table-scroll" style="margin:var(--gap-xs) 0 0">
+            <table class="data-table">
+              <thead><tr><th>j</th><th>T[j]</th><th>T[1..j−1]</th><th>proper prefixes</th><th>proper suffixes</th><th>longest common</th><th>next[j]</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>a</td><td>(empty)</td><td>—</td><td>—</td><td>—</td><td class="key-cell">0</td></tr>
+                <tr><td>2</td><td>b</td><td>a</td><td>(none)</td><td>(none)</td><td>none</td><td class="key-cell">1</td></tr>
+                <tr><td>3</td><td>a</td><td>ab</td><td>a</td><td>b</td><td>none</td><td class="key-cell">1</td></tr>
+                <tr><td>4</td><td>b</td><td>aba</td><td>a, ab</td><td>a, ba</td><td>a</td><td class="key-cell">2</td></tr>
+                <tr><td>5</td><td>a</td><td>abab</td><td>a, ab, aba</td><td>b, ab, bab</td><td>ab</td><td class="key-cell">3</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p style="margin-top:var(--gap-sm);">Method 2 (recurrence) check: next[4] = 2 because T[3]=a equals T[1]=a → next[4] = next[3]+1 = 2; next[5] = 3 because T[4]=b equals T[2]=b → next[5] = next[4]+1 = 3. Both methods agree ✓.</p>
+      </div>
+
+      <div class="text-rail">
+        <p>The "longest common prefix-suffix" deserves its own figure (<a class="fig-ref" href="#fig-2">see Fig. 2</a>): for T = "aaab" at failure position j = 4, T[1..3] = "aaa" has longest common prefix-suffix "aa" (length 2), so jump directly to j = 3 — the first two characters are never recompared.</p>
+      </div>
+
+      <figure class="plate full" id="fig-2">
+        <span class="fig-num">Fig. 2</span>
+        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
+        <div class="trace">
+          <div class="trace-header">Prefix-suffix overlap · T = "aaab" · failure at j = 4</div>
+          <div class="pf-grid">
+            <span class="pf-h">j</span><span class="pf-h">T[1..j−1]</span><span class="pf-h">prefixes</span><span class="pf-h">suffixes</span><span class="pf-h">longest</span><span class="pf-h">next[j]</span>
+            <span>1</span><span>(empty)</span><span>—</span><span>—</span><span>—</span><span class="pf-key">0</span>
+            <span>2</span><span>a</span><span>(none)</span><span>(none)</span><span>none</span><span>1</span>
+            <span>3</span><span>aa</span><span>a</span><span>a</span><span>a</span><span class="pf-key">2</span>
+            <span>4</span><span>aaa</span><span>a, aa</span><span>a, aa</span><span>aa</span><span class="pf-key">3</span>
+          </div>
+          <div class="legend"><span class="legend-box match"></span> overlap = longest common prefix-suffix (what round 2 of Fig. 1 recompares)</div>
+          <p class="trace-action">j = 4 fails, T[1..3] = "aaa" has longest common prefix-suffix "aa" → <b>next[4] = 2 + 1 = 3</b>: slide the pattern to j = 3, auto-aligned with "aa"</p>
+        </div>
+        <figcaption class="plate-caption"><span class="cap-num">Fig. 2</span>: next[j] precomputes the longest reusable prefix of the matched part — the jump target is an O(1) lookup at failure time</figcaption>
+      </figure>
+
+      <div class="warning-box">
+        <span class="warning-tag">TRAPS · THE TWO HIGHEST-FREQUENCY MISTAKES</span>
+        <p><strong>① next[j] is length + 1, not length</strong> — "aaa" has longest common prefix-suffix "aa" (length 2), but next[4] = 3. Writing 2 on the exam loses the point. ② <strong>next[2] is always 1</strong>: T[1..1] is one character with no proper prefix-suffix — write it directly, never derive it.</p>
+      </div>
+
+      <div class="text-rail">
+        <p>With next computed, the matching main loop is three lines (<a class="fig-ref" href="#fig-3">see Fig. 3</a>). The <code>j == 0</code> condition is the sentinel: when j retreats to 0, i and j advance together — "text advances, pattern restarts" needs no separate code path.</p>
+      </div>
+
+      <figure class="plate full" id="fig-3">
+        <span class="fig-num">Fig. 3</span>
+        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
+        <div class="code" role="img" aria-label="KMP main loop: when j is 0 or characters match both advance, otherwise j retreats to next j, i never retreats">
+<span class="cm">// 1-indexed: S[1..n], T[1..m], next[1..m] precomputed</span>
+<span class="hl"><span class="kw-s">while</span> (i &lt;= n &amp;&amp; j &lt;= m) {
+    <span class="kw-s">if</span> (j == <span class="num">0</span> || S[i] == T[j]) { i++; j++; }   <span class="cm">// match or sentinel: advance both</span>
+    <span class="kw-s">else</span> j = next[j];                            <span class="cm">// fail: j retreats, i stays</span>
+}</span>
+<span class="cm">// j &gt; m means success at position i - m; otherwise return 0</span>
+        </div>
+        <figcaption class="plate-caption"><span class="cap-num">Fig. 3</span>: one if-else unifies "advance" and "retreat" — i is monotonic, the source of O(n) (§06 amortized proof)</figcaption>
+      </figure>
+
+      <div class="bp-callout">
+        <span class="bp-tag">BLUEPRINT CALLOUT · SENTINEL j = 0</span>
+        <p><span class="kw">j = 0 is not "comparing character 0" — it signals "no overlap left to retreat to"</span>: S[i] cannot match any T prefix, so advance i and j together and restart at T[1]. Without the sentinel, "retreat to the start" would need a separate branch.</p>
+      </div>
+    </section>
+
+    <!-- ═══ 04 Matching walkthrough ═══ -->
+    <section class="sec density-dense" id="s-match">
+      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">04</span><span class="rt-word">WALKTHROUGH</span></span>
+      <span class="section-tag">MECHANISM · MATCHING</span>
+      <h2><span class="sec-num">04</span>Feeding Fig. 1's data to KMP: six steps</h2>
+      <div class="text-rail">
+        <p>Walkthrough questions pair with next — given S, T and next, find the comparison count, the match position, or "how many fewer comparisons than BF" (12 → 8 here). Correct tracing requires the sentinel and "i never retreats"; it separates those who memorized the next table from those who understand the algorithm.</p>
+        <p>Same data as Fig. 1 (S = "aaaaab", T = "aaab"): next = [0, 1, 2, 3]. Step through (interactive, <a class="fig-ref" href="#fig-4">see Fig. 4</a>) — i moves monotonically 1 → 7, never retreating.</p>
+      </div>
+      <figure class="plate full" id="fig-4">
+        <span class="fig-num">Fig. 4</span>
+        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
+        <div class="stepper" id="stepper-1" role="group" aria-label="KMP matching six steps">
+          <div class="step"><span class="step-n">1</span><p class="state">i=1, j=1: S[1]=a == T[1]=a → <b>i=2, j=2</b></p></div>
+          <div class="step"><span class="step-n">2</span><p class="state">i=2, j=2: S[2]=a == T[2]=a → <b>i=3, j=3</b></p></div>
+          <div class="step"><span class="step-n">3</span><p class="state">i=3, j=3: S[3]=a == T[3]=a → <b>i=4, j=4</b></p></div>
+          <div class="step"><span class="step-n">4</span><p class="state">i=4, j=4: S[4]=a != T[4]=b → <b>j = next[4] = 3</b> (i stays)</p></div>
+          <div class="step"><span class="step-n">5</span><p class="state">i=4, j=3: S[4]=a == T[3]=a → <b>i=5, j=4</b></p></div>
+          <div class="step"><span class="step-n">6</span><p class="state">i=5, j=4: S[5]=a != T[4]=b → <b>j=next[4]=3</b>; i=5, j=3: S[5]=a == T[3]=a → <b>i=6, j=4</b>; i=6, j=4: S[6]=b == T[4]=b → <b>i=7, j=5 &gt; m=4, success at i−m = 7−4 = 3</b></p></div>
+          <div class="step-controls" aria-hidden="true">
+            <button type="button" id="st-prev-1">Prev</button>
+            <span class="step-ind" id="st-ind-1">1 / 6</span>
+            <button type="button" id="st-next-1">Next</button>
+          </div>
+        </div>
+        <figcaption class="plate-caption"><span class="cap-num">Fig. 4</span>: 8 comparisons vs BF's 12 — the 4 saved are Fig. 1's hatched cells; i monotonic is the intuitive source of O(n)</figcaption>
+      </figure>
+      <div class="warning-box">
+        <span class="warning-tag">TRAP · MATCH POSITION</span>
+        <p><strong>Success position = i − m</strong> (Yan Weimin): when the loop ends, i points just past the matched segment. Fig. 4's last step: i=7, m=4 → position 3. <code>i−j+1</code> also works (then j=m+1, both equal) — but mixing 0-indexed and 1-indexed conventions on the exam is the classic off-by-one disaster. Fix the convention before writing anything.</p>
+      </div>
+      <div class="warning-box">
+        <span class="warning-tag">ANSWER FORMAT · WALKTHROUGH QUESTIONS</span>
+        <p>Record <strong>every step's i, j, comparison result and action (advance / jump)</strong> — Fig. 4's steps follow exactly this format. State explicitly that after a jump you do <strong>not recompare</strong> the characters guaranteed by the prefix-suffix structure — that sentence is where points are won, and the most common omission.</p>
+      </div>
+    </section>
+
+    <!-- ═══ 05 nextval ═══ -->
+    <section class="sec density-dense" id="s-nextval">
+      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">05</span><span class="rt-word">NEXTVAL</span></span>
+      <span class="section-tag">MECHANISM · NEXTVAL</span>
+      <h2><span class="sec-num">05</span>Eliminating doomed comparisons: the inheritance chain</h2>
+      <div class="text-rail">
+        <p>Mixing next and nextval is the classic way to separate "memorizers" from "computers" — given next, fill in nextval, or reverse the inheritance chain. "Inherit nextval, not next" is the standard distractor (variant 3 in §07).</p>
+        <p>next still hides one redundancy: when <code>T[j] == T[next[j]]</code>, S[i] ≠ T[j] implies S[i] ≠ T[next[j]] — the comparison after the jump is <em>doomed</em> yet still executed. nextval's rule: inherit the doomed jump away (<a class="fig-ref" href="#fig-5">see Fig. 5</a>).</p>
+      </div>
+
+      <aside class="archival-panel">
+        <span class="archival-tag">RULE · NEXTVAL RECURRENCE</span>
+        <p>If <code>T[j] ≠ T[next[j]]</code>: <strong>nextval[j] = next[j]</strong> (the jump is effective, keep it).</p>
+        <p>If <code>T[j] == T[next[j]]</code>: <strong>nextval[j] = nextval[next[j]]</strong> (skip the doomed comparison, inherit).</p>
+        <p><strong>nextval[1] = 0</strong> (sentinel unchanged). Note: you inherit the <em>nextval</em> value, not the next value — the most frequent computation error.</p>
+      </aside>
+
+      <figure class="plate full" id="fig-5">
+        <span class="fig-num">Fig. 5</span>
+        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
+        <div class="blueprint">
+          <svg viewBox="0 0 640 210" width="100%" role="img" aria-label="nextval inheritance chain: for T ababaaababaa at j equals 5, the next target has the same character so the jump is doomed, inherit nextval 3 equals 0 straight to the sentinel">
+            <title>Inheritance chain: a doomed jump is inherited away in one step</title>
+            <desc>Character strip shows the pattern ababaaababaa; at j=5 failure, next[5]=3 points to T[3]=a equal to T[5]=a, so the jump still fails (red dashed); inheriting nextval[3]=0 goes straight to the sentinel (paper solid), restarting at T[1]</desc>
+            <text x="30" y="28" font-family="var(--font-sans)" font-size="13" font-weight="500" fill="var(--paper)">T = "ababaaababaa" · failure at j = 5</text>
+            <g font-family="var(--font-mono)" font-size="14" text-anchor="middle" fill="var(--paper)">
+              <rect x="30" y="46" width="42" height="40" fill="rgba(241,236,226,.07)"/><text x="51" y="72">a</text>
+              <rect x="72" y="46" width="42" height="40" fill="rgba(241,236,226,.07)"/><text x="93" y="72">b</text>
+              <rect x="114" y="46" width="42" height="40" fill="rgba(241,236,226,.07)"/><text x="135" y="72">a</text>
+              <rect x="156" y="46" width="42" height="40" fill="rgba(241,236,226,.07)"/><text x="177" y="72">b</text>
+              <rect x="198" y="46" width="42" height="40" fill="none" stroke="var(--red)" stroke-width="3"/><text x="219" y="72" fill="var(--red)">a</text>
+              <rect x="240" y="46" width="42" height="40" fill="rgba(241,236,226,.07)"/><text x="261" y="72">a</text>
+              <rect x="282" y="46" width="42" height="40" fill="rgba(241,236,226,.07)"/><text x="303" y="72">a</text>
+              <rect x="324" y="46" width="42" height="40" fill="rgba(241,236,226,.07)"/><text x="345" y="72">b</text>
+              <rect x="366" y="46" width="42" height="40" fill="rgba(241,236,226,.07)"/><text x="387" y="72">a</text>
+              <rect x="408" y="46" width="42" height="40" fill="rgba(241,236,226,.07)"/><text x="429" y="72">b</text>
+              <rect x="450" y="46" width="42" height="40" fill="rgba(241,236,226,.07)"/><text x="471" y="72">a</text>
+              <rect x="492" y="46" width="42" height="40" fill="rgba(241,236,226,.07)"/><text x="513" y="72">a</text>
+            </g>
+            <path d="M 219 42 q -42 -22 -80 -6" fill="none" stroke="var(--red)" stroke-width="3" stroke-dasharray="6 4"/>
+            <text x="168" y="18" text-anchor="middle" font-family="var(--font-mono)" font-size="12" fill="var(--red)">next[5]=3 ✗ doomed</text>
+            <path d="M 219 42 q 30 -30 80 -10" fill="none" stroke="var(--paper)" stroke-width="3"/>
+            <text x="310" y="16" text-anchor="middle" font-family="var(--font-mono)" font-size="12" fill="var(--paper)">nextval[5] = nextval[3] = 0 ✓ straight to sentinel</text>
+            <text x="30" y="130" font-family="var(--font-mono)" font-size="11" fill="var(--blue-note)">T[5]=a fails → next[5]=3: T[3]=a equals T[5] → jumping to 3 still fails against S[i]</text>
+            <text x="30" y="152" font-family="var(--font-mono)" font-size="11" fill="var(--blue-note)">Inherit: nextval[5] = nextval[3] = 0 (sentinel) → i++, j=1, restart at T[1] — one doomed comparison removed</text>
+            <line x1="30" y1="175" x2="534" y2="175" stroke="var(--blue-note)" stroke-width="1"/>
+            <text x="30" y="195" font-family="var(--font-mono)" font-size="11" fill="var(--blue-note)">Legend: red dashed = doomed next jump (eliminated); paper solid = the inherited actual jump</text>
+          </svg>
+        </div>
+        <figcaption class="plate-caption"><span class="cap-num">Fig. 5</span>: the inheritance chain — next[5] points to the same character, so the jump is doomed; nextval inherits the whole doomed chain away, one step to the sentinel</figcaption>
+      </figure>
+
+      <figure class="plate full" id="fig-6">
+        <span class="fig-num">Fig. 6</span>
+        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
+        <div class="code" role="img" aria-label="nextval recurrence code: if T j equals T of next j, inherit nextval of next j, otherwise keep next j">
+<span class="cm">// next[1..m] known; compute nextval[1..m] (1-indexed)</span>
+nextval[<span class="num">1</span>] = <span class="num">0</span>;
+<span class="hl"><span class="kw-s">for</span> (j = <span class="num">2</span>; j &lt;= m; j++) {
+    <span class="kw-s">if</span> (T[j] == T[next[j]]) nextval[j] = nextval[next[j]];
+    <span class="kw-s">else</span> nextval[j] = next[j];
+}</span>
+        </div>
+        <figcaption class="plate-caption"><span class="cap-num">Fig. 6</span>: the nextval recurrence — Fig. 5's chain is this one if-statement drawn as geometry: equal → inherit along the chain, different → keep</figcaption>
+      </figure>
+
+      <figure class="plate full" id="fig-7">
+        <span class="fig-num">Fig. 7</span>
+        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
+        <div class="trace">
+          <div class="trace-header">Extreme case · T = "aaaaa": next climbs the whole chain, nextval is all zeros</div>
+          <div class="pf-grid">
+            <span class="pf-h">j</span><span class="pf-h">T[j]</span><span class="pf-h">next[j]</span><span class="pf-h">T[j]==T[next[j]]?</span><span class="pf-h">inherit</span><span class="pf-h">nextval[j]</span>
+            <span>1</span><span>a</span><span class="pf-key">0</span><span>—</span><span>—</span><span class="pf-key">0</span>
+            <span>2</span><span>a</span><span>1</span><span>a == a yes</span><span>nextval[1]</span><span class="pf-key">0</span>
+            <span>3</span><span>a</span><span>2</span><span>a == a yes</span><span>nextval[2]</span><span class="pf-key">0</span>
+            <span>4</span><span>a</span><span>3</span><span>a == a yes</span><span>nextval[3]</span><span class="pf-key">0</span>
+            <span>5</span><span>a</span><span>4</span><span>a == a yes</span><span>nextval[4]</span><span class="pf-key">0</span>
+          </div>
+          <p class="trace-action">Every T[j] equals T[next[j]], inheriting all the way to nextval[1] = 0 — failures jump straight back to the start, maximum optimization gain (4 doomed comparisons removed)</p>
+        </div>
+        <figcaption class="plate-caption"><span class="cap-num">Fig. 7</span>: all-same characters is nextval's extreme — at the other extreme (no repetition) nextval ≡ next and the gain is zero (a conditional gain, not a free theorem)</figcaption>
+      </figure>
+
+      <div class="text-rail">
+        <p><strong>Opposite extreme</strong>: a pattern with no repeated characters (e.g. "abcdef") has next ≡ nextval — every jump is effective, optimization gain zero. nextval removes <strong>structural redundancy</strong>; when the structure has none, it does nothing.</p>
+      </div>
+    </section>
+
+    <!-- ═══ 06 Complexity ═══ -->
+    <section class="sec" id="s-complex">
+      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">06</span><span class="rt-word">COMPLEX</span></span>
+      <span class="section-tag">TRADEOFF · COMPLEXITY</span>
+      <h2><span class="sec-num">06</span>O(n+m): monotonic i is the whole secret of linearity</h2>
+      <div class="text-rail">
+        <p>Complexity appears as concept questions (is it O(n+m) or O(n×m)? "why is KMP faster than BF?"); deeper treatments ask for the monotonicity proof — the amortized argument (total j retreats ≤ total advances) is the core, and this section doubles as an answer template.</p>
+        <p>Why does a non-retreating text pointer guarantee linearity? <strong>Amortized argument</strong>: each round either advances i (match or sentinel) or waits while j retreats; every retreat moves j to a smaller position (next[j] &lt; j), and j's advances are bounded by i's advances ≤ n — so total j retreats ≤ total advances = O(n). Matching O(n) + preprocessing O(m) = O(n+m) (<a class="fig-ref" href="#fig-8">see Fig. 8</a>).</p>
+      </div>
+      <figure class="plate full" id="fig-8">
+        <span class="fig-num">Fig. 8</span>
+        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
+        <div class="trace">
+          <div class="trace-header">Comparison ledger for Fig. 1's data · BF 12 vs KMP 8</div>
+          <div class="tr-grid c5">
+            <div class="tr-h"></div><div class="tr-h">comparisons</div><div class="tr-h">result</div><div class="tr-h">i</div><div class="tr-h">j</div><div class="tr-h">note</div>
+            <div class="tr-lab">BF r1</div><div class="tr-c">4</div><div class="tr-c red">fail</div><div class="tr-c">1→2</div><div class="tr-c">1</div><div class="tr-c">retreat</div>
+            <div class="tr-lab">BF r2</div><div class="tr-c">4</div><div class="tr-c red">fail</div><div class="tr-c">2→3</div><div class="tr-c">1</div><div class="tr-c">retreat</div>
+            <div class="tr-lab">BF r3</div><div class="tr-c">4</div><div class="tr-c">success</div><div class="tr-c">3→7</div><div class="tr-c">5</div><div class="tr-c">pos 3</div>
+            <div class="tr-lab">KMP</div><div class="tr-c">8</div><div class="tr-c">success</div><div class="tr-c red">1→7 mono</div><div class="tr-c red">1→5</div><div class="tr-c">zero retreat</div>
+          </div>
+          <p class="trace-action">The 4 saved = Fig. 1's hatched cells (S[2..3] recompared twice by BF); KMP's j retreats ≤ i advances — amortized matching phase O(n)</p>
+        </div>
+        <figcaption class="plate-caption"><span class="cap-num">Fig. 8</span>: the same data's ledger — BF retreats the text, KMP retreats the pattern; "who retreats" decides the complexity class</figcaption>
+      </figure>
+      <div class="ratio-legend">Comparison budget for Fig. 1's data: KMP actually compares 8 (ink); the 4 saved (red segment = the event: eliminated redundant comparisons)</div>
+      <div class="ratio" role="img" aria-label="ratio bar: of 12 comparisons KMP uses 8, saving 4">
+        <span class="ratio-seg ink" style="flex: 8;">KMP 8</span>
+        <span class="ratio-seg alt" style="flex: 4;">save 4</span>
+      </div>
+      <div class="cmp-wrap">
+        <table class="cmp">
+          <thead>
+            <tr><th></th><th>BF brute force</th><th>KMP</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Worst time</td><td class="num">O(n × m)</td><td class="num"><strong>O(n + m)</strong></td></tr>
+            <tr><td>Preprocessing</td><td>none</td><td class="num">O(m) (next / nextval)</td></tr>
+            <tr><td>Text pointer</td><td>retreats on failure</td><td><strong>never retreats</strong></td></tr>
+            <tr><td>Extra space</td><td class="num">O(1)</td><td class="num">O(m) (next array)</td></tr>
+            <tr><td>Matched info on failure</td><td>discarded</td><td>prefix-suffix reuse</td></tr>
+            <tr><td>Best fit</td><td>short patterns / one-off</td><td>one pattern, repeated long-text matches</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="text-rail">
+        <p>The real price is written in space: the next array costs O(m) extra memory and must be rebuilt whenever the pattern changes. For short patterns and one-off matches, BF has a smaller constant and shorter code — KMP's linearity pays off when one pattern matches long texts repeatedly.</p>
+        <p><strong>Extra advantage</strong>: a non-retreating text pointer means KMP only needs the current character — suitable for <em>streaming data</em> (network flows, pipes that cannot rewind); BF needs random access to the text. A property worth remembering when choosing an algorithm.</p>
+      </div>
+      <p class="giant-verdict" id="verdict-1">The main-string pointer never retreats — <em>the pattern uses its longest common prefix-suffix to remember progress for the text</em>.</p>
+    </section>
+
+    <!-- ═══ 07 Worked examples ═══ -->
+    <section class="sec density-dense" id="s-zhenti">
+      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">07</span><span class="rt-word">WORKED</span></span>
+      <span class="section-tag">WORKED EXAMPLES</span>
+      <h2><span class="sec-num">07</span>Classic pattern: next and nextval for T = "ababaaababaa"</h2>
+      <div class="text-rail">
+        <p>The classic worked pattern for computing next / nextval by hand — or reverse-engineering the pattern from next. First compute next from the definition, position by position:</p>
+      </div>
+      <div class="inset-panel">
+        <span class="inset-label">WORKED EXAMPLE · T = "ababaaababaa" (method 1 + method 2 cross-check)</span>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead><tr><th>j</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th></tr></thead>
+            <tbody>
+              <tr><td>T[j]</td><td>a</td><td>b</td><td>a</td><td>b</td><td>a</td><td>a</td><td>a</td><td>b</td><td>a</td><td>b</td><td>a</td><td>a</td></tr>
+              <tr><td>next[j]</td><td class="key-cell">0</td><td class="key-cell">1</td><td>1</td><td>2</td><td>3</td><td>4</td><td>2</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+              <tr><td>nextval[j]</td><td class="key-cell">0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>4</td><td>2</td><td>1</td><td>0</td><td>1</td><td>0</td><td>4</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:var(--gap-sm);">Verification: next position by position against "longest common prefix-suffix + 1"; nextval against the inheritance rule — j=5 (a) equals T[next[5]]=T[3]=a → inherit nextval[3]=0; j=6 (a) differs from T[next[6]]=T[4]=b → keep 4. Every step verifiable on the spot — don't skip steps on the exam.</p>
+      </div>
+      <div class="text-rail">
+        <p>The question tests more than memory: <strong>j = 7 is the watershed</strong> — T[1..6]="ababaa"'s longest common prefix-suffix drops from 3 ("aba") to 1 ("a"), because the extra "a" at position 6 breaks the "abab" continuation. Understanding "why it drops here" beats memorizing 2 — change the pattern slightly and you can tell who memorized from who computes.</p>
+      </div>
+      <figure class="plate full" id="fig-9">
+        <span class="fig-num">Fig. 9</span>
+        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
+        <div class="blueprint">
+          <div class="table-scroll" style="margin:0">
+            <table class="data-table">
+              <thead><tr><th>j</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th></tr></thead>
+              <tbody>
+                <tr><td>T[j]</td><td>a</td><td>b</td><td>a</td><td>b</td><td>a</td><td>a</td><td>a</td><td>b</td><td>a</td><td>b</td><td>a</td><td>a</td></tr>
+                <tr><td>next[j]</td><td>0</td><td>1</td><td>1</td><td>2</td><td>3</td><td>4</td><td>2</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+                <tr><td>j=7 trace</td><td colspan="3">where next[7]=2 comes from:</td><td colspan="9">T[1..6]="ababaa" longest common prefix-suffix = "a" (length 1) → +1 = 2</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="trace-action" style="color:var(--blue-note);font-family:var(--font-mono);font-size:var(--text-xs);margin-top:var(--gap-sm)">Method 2 speed: start from next[6]=4, T[6]=a ≠ T[4]=b → retreat the next chain to next[4]=2, T[6]=a == T[2]=b? no → next[2]=1, T[6]=a == T[1]=a ✓ → next[7] = next[1]+1 = 2</p>
+        </div>
+        <figcaption class="plate-caption"><span class="cap-num">Fig. 9</span>: the j=7 "drop" — each retreat along the next chain answers "which prefix can still continue"</figcaption>
+      </figure>
+      <div class="inset-panel">
+        <span class="inset-label">VARIANT 2 · Reverse engineering: given next = [0, 1, 1, 2, 3, 4] (Yan Weimin, 6 chars), find T</span>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead><tr><th>backwards</th><th>condition from next[j]</th><th>prefix determined</th></tr></thead>
+            <tbody>
+              <tr><td>j=6</td><td>T[1..5] longest common = 3</td><td>T[1..5] shaped "ababa" (longest "aba")</td></tr>
+              <tr><td>j=5</td><td>T[1..4] longest = 2</td><td>"abab" ✓ (longest "ab")</td></tr>
+              <tr><td>j=4</td><td>T[1..3] longest = 1</td><td>"aba" ✓ (longest "a")</td></tr>
+              <tr><td>j=3</td><td>T[1..2] no common</td><td>"ab" ✓</td></tr>
+              <tr><td>j=2</td><td>always 1</td><td class="key-cell">first 5 chars fixed: "ababa"</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:var(--gap-sm);"><strong>Standard trap: character 6 cannot be determined</strong> — next[6] depends only on T[1..5]; any character satisfies the table. The correct answer is "first five characters 'ababa', sixth arbitrary"; any option naming a specific character is wrong.</p>
+      </div>
+      <div class="inset-panel">
+        <span class="inset-label">VARIANT 3 · Option analysis: T = "aaaaaa" — which next / nextval statements hold?</span>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead><tr><th>option</th><th>verdict</th><th>reason</th></tr></thead>
+            <tbody>
+              <tr><td>next = [0, 1, 2, 3, 4, 5]</td><td class="key-cell">true</td><td>"aa" longest "a" → next[3]=2, climbs by 1</td></tr>
+              <tr><td>nextval = [0, 0, 0, 0, 0, 0]</td><td class="key-cell">true</td><td>every T[j] equals T[next[j]], inherits down to nextval[1]=0</td></tr>
+              <tr><td>nextval[3] = 1</td><td>false</td><td>T[3]=a == T[next[3]]=T[2]=a → inherit nextval[2]=0, not keep next's 2</td></tr>
+              <tr><td>next[2] = 2</td><td>false</td><td>next[2] is always 1 — T[1..1] is a single character</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:var(--gap-sm);">Key insight: an all-same segment is nextval's zeroing extreme — on seeing "climbing next + all-zero nextval", suspect options that swap "inherit nextval" for "keep next".</p>
+      </div>
+      <div class="inset-panel">
+        <span class="inset-label">VARIANT 4 · Application: count occurrences of T = "abab" in S = "ababab" (overlapping allowed)</span>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead><tr><th>step</th><th>state</th><th>action</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>i=1..4, j=1..4: S[1..4]="abab" fully matches</td><td class="key-cell">count=1, j = next[4] = 2 (reuse the "ab" overlap)</td></tr>
+              <tr><td>2</td><td>i=4, j=2: S[4]=b == T[2]=b; i=5, j=3: S[5]=a == T[3]=a</td><td>continue</td></tr>
+              <tr><td>3</td><td>i=6, j=4: S[6]=b == T[4]=b → matches again</td><td class="key-cell">count=2, j = next[4] = 2</td></tr>
+              <tr><td>4</td><td>i=6, j=2: S[6]=b == T[2]=b → i=7 past end</td><td>done, count = 2</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:var(--gap-sm);"><strong>Key action: after a success, j does not reset to 1 — it becomes next[m]</strong>; the pattern remembers the overlap, so one scan counts all (including overlapping) occurrences. BF's equivalent is advancing the round start by one — same answer, O(n×m).</p>
+      </div>
+      <div class="warning-box">
+        <span class="warning-tag">VARIANT TRAP · NEXTVAL INHERITS NEXTVAL</span>
+        <p>T = "ababaaababaa": nextval[6] = 4 because T[6]=a, T[next[6]]=T[4]=b differ → keep next[6]=4. <strong>Writing "inherit next[next[j]]" instead of "inherit nextval[next[j]]" turns nextval[6] into 2</strong> — you inherit the optimized value; every link in the chain has already skipped doomed comparisons.</p>
+      </div>
+      <div class="inset-panel">
+        <span class="inset-label">CONVENTION COMPARISON · 0-INDEXED TEXTBOOKS</span>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead><tr><th>convention</th><th>next definition</th><th>next[1]/next[0]</th><th>failure jump</th><th>success position</th></tr></thead>
+            <tbody>
+              <tr><td>Yan Weimin 1-indexed</td><td>longest common prefix-suffix + 1</td><td>next[1] = 0</td><td>j = next[j]</td><td>i − m</td></tr>
+              <tr><td>some textbooks 0-indexed</td><td>longest common prefix-suffix (no +1)</td><td>next[0] = −1</td><td>j = next[j] (−1: i++, j=0)</td><td>i − m + 1</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:var(--gap-sm);">The same pattern yields different next values under the two conventions ("abab" → [0,1,1,2] vs [-1,0,0,1]). <strong>Check the subscript convention in the question before writing anything</strong> — this page follows Yan Weimin 1-indexed.</p>
+      </div>
+    </section>
+
+    <!-- ═══ 08 Related topics ═══ -->
+    <section class="sec" id="s-related">
+      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">08</span><span class="rt-word">RELATED</span></span>
+      <span class="section-tag">RELATED TOPICS</span>
+      <h2><span class="sec-num">08</span>KMP in the string-algorithm family</h2>
+      <div class="text-rail">
+        <p>KMP is not an isolated trick: it is the first milestone of "accelerate matching with the pattern's own structure". The family members each pay a different bill —</p>
+      </div>
+      <div class="cmp-wrap">
+        <table class="cmp">
+          <thead>
+            <tr><th>algorithm</th><th>core idea</th><th>complexity</th><th>cost</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>BF</td><td>brute-force every start</td><td class="num">O(n×m)</td><td>zero preprocessing, zero space</td></tr>
+            <tr><td>KMP</td><td>next remembers prefix-suffix</td><td class="num">O(n+m)</td><td>O(m) space; rebuild on pattern change</td></tr>
+            <tr><td>Rabin-Karp</td><td>rolling hash</td><td class="num">expected O(n+m)</td><td>collisions need re-verification (worst O(n×m))</td></tr>
+            <tr><td>AC automaton</td><td>multi-pattern: Trie + fail pointers (next generalized)</td><td class="num">O(n + Σm)</td><td>large trie space</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="text-rail">
+        <p><strong>Related ①</strong>: KMP's next and AC automaton's fail pointers are the same idea — "on mismatch, jump to the longest reusable suffix"; <strong>Related ②</strong>: hash-based matching (RK) vs KMP — RK's "hash collision probability" is a classic point of comparison; <strong>Related ③</strong>: minimal period — if n is divisible by n − next[n] + 1, the pattern repeats with that period; a classic KMP application.</p>
+      </div>
+      <div class="insight-panel">
+        <p style="font-size:var(--text-sm);margin:0"><strong>Quick methods · 30-second method and triple verification</strong><br>
+        <strong>Mnemonic</strong>: "next adds one, nextval inherits" — next[j] = longest common prefix-suffix + 1; when T[j] == T[next[j]], nextval[j] inherits nextval[next[j]], otherwise keeps its value.<br>
+        <strong>30-second method</strong>: read the "longest common prefix-suffix of T[1..j−1]" row by row — each row only appends one character to the previous, so the overlap either grows by 1 or retreats along the next chain (method 2); never re-list all prefixes and suffixes per row.<br>
+        <strong>Triple verification</strong>: ① next[2] is always 1; ② an all-same segment's nextval must zero out all the way; ③ when next dips after a non-decreasing run (like j=7 above), check for a missed shorter overlap.<br>
+        <strong>Reverse-engineering</strong>: next[j] − 1 = the longest common prefix-suffix of T[1..j−1] — lock characters backwards; character n itself is undeterminable from next[n] (variant 2).</p>
+      </div>
+    </section>
+
+    <!-- ═══ 09 Code essentials ═══ -->
+    <section class="sec density-dense" id="s-code">
+      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">09</span><span class="rt-word">CODE</span></span>
+      <span class="section-tag">CODE IMPLEMENTATION</span>
+      <h2><span class="sec-num">09</span>Three functions: getNext / getNextval / KMP</h2>
+      <div class="text-rail">
+        <p>The core implementation task — write <code>getNext()</code> / <code>getNextval()</code> / <code>KMP()</code>, or fill in the blanks. Understanding "<strong>next construction = self-matching</strong>" lets you remember all three at once: they share one while + if-else skeleton (<a class="fig-ref" href="#fig-10">see Fig. 10</a>).</p>
+        <p>Fig. 3 showed the matching loop and Fig. 6 the nextval recurrence; the most-asked piece is still <strong>getNext()</strong> — its construction is itself a KMP match: the pattern matches against itself, and when <code>T[i] == T[j]</code>, prefix T[1..j] equals suffix T[i−j+1..i], so <code>next[i+1] = j+1</code>; on failure j retreats to next[j], exactly the main-loop skeleton.</p>
+      </div>
+      <figure class="plate full" id="fig-10">
+        <span class="fig-num">Fig. 10</span>
+        <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
+        <div class="code" role="img" aria-label="getNext self-matching construction: the pattern matches itself; on match next i plus 1 equals j plus 1, on failure retreat next j">
+<span class="cm">// compute next[1..m] (Yan Weimin 1-indexed) — the pattern matches itself</span>
+next[<span class="num">1</span>] = <span class="num">0</span>;
+<span class="kw-s">int</span> i = <span class="num">1</span>, j = <span class="num">0</span>;
+<span class="hl"><span class="kw-s">while</span> (i &lt; m) {
+    <span class="kw-s">if</span> (j == <span class="num">0</span> || T[i] == T[j]) { ++i; ++j; next[i] = j; }
+    <span class="kw-s">else</span> j = next[j];                     <span class="cm">// same skeleton as Fig. 3</span>
+}</span>
+<span class="cm">// compare Fig. 3: the match branch writes i++; j++; there, ++i; ++j; next[i]=j; here</span>
+        </div>
+        <figcaption class="plate-caption"><span class="cap-num">Fig. 10</span>: getNext construction = self-matching — why next computes in O(m), and the shared skeleton of all three functions</figcaption>
+      </figure>
+      <div class="inset-panel">
+        <span class="inset-label">CODE MEMORY · FOUR POINTS</span>
+        <ul style="margin:0 0 0 var(--gap-md)">
+          <li style="font-size:var(--text-sm)"><strong>1-indexed</strong>: strings start at index 1, next[1] = 0, arrays sized m+1.</li>
+          <li style="font-size:var(--text-sm)"><strong>j == 0 unifies</strong>: construction and matching share the <code>j == 0 || equal</code> branch — "text advances, pattern restarts" needs no separate path.</li>
+          <li style="font-size:var(--text-sm)"><strong>Construction ≡ matching</strong>: both are while + if-else; the match branch writes <code>next[i] = j</code> here, advance-then-check-<code>j &gt; m</code> there.</li>
+          <li style="font-size:var(--text-sm)"><strong>nextval's extra check</strong>: inside the construction match branch, test <code>T[i] != T[j]</code> — equal inherits <code>nextval[j]</code>, different assigns <code>j</code> (Fig. 6).</li>
+        </ul>
+      </div>
+      <div class="insight-panel">
+        <p style="font-size:var(--text-sm);margin:0"><strong>One sentence</strong>: next[j] tells the pattern where to jump on failure; nextval[j] tells it "if the jump lands on the same character, keep jumping". <span class="kw">The main-string pointer never needs to retreat — that is the whole essence of KMP.</span></p>
+      </div>
+    </section>
+
+    <!-- ═══ 10 Checklist ═══ -->
+    <section class="sec" id="s-review">
+      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">10</span><span class="rt-word">REV.</span></span>
+      <span class="section-tag">REVIEW · CHECKLIST</span>
+      <h2><span class="sec-num">10</span>Review checklist (index)</h2>
+      <ul class="checklist">
+        <li><span class="ck">01</span>BF waste: failure retreat discards structure, worst O(n×m) — four-state grid walkthrough (<a href="#fig-1">Fig. 1</a>).</li>
+        <li><span class="ck">02</span>next definition & two methods: definition (longest common prefix-suffix + 1) and recurrence cross-check; next[1]=0, next[2]=1 (§03 + <a href="#fig-2">Fig. 2</a>).</li>
+        <li><span class="ck">03</span>Traps: length + 1 not length, position = i−m, convention first (warning boxes).</li>
+        <li><span class="ck">04</span>Matching loop: sentinel j==0; failure j=next[j], i stays (<a href="#fig-3">Fig. 3</a>, <a href="#fig-4">Fig. 4</a> interactive).</li>
+        <li><span class="ck">05</span>nextval: T[j]==T[next[j]] inherits nextval[next[j]], else keeps; all-same extreme (<a href="#fig-5">Fig. 5</a>, <a href="#fig-6">Fig. 6</a>, <a href="#fig-7">Fig. 7</a>).</li>
+        <li><span class="ck">06</span>Complexity: monotonic i amortized → O(n+m), space O(m); "who retreats" decides the class (<a href="#fig-8">Fig. 8</a>).</li>
+        <li><span class="ck">07</span>Worked examples: full table for "ababaaababaa", j=7 drop, 0-indexed comparison (<a href="#fig-9">Fig. 9</a>) + variants 2–4 (reverse engineering / option analysis / overlapping count).</li>
+        <li><span class="ck">08</span>Related: AC fail pointers, string hashing, minimal period; mnemonic "next adds one, nextval inherits" and triple verification (§08).</li>
+        <li><span class="ck">09</span>Code essentials: getNext self-matching (<a href="#fig-10">Fig. 10</a>), shared skeleton, four memory points, one sentence (§09).</li>
+        <li><span class="ck">10</span>Core verdict: <a href="#verdict-1">"the main-string pointer never retreats"</a> — the whole secret of linearity.</li>
+      </ul>
+    </section>
+
+    <footer class="colophon">
+      <span>LAYOUT PLATE SYSTEM · DUAL RAILS</span>
+      <span>FONTS IBM PLEX SANS · NOTO SANS SC · URBANIST · GOOGLE SANS CODE</span>
+      <span>PALETTE INK · RED · BLUE · OCHRE · OLIVE</span>
+      <span>FIGURES 10</span>
+      <span>AXIS 20°</span>
+    </footer>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.sidebar nav a'));
+  var secs = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          links.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id); });
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    secs.forEach(function (s) { if (s) io.observe(s); });
+  }
+  var bars = document.querySelectorAll('.sidebar-progress');
+  if (bars.length) {
+    var update = function () {
+      var d = document.documentElement;
+      var max = d.scrollHeight - d.clientHeight;
+      var p = max > 0 ? (d.scrollTop / max) * 100 : 0;
+      bars.forEach(function (b) { b.style.height = p + '%'; });
+    };
+    addEventListener('scroll', function () { requestAnimationFrame(update); }, { passive: true });
+    update();
+  }
+  var box = document.getElementById('stepper-1');
+  if (box) {
+    var steps = Array.prototype.slice.call(box.querySelectorAll('.step'));
+    var prev = document.getElementById('st-prev-1');
+    var next = document.getElementById('st-next-1');
+    var ind = document.getElementById('st-ind-1');
+    var cur = 0;
+    var show = function (n) {
+      cur = n;
+      steps.forEach(function (s, i) { s.style.display = i <= cur ? 'grid' : 'none'; s.classList.toggle('cur', i === cur); });
+      ind.textContent = (cur + 1) + ' / ' + steps.length;
+    };
+    if (prev && next) {
+      show(0);
+      prev.addEventListener('click', function () { if (cur > 0) show(cur - 1); });
+      next.addEventListener('click', function () { if (cur < steps.length - 1) show(cur + 1); });
+    }
+  }
+})();
+</script>
+</main>
+</div>
+</body>
+</html>

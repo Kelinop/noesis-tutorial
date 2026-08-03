@@ -1,6 +1,6 @@
 # Style Guide — Tokens & Component Specs
 
-**用法**：Tokens 是法（精确值，不可改）；Specs 是意图与约束——**据此自己写 CSS，不要寻找成品模板**。组件的完整实现范例见 `references/example-*.html` 六篇例文（组件覆盖矩阵见 `example-coverage.md`）。
+**用法**：Tokens 是法（精确值，不可改）；Specs 是意图与约束——**据此自己写 CSS，不要寻找成品模板**。组件的完整实现范例见 `references/example-*.html` 七篇例文（六篇中文 + 英文旗舰 `example-kmp.en.html`；组件覆盖矩阵见 `example-coverage.md`）。
 
 色彩语义（色层模型）、轴线与几何语义见 `visual-system.md`，此处不重复。
 
@@ -635,7 +635,7 @@ CSS 骨架（据此自写，非成品模板）：
 共性：陈述类 → **L0 或 L0 材料档橄榄纸（`--olive`）、禁白底**、仅靠边框 / 硬阴影成型（白卡作用域分类之「陈述类」；`--olive` 归 L0 材料档，不计入深色 60% 规则）；散文收文字轨（`max-width: var(--text-rail)`）。
 
 - **essence-hook**（类名 `.hook`）：本质钩容器——hook 句 + deep-red 词眼（落 L0）；对应 Essence Hook 教学节，一页一个为主。
-- **insight-panel**：洞察面板——判词类容器（宽收窄 85%，≤768px 回 100%），L0 透明底 + ink 边框或硬投影 + deep-red 词眼；与楔形块分工：楔形承载 ≤2 行强冲突判词（ink 底反转），insight panel 承载更长的分析性结论（考点教学「应试技巧」形态）。
+- **insight-panel**：洞察面板——判词类容器（宽收窄 85%，≤768px 回 100%），L0 或橄榄纸底（`--olive`）+ ink 边框或硬投影 + deep-red 词眼；与楔形块分工：楔形承载 ≤2 行强冲突判词（ink 底反转），insight panel 承载更长的分析性结论（考点教学「应试技巧」形态）。
 - **inset-panel**：内嵌面板——随文小面板（G4 内嵌语义），ink 边框或硬阴影成型，无圆角。
 - **warning-box**：警示框——易错陷阱容器（考点教学「易错陷阱」形态）；左 4px red 边（事件）+ ink 边框；词眼 deep-red。
 - **stair**：阶梯组（G7 阶梯）——递进构建语义；≤4 级；扁平枚举禁用；级间错位沿轴线方向。
@@ -673,7 +673,7 @@ CSS 骨架（据此自写，非成品模板）：
 | 节标签 / 斜切标题带 / 巨字判词 / 巨字编号 / 密度标注 | `.section-tag` / `.section-band` / `.giant-verdict`（`em` 词眼）/ `.giant-num` / `.density-tag` |
 | 图版 | `.plate.full` / `.plate.light` + `.plate-marks` + `.fig-num` + `.plate-caption`；引用 `.fig-ref` |
 | 蓝图容器（L2 底 + paper 网格） | `.blueprint` |
-| 走查 trace | `.trace` + `.tr-grid` / `.tr-h` / `.tr-lab` / `.tr-c` / `.tr-foot`；步叙 `.trace-action`；列题 `.trace-header`；图例 `.legend` |
+| 走查 trace | `.trace` + `.tr-grid`（列数变体 `.c3` / `.c4` / `.c5`）/ `.tr-h` / `.tr-lab` / `.tr-c` / `.tr-foot`；步叙 `.trace-action`；列题 `.trace-header`；图例 `.legend`；格阵变体 `.bf-grid`（`.bf-c` 四态）/ `.pf-grid`（`.pf-key`） |
 | 步进 trace | `.st-grid` / `.st-n` / `.st-c` / `.st-foot` |
 | 代码块 | `.code`（`.kw-s` 关键字 / `.st` 字符串 / `.num` 数字 / `.cm` 注释 / `.hl` 关键行） |
 | punch card | `.punch-card` / `.pc-row` / `.pc-key` / `.pc-body` / `.pc-idx` / `.pc-bits` / `.pc-bit` / `.pc-hole` / `.pc-note` |
@@ -685,7 +685,23 @@ CSS 骨架（据此自写，非成品模板）：
 | 剖面线 | `.hatch`（`.hatch.red` / `.hatch.paper`） |
 | 档案面板 | `.archival-panel` + `.archival-tag` |
 | 读数 / 仪器带 / 对照表 | `.readout`（`.ro-num` / `.ro-lab`）/ `.strip` / `.cmp`（`.cmp-wrap`）+ `.data-table` |
-| 清单 / 版权条 / 页头 / sidebar / 标尺 | `.checklist` + `.ck` / `.colophon` / `.page-header`（`.kicker` / `.hdr-bar` / `.subtitle` / `.meta`）/ `.sidebar`（`.sb-head` / `.sb-track` / `.sidebar-progress`）/ `.ruler-tick`（`.rt-num` / `.rt-word`）+ `.sec-num` |
+| 清单 / 版权条 / 页头 / sidebar / 标尺 | `.checklist` + `.ck` / `.colophon` / `.page-header`（`.kicker` / `.hdr-bar` / `.subtitle` / `.meta` / 海报式 `.poster-marks`）/ `.sidebar`（`.sb-head` / `.sb-track` / `.sidebar-progress`）/ `.ruler-tick`（`.rt-num` / `.rt-word`）+ `.sec-num` |
+| G1 切角容器 | `.g1-cut`（`h4` 读数头） |
+| G2 楔形块 | `.wedge-block` |
+| G3 圆形标注 | `.circle-callout`（事件级 `.red-c`；`.circle-inner` / `.circle-sub`） |
+| G4 内嵌 / 外挂 | `.inset-panel` / `.rail-hang`（≥1100px） |
+| G5 色场 | `.color-field`（`.ink-field` / `.ochre-field`） |
+| G6 嵌套面板 | `.g6-outer`（`.g6-label`）+ `.g6-inner`（steel 结构面） |
+| G7 阶梯组 | `.stair` + `.stair-item`（`.st-num`；层级色阶 nth-child 1–4） |
+| G8 拼贴平面 | `.g8-collage`（`.g8-base` / `.g8-float`） |
+| 洞察面板 | `.insight-panel` |
+| 警示框 | `.warning-box`（`.warning-tag`） |
+| 蓝图标注 | `.bp-callout`（`.bp-tag`） |
+| 时间表 | `.timetable`（`.tt-row` / `.tt-time` / `.tt-evt`） |
+| 档案卡 | `.archive-card`（`.ac-quote` / `.ac-src` / `.ac-stamp`） |
+| 仪表盘 | `.gauge-wrap`（`.gv` / `.ro-num` / `.ro-lab`） |
+| 步进器 | `.stepper`（图纸化 L2 底）+ `.step`（`.step-n` / `.step-controls` / `.step-ind`） |
+| 比例条 | `.ratio`（`.ratio-seg` `.ink` / `.alt`）+ `.ratio-legend` |
 
 ## Diagram Specs（机制图解）
 
@@ -789,7 +805,7 @@ if (bars.length) {
 768px 单断点，不为中间宽度新增断点：
 
 - 板面塌单栏；双轨合一（图版轨与文字轨同宽）；标尺轨隐藏，编号由 `.sec-num` 承担；crop marks 隐藏。
-- 标题：text-3xl → text-2xl；section 标题 text-2xl → text-xl；giant-num 5rem → 3rem；giant-verdict 收小；statement → text-xl。
+- 标题：text-3xl → text-2xl；section 标题 text-2xl → text-xl；giant-num 5rem → 3rem；giant-verdict 收小。
 - trace 格 2.2rem → 1.8rem；ascii / memory-map 字号降 xs 并允许横向滚动。
 - 多栏塌单栏（staggered / plate-row / strip 变纵列；错位归零）；sidebar → 顶部全宽竖排列表。
 - 几何容器：楔形 padding-bottom 收小（5rem → 3rem，斜切按公式自然收浅）；圆形 8rem → 6rem；偏移归零；阶梯退化竖排；色场 padding 缩为 `gap-md gap-sm`；浮动平面转静态全宽。
