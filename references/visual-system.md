@@ -1,33 +1,29 @@
 # Visual System — 设计原则 / Design Principles
 
-构成主义视觉哲学与纪律：**为什么**这样设计。Tokens 与组件规格在 `style-guide.md`；完整实现范例在六篇例文（`references/example-*.html`，含英文旗舰 `example-kmp.en.html`）。
-
 Constructivist visual philosophy and discipline — the **why**. Tokens and component specs live in `style-guide.md`; full implementations in the seven example pages (`references/example-*.html`, including the English flagship `example-kmp.en.html`).
 
-> **规则制 / Rule-driven**：视觉动作由**语义规则**驱动，不做次数配额。语义动作标注发生在计划阶段（SKILL.md → Step 4），交付前按 SKILL.md 质检清单第 13 条核验「标注与实现一致」。全系统唯一的密度配额条款是「连续深色 ≤60%/屏」（结构性约束，见色彩层 L0）；板面居中对称留白是构图层面的结构性默认（见构图系统 → 对称默认规则），同样不是次数配额。
->
 > Visual actions are driven by semantic rules, not quotas. Annotation happens at planning (SKILL.md Step 4); verified at delivery (checklist #13). The only density quota in the system is "continuous dark ≤60% per viewport" (structural constraint, L0 row); centered symmetric whitespace is a structural default, not a quota.
 
 ## Philosophy — 三原则（Meta-rules）
 
-- **构造可见（Construction is visible）**：页面的网格、轴线、标尺、对版标记全部外露。读者看到的是「这页是被构造出来的」，而不是「这页被装饰过」。 The grid, axis, rulers and registration marks are exposed — readers see a page that was constructed, not decorated.
-- **色彩即职能（Color is function）**：每种颜色是一个工程职能层的材料。层序固定，永不错位。 Every color is the material of one engineering role. Layer order is fixed, never swapped.
-- **几何即仪器（Geometry is instrumentation）**：几何元素不做造型，做测量、指示、传动——标尺、轴线、仪表、楔子、图版框。每件仪器必须能回答「它测量什么」，答不上来就删（Art = encoded meaning 的延伸）。 Geometry measures, indicates, transmits. Every instrument must answer "what does it measure" — otherwise delete it.
+- **构造可见（Construction is visible）**：The grid, axis, rulers and registration marks are exposed — readers see a page that was constructed, not decorated.
+- **色彩即职能（Color is function）**： Every color is the material of one engineering role. Layer order is fixed, never swapped.
+- **几何即仪器（Geometry is instrumentation）**：Geometry measures, indicates, transmits. Every instrument must answer "what does it measure" — otherwise delete it.
 
-参照系：**图版、工程图纸、展览展板、苏联统计图形**——不是海报。教程内容（机制图解、位格式、推演走查、读数）天生就是图版内容；内容与形式同构。 Frame of reference: plates, engineering drawings, exhibition boards, Soviet statistical graphics — not posters.
+Frame of reference: plates, engineering drawings, exhibition boards, Soviet statistical graphics — not posters.
 
 ## Color System — 色层模型（Layer Model）
 
-颜色不是可选语义清单，而是**固定层序的工程色版**，像印刷色版一样有固定叠印顺序。 Colors form a fixed-order engineering palette, like printing plates.
+Colors form a fixed-order engineering palette, like printing plates.
 
 | 层 | 材料 | 职能 | 承载内容 | 层规则 |
 |---|---|---|---|---|
-| **L0** | paper `#f1ece2`（+ 材料档 olive `#cfd6c0`） | 空气 / 图底 Air / ground | 页面底色、呼吸带、正文、陈述类容器底 | 唯一图底。**连续深色（L1+L2+L3）≤60%/屏**——呼吸带是结构性约束，不是审美配额；olive 是 L0 材料档（橄榄纸 / 描图纸，构成主义次色），不新增语义层、不计入 60% 规则。 Only ground. Continuous dark (L1+L2+L3) ≤60%/viewport — breathing is structural, not aesthetic. olive is an L0 material grade (vellum), no new semantic layer, excluded from the 60% rule. |
-| **L1** | ink `#1c1c1c` + steel `#637880` | 结构 Structure | ink = 主结构（边框、正文、标题带、判词、代码、图版框）；steel = 次结构（标尺刻度、图注、辅助线、caption） | ink 骨架必须连续，连成天际线而非墨点；steel 永不成面（**仅两处结构面例外：G6 内层 / G7 机制级**——钢灰面板，面上文字一律 paper 粗体，red / deep-red 禁落 steel 面；结构面计入深色 60% 规则），只做线与字级注释。 ink skeleton must be continuous — a skyline, not ink dots. steel never forms surfaces (two structural exceptions: G6 inner / G7 mechanism level — paper bold text only, reds forbidden on steel). |
+| **L0** | paper `#f1ece2`（+ 材料档 olive `#cfd6c0`） | 空气 / 图底 Air / ground | 页面底色、呼吸带、正文、陈述类容器底 |Only ground. Continuous dark (L1+L2+L3) ≤60%/viewport — breathing is structural, not aesthetic. olive is an L0 material grade (vellum), no new semantic layer, excluded from the 60% rule. |
+| **L1** | ink `#1c1c1c` + steel `#637880` | 结构 Structure | ink = 主结构（边框、正文、标题带、判词、代码、图版框）；steel = 次结构（标尺刻度、图注、辅助线、caption） |  ink skeleton must be continuous — a skyline, not ink dots. steel never forms surfaces (two structural exceptions: G6 inner / G7 mechanism level — paper bold text only, reds forbidden on steel). |
 | **L2** | blue `#0f4c81` | 图纸 Blueprint | 机制图解、仪表、坐标、位格式 | 只承载**可测量的内容**。L2 上禁用 ochre 与 steel（注释用 blue-note `#9db8cc`）；可加 4–6% paper 坐标网格。 Measurable content only. ochre and steel forbidden on L2 (annotations use blue-note); optional 4–6% paper grid. |
-| **L3** | ochre `#b8863b` | 档案 Archive | 史料、引文、旁注 | 面积永远小于 L0；**不与 L2 相邻**（必须由 L0 隔开）；永不做文字色。 Always smaller than L0; never adjacent to L2 (separated by L0); never used as text color. |
-| **L4** | white `#ffffff` | 纸卡 Card | sidebar、页面级浮起 UI、punch card 孔位 | **作用域仅三处**（sidebar / 浮起 UI / punch 孔位）。任何内容容器禁白底——内容表面：机制类 → L2 图纸底；代码类 → ink 材料面（L1）；陈述类 → L0 或 L0 材料档橄榄纸 `--olive`（仅靠边框 / 硬阴影成型）；档案类 → L3 ochre 带（steel 结构面例外见 L1 行）。 Scoped to three places only. Content surfaces: mechanism → L2; code → ink material face; statement → L0 or olive; archive → L3 band. |
-| **L5** | red `#e63946` + deep-red `#cc2a26` | 红系：事件与焦点 Red: events & focus | red = **动态事件**（压力点、主动路径、进度条、关键格）；deep-red = **静态焦点**（判词词眼、关键数字、check 编号、结果格） | **双红都不成层**：只以线、点、小块、字级出现，永不成面。red 是电流，deep-red 是铆钉——一个流动，一个钉住。**红面阈值（数值源）**：纯红连通区域 **<24×24 忽略**；**≥24×24 且 <64×64 = 小块，允许**；**≥64×64（4096px²）= 面，违规**（sidebar 进度条、active/hover 等 L4 UI 交互态豁免）；每屏红系总像素 ≤1% 视口（1600×1000 屏 ≈ ≤16000px²）。**红圆唯一例外**：实心红圆直径 ≤128px、语义必须为压力/转折性结论（Rodchenko 红日）。 Neither red ever forms a layer — lines, dots, small blocks, word-level only. red is current, deep-red is a rivet. Red-surface thresholds (authoritative): <24×24 ignored; ≥24×24 & <64×64 small block allowed; ≥64×64 is a violating surface (UI interaction states exempt); total red ≤1% viewport. Sole exception: solid red circle ≤128px for pressure/turning-point conclusions. |
+| **L3** | ochre `#b8863b` | 档案 Archive | 史料、引文、旁注 | Always smaller than L0; never adjacent to L2 (separated by L0); never used as text color. |
+| **L4** | white `#ffffff` | 纸卡 Card | sidebar、页面级浮起 UI、punch card 孔位 | Scoped to three places only. Content surfaces: mechanism → L2; code → ink material face; statement → L0 or olive; archive → L3 band. |
+| **L5** | red `#e63946` + deep-red `#cc2a26` | 红系：事件与焦点 Red: events & focus | red = **动态事件**（压力点、主动路径、进度条、关键格）；deep-red = **静态焦点**（判词词眼、关键数字、check 编号、结果格） |Neither red ever forms a layer — lines, dots, small blocks, word-level only. red is current, deep-red is a rivet. Red-surface thresholds (authoritative): <24×24 ignored; ≥24×24 & <64×64 small block allowed; ≥64×64 is a violating surface (UI interaction states exempt); total red ≤1% viewport. Sole exception: solid red circle ≤128px for pressure/turning-point conclusions. |
 
 ### 叠加矩阵（Who May Sit On Whom）
 
@@ -69,10 +65,10 @@ amber     → 只落在 .code（ink 材料面上的语法色，作用域例外�
 
 ### 剖面线语法（Hatching）
 
-多角色图的**第二身份通道**——当图解需要区分 4–5 个同时出现的角色而色相不够时，用剖面线，不加新颜色。 A second identity channel for multi-role diagrams (4–5 simultaneous roles) when hues run out.
+ A second identity channel for multi-role diagrams (4–5 simultaneous roles) when hues run out.
 
 - `repeating-linear-gradient(110deg, …)`，条纹与轴线平行；period 8–12px；仅 ink/paper/red 单色系。
-- 剖面线 = 材料/角色身份。非明显时必须带图例。 Hatching = material/role identity; legend required when not obvious.
+- Hatching = material/role identity; legend required when not obvious.
 - 例：负半区、共享区、未映射区、失效区。
 
 ## Axis — 轴线系统
@@ -83,11 +79,11 @@ amber     → 只落在 .code（ink 材料面上的语法色，作用域例外�
 - **作用域**：轴线属于页面构造层，**永不进入机制图解内部**（图解内部保持正交）。
 - **G1 切角豁免**：G1 是「棱角」不是「对角线动作」，固定小切角 20–24px，不参与轴线判定。
 - **戳记例外**：斜置戳记（档案签）rotate(-4deg)——文字基线可读性下限，不参与轴线判定。
-- 正文文字绝不斜置。轴线是「引力方向」：动势统一由此而来。 The axis is a gravity direction — all slants share it; body text is never slanted.
+- The axis is a gravity direction — all slants share it; body text is never slanted.
 
 ## Geometry — 几何仪器库（The Instruments）
 
-矩形是构造的基本单元，圆与对角线是它的升级——构成主义 = 矩形 + 圆 + 对角线，问题是矩形是否有组织。答案：轴线、标尺、图版构成坐标系，让矩形有组织。 Rectangles are the base unit; circles and diagonals are upgrades. The axis, ruler and plates form the coordinate system that organizes rectangles.
+Rectangles are the base unit; circles and diagonals are upgrades. The axis, ruler and plates form the coordinate system that organizes rectangles.
 
 ### core（每页默认在线，没有选择余地）
 
@@ -125,7 +121,7 @@ amber     → 只落在 .code（ink 材料面上的语法色，作用域例外�
 机制组件的形态选择是**规则驱动**的管线，不是数量目标。 Form selection is rule-driven, not a numbers game.
 
 - **规则 A：退化形式禁令**——当机制组件退化为**同构格阵**时（大量单元仅靠矩形与颜色区分，编码不了移动 / 方向 / 转移 / 连接关系），该形态已经失效，必须重选既有形态。审查辅助阈值：>16 个同构单元仅靠颜色区分即可判定退化——阈值只是审查触发线，不是使用配额。**正面例（免疫条款）**：punch card 的列位置 = 位号，位置本身携带语义——格阵数量大但位置承载信息时不触发退化判定。 A form that degrades into a homogeneous grid (>16 units by color only) is failed — reselect. punch card is immune: column position carries the bit-weight semantics.
-- **规则 B：Step 5 形态理由**——每个机制组件写一行「认知类型 → 形态 → 该形态编码了什么语义操作」，质检 #13-9 逐条核验：理由站不住即打回重选形态——不是删组件，是打回形态。
+- **规则 B：Step 5 形态理由**——每个机制组件写一行「认知类型 → 形态 → 该形态编码了什么语义操作」，质检 #13-7 逐条核验：理由站不住即打回重选形态——不是删组件，是打回形态。
 - 语义没命中的页面允许全部矩形——`none` 标注本身就是合规状态；多样性是语义匹配的自然结果，不是目标。 All-rectangle pages are legal when semantics miss — diversity is a result, not a goal.
 
 ## Composition — 构图系统
@@ -244,8 +240,6 @@ crop marks（四角）──────────────
 - 形态理由：单点结论 → 海报 → 巨字与留白即构图。
 
 ## Diagram Rules
-
-机制图解通则：直线直角、矩形节点、显式连接点、硬边框、简洁对齐标签；red 只用于主动路径/压力点/关键转折；SVG 为一等公民（stroke ink 3–4px 结构 / red 6–7px 主动路径 / 辅助线 1–2px——L2 图纸底用 blue-note，L0 底用 steel，steel 禁落 L2）；禁渐变、滤镜、装饰圆角；`role="img"` + `aria-label`；`<figcaption>` 一句话说清机制结论。**轴线不进入图解内部**；图解内多角色身份用剖面线或 blue-note 区分，不加新色相。
 
 Mechanism figures: straight lines/right angles, rectangular nodes, explicit connection points, hard borders, aligned labels; red only for active paths/pressure points/key turns; SVG is first-class (ink 3–4px structure / red 6–7px active path / 1–2px guides — blue-note on L2, steel on L0, steel never on L2); no gradients, filters, decorative radii; `role="img"` + `aria-label`; caption states the mechanism conclusion in one sentence. The axis never enters a figure; multi-role identity via hatching or blue-note, never new hues.
 
