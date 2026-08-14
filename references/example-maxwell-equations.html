@@ -101,6 +101,10 @@ body {
 .plate-caption .cap-num { color: var(--deep-red); font-weight: 600; }
 .fig-ref { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--red); text-decoration: none; }
 .blueprint { background: var(--blue); background-image: linear-gradient(rgba(241,236,226,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(241,236,226,.05) 1px, transparent 1px); background-size: 24px 24px; padding: var(--gap-md); }
+.mmap-row { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: var(--gap-xs) var(--gap-sm); align-items: center; padding: 2px 0; }
+.mm-addr { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--blue-note); text-align: right; }
+.mm-seg { background: rgba(241,236,226,.07); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); padding: var(--gap-xs) var(--gap-sm); letter-spacing: .05em; min-height: 28px; display: flex; align-items: center; }
+.mm-legend { display: flex; align-items: center; gap: var(--gap-xs); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--blue-note); margin-top: var(--gap-sm); }
 .timetable { border-left: 2px solid var(--ink); padding-left: var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
 .timetable .tt-row { position: relative; padding: var(--gap-sm) 0; }
 .timetable .tt-row::before { content: ""; position: absolute; left: calc(-1 * var(--gap-md) - 4px); top: 1.1em; width: 8px; height: 2px; background: var(--ink); }
@@ -386,10 +390,10 @@ c     = <span class="num">1</span> / math.sqrt(mu0 * eps0)  <span class="cm"># �
         <span class="fig-num">图 4</span>
         <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
         <div class="blueprint">
-          <div class="mmap-row" style="grid-template-columns:6rem minmax(0,1fr)"><span class="mm-addr" style="text-align:right">γ</span><div class="mm-seg">X 射线（1895 年伦琴发现）</div></div>
-          <div class="mmap-row" style="grid-template-columns:6rem minmax(0,1fr)"><span class="mm-addr" style="text-align:right">UV</span><div class="mm-seg">紫外</div></div>
-          <div class="mmap-row" style="grid-template-columns:6rem minmax(0,1fr)"><span class="mm-addr" style="text-align:right">可见</span><div class="mm-seg" style="background:rgba(157,184,204,.25)">380–760 nm——人类唯一的电磁窗口</div></div>
-          <div class="mmap-row" style="grid-template-columns:6rem minmax(0,1fr)"><span class="mm-addr" style="text-align:right">IR</span><div class="mm-seg">红外 · 微波 · 无线电（赫兹 1888 首次验证的就是这个频段）</div></div>
+          <div class="mmap-row"><span class="mm-addr">γ</span><div class="mm-seg">X 射线（1895 年伦琴发现）</div></div>
+          <div class="mmap-row"><span class="mm-addr">UV</span><div class="mm-seg">紫外</div></div>
+          <div class="mmap-row"><span class="mm-addr">可见</span><div class="mm-seg" style="background:rgba(157,184,204,.25)">380–760 nm——人类唯一的电磁窗口</div></div>
+          <div class="mmap-row"><span class="mm-addr">IR</span><div class="mm-seg">红外 · 微波 · 无线电（赫兹 1888 首次验证的就是这个频段）</div></div>
           <div class="mm-legend">全部都是同一种东西——以 c 传播的电磁波，区别只在频率</div>
         </div>
         <figcaption class="plate-caption"><span class="cap-num">图 4</span>：电磁波谱——「光是电磁波」把光学、无线电、X 射线全并进了一个物理对象</figcaption>
@@ -464,7 +468,7 @@ c     = <span class="num">1</span> / math.sqrt(mu0 * eps0)  <span class="cm"># �
     <footer class="colophon">
       <span>版式 海报式页头 · 图版制</span>
       <span>字体 IBM PLEX SANS · NOTO SANS SC · URBANIST · GOOGLE SANS CODE</span>
-      <span>色版 INK · RED · BLUE · OCHRE · OLIVE</span>
+      <span>色版 INK · RED · BLUE · OCHRE · OLIVE · AMBER</span>
       <span>图版数 5</span>
       <span>轴线 20°</span>
     </footer>

@@ -163,6 +163,7 @@ body {
 .warning-box strong { color: var(--deep-red); }
 .inset-panel { background: var(--olive); border: 2px solid var(--ink); padding: var(--gap-sm) var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
 .inset-label { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--steel); display: block; margin-bottom: var(--gap-xs); }
+.inset-panel .table-scroll + p { margin-top: var(--gap-sm); }
 .bp-callout { position: relative; border: 2px solid var(--ink); background: var(--olive); padding: var(--gap-sm) var(--gap-md); max-width: var(--text-rail); margin: var(--gap-lg) 0 var(--gap-md); }
 .bp-callout::before { content: ""; position: absolute; left: 2rem; top: calc(-1 * var(--gap-md)); width: 2px; height: var(--gap-md); background: var(--steel); }
 .bp-callout .bp-tag { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--steel); display: block; margin-bottom: var(--gap-xs); }
@@ -504,7 +505,7 @@ body {
             </tbody>
           </table>
         </div>
-        <p style="margin-top:var(--gap-sm);">速查：页目录索引 = VA &gt;&gt; 22；页表索引 = (VA &gt;&gt; 12) &amp; 0x3FF；偏移 = VA &amp; 0xFFF——三条位运算，考场 30 秒。</p>
+        <p>速查：页目录索引 = VA &gt;&gt; 22；页表索引 = (VA &gt;&gt; 12) &amp; 0x3FF；偏移 = VA &amp; 0xFFF——三条位运算，考场 30 秒。</p>
       </div>
       <div class="inset-panel">
         <span class="inset-label">WORKED EXAMPLE 2 · 已知 PD[46] → PT 基址 0x90000、PT[243] → PFN 0x1F，求物理地址</span>
@@ -518,7 +519,7 @@ body {
             </tbody>
           </table>
         </div>
-        <p style="margin-top:var(--gap-sm);">验算方向：物理地址低 12 位必须等于 VA 低 12 位（偏移透传）——不等即算错。</p>
+        <p>验算方向：物理地址低 12 位必须等于 VA 低 12 位（偏移透传）——不等即算错。</p>
       </div>
       <div class="inset-panel">
         <span class="inset-label">WORKED EXAMPLE 3 · 进程页表占多少内存（两级、稀疏 1MB 已映射）</span>
@@ -532,7 +533,7 @@ body {
             </tbody>
           </table>
         </div>
-        <p style="margin-top:var(--gap-sm);">单级页表无论用多少都要 4MB；两级页表只付「用到的段」——这是它存在的全部理由。</p>
+        <p>单级页表无论用多少都要 4MB；两级页表只付「用到的段」——这是它存在的全部理由。</p>
       </div>
     </section>
 

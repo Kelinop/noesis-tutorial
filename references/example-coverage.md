@@ -13,7 +13,7 @@ The six Chinese examples together cover every core + extended component; `exampl
 | giant-num（breather 编号） | 全部六篇 |
 | giant-verdict（巨字判词） | 全部六篇 |
 | plate.full（全装裱） | 全部六篇 |
-| plate.light（轻装裱） | tcp（状态图 图 2）· maxwell（图 5） |
+| plate.light（轻装裱） | tcp（状态图 图 2）· maxwell（图 5）· photoelectric（图 6） |
 | plate-row（图版横列） | twos（三码 punch card 图 2a/2b/2c） |
 | rail-hang（G4 outset 左轨出血） | tcp（三次握手主图版 图 1） |
 | 三角指针（`.tri` 三态：red 方向 / ink 静止 / paper L2 静止） | tcp（swimlane 交接箭头 图 1/4/7——red 方向、paper 延迟静止） |

@@ -4,6 +4,34 @@
 
 色彩语义（色层模型）、轴线与几何语义见 `visual-system.md`，此处不重复。
 
+## 速查卡 Quick Reference
+
+**章节索引**：页头 / 侧栏 / 标尺 / 角标 / 版权条 → Layout Specs；图版三级装裱 → Plate Specs；G1–G8 → Geometric Specs；测量仪器 → Instrument Specs；认知形态 → Form Specs；机制图解 → Diagram Specs；交互 → Interaction Specs；响应式 → Responsive Spec；类名速查 → 类名注册表。
+
+**数值门控表 Numeric Gate Table（交付期验证用；任何数值源被修改后必须同步本表，本表不覆盖数值源）**：
+
+| Gate | Value | 数值源 |
+|---|---|---|
+| 连续深色（L1+L2+L3） | ≤60% / 视口 | visual-system → 禁令 |
+| 深色间距（ink / blue / ochre / steel 结构面 >900px²） | 同层 ≥12px；跨层 ≥gap-md（32px）；图版内衬 ≥gap-md | visual-system → 禁令 |
+| 红面阈值 | <24×24 忽略；24–64 小方块；≥64×64 违规面；总量 ≤1% 视口；实心红圆 ≤128px 唯一例外 | visual-system → L5 |
+| trace 列数（每行 div 数） | 默认 10（1 标签 + 9 数据）；`.c3` 4 / `.c4` 5 / `.c5` 6；`.bf-grid` 1+6；`.pf-grid` 6 | 本节 → Trace 列数约束 |
+| punch card 孔位 | `.pc-bit` 保持 `box-sizing: border-box`（孔与环同外径 24px） | 本节 → Punch Card |
+| 退化形式审查触发线 | >16 同构单元仅靠颜色区分（审查触发线，不是配额） | visual-system → 形式有效性 |
+
+**高频违规 top-10（交付前自检，逐条指向规格）**：
+
+1. 白底容器（white 仅 sidebar / 页面级浮起 UI / punch 孔位 → 白卡作用域）
+2. 红面超阈（≥64×64 即违规面、总量 ≤1% → 红面阈值）
+3. 表格滥用（仅真正的二维查找用表 → Tables）
+4. 图版无人引用（→ Plate Specs）
+5. trace 列数错位（行内 div = 1 + 数据轨数 → Trace 列数约束）
+6. steel 落 L2 / L3、deep-red 落蓝底（→ visual-system 色层禁令）
+7. clip-path 与 border / box-shadow 组合（→ Geometric Specs 总前提）
+8. 类名漂移（照注册表落名 → 类名注册表）
+9. 轴线失序（全页 20° 单向、斜切只进底部呼吸区 → Tokens 轴线实现）
+10. 深色连片（≤60%/屏，dense ≠ 深色 → visual-system 禁令）
+
 ## Tokens
 
 ```css
@@ -150,6 +178,7 @@ Body base：font-sans / 1rem / line-height 1.7 / ink on paper / 必加 `-webkit-
 - **标准式**：cut-corner kicker（ink 底 paper 字 mono xs，右下切角，切角 8px）+ text-3xl 标题 + 4rem×8px red bar（每页仅一处）+ steel 副题 text-lg 500 + meta 行。
 - **海报式**：顶部 flex（cut-corner + `.poster-marks` 色票条——ink / red / deep-red / ochre 四个 12px 小方块，编码页面自身色板）+ `clamp(2.5rem, 7vw, 4rem)` 标题（`em` 词眼 6px red 下划线）+ meta 行。页面实际使用 olive / amber 时在色票条中追加。
 - kicker 切角 8px（小切角件，轴线系）。
+- **meta 行字段**（`.meta`，mono xs steel 横排）：日期 · 学科 · 阅读时长（≈ N MIN）· 范围声明（scope：主例范围 / 采用约定 / 显式省略）——四字段齐备，语言随页面。
 
 ### Section Band（斜切标题带，机制重心声明，一页最多一节）
 
@@ -284,7 +313,7 @@ Body base：font-sans / 1rem / line-height 1.7 / ink on paper / 必加 `-webkit-
             letter-spacing: .05em; display: flex; gap: var(--gap-md); flex-wrap: wrap; }
 ```
 
-内容：版式 / 字体 / 色版（ink·red·blue·ochre）/ 图版数 N / 轴线 20°。与页头色票首尾呼应；页面实际使用 olive / amber 时在色版中追加列明。
+内容：版式 / 字体 / 色版（ink·red·blue·ochre）/ 图版数 N / 轴线 20°。与页头色票首尾呼应；页面实际使用 olive / amber 时在色版中追加列明。拆分系列时图版数写本文件范围 + 系列总数（见 SKILL.md → Multi-File Split Convention）。
 
 ## Geometric Specs（几何容器 G1–G8）
 
@@ -698,6 +727,8 @@ CSS 骨架（据此自写，非成品模板）：
 | 洞察面板 | `.insight-panel` |
 | 警示框 | `.warning-box`（`.warning-tag`） |
 | 蓝图标注 | `.bp-callout`（`.bp-tag`） |
+| 因果链 | `.cause-chain`（`.cause-node` / `.cause-tag` / `.cause-arrow` / `.cause-solution`） |
+| 面板紧凑段落 | `.p-sm`（面板内表后说明、Q&A 段：font-size text-sm + margin 0） |
 | 时间表 | `.timetable`（`.tt-row` / `.tt-time` / `.tt-evt`） |
 | 档案卡 | `.archive-card`（`.ac-quote` / `.ac-src` / `.ac-stamp`） |
 | 仪表盘 | `.gauge-wrap`（`.gv` / `.ro-num` / `.ro-lab`） |

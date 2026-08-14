@@ -18,9 +18,9 @@ Colors form a fixed-order engineering palette, like printing plates.
 
 | 层 | 材料 | 职能 | 承载内容 | 层规则 |
 |---|---|---|---|---|
-| **L0** | paper `#f1ece2`（+ 材料档 olive `#cfd6c0`） | 空气 / 图底 Air / ground | 页面底色、呼吸带、正文、陈述类容器底 |Only ground. Continuous dark (L1+L2+L3) ≤60%/viewport — breathing is structural, not aesthetic. olive is an L0 material grade (vellum), no new semantic layer, excluded from the 60% rule. |
+| **L0** | paper `#f1ece2`（+ 材料档 olive `#cfd6c0`） | 空气 / 图底 Air / ground | 页面底色、呼吸带、正文、陈述类容器底 | Continuous dark (L1+L2+L3) ≤60%/viewport — breathing is structural, not aesthetic. olive is an L0 material grade (vellum), no new semantic layer, excluded from the 60% rule. |
 | **L1** | ink `#1c1c1c` + steel `#637880` | 结构 Structure | ink = 主结构（边框、正文、标题带、判词、代码、图版框）；steel = 次结构（标尺刻度、图注、辅助线、caption） |  ink skeleton must be continuous — a skyline, not ink dots. steel never forms surfaces (two structural exceptions: G6 inner / G7 mechanism level — paper bold text only, reds forbidden on steel). |
-| **L2** | blue `#0f4c81` | 图纸 Blueprint | 机制图解、仪表、坐标、位格式 | 只承载**可测量的内容**。L2 上禁用 ochre 与 steel（注释用 blue-note `#9db8cc`）；可加 4–6% paper 坐标网格。 Measurable content only. ochre and steel forbidden on L2 (annotations use blue-note); optional 4–6% paper grid. |
+| **L2** | blue `#0f4c81` | 图纸 Blueprint | 机制图解、仪表、坐标、位格式 | 只承载**可测量的内容**。L2 上禁用 ochre 与 steel（注释用 blue-note `#9db8cc`）；可加 4–6% paper 坐标网格。 |
 | **L3** | ochre `#b8863b` | 档案 Archive | 史料、引文、旁注 | Always smaller than L0; never adjacent to L2 (separated by L0); never used as text color. |
 | **L4** | white `#ffffff` | 纸卡 Card | sidebar、页面级浮起 UI、punch card 孔位 | Scoped to three places only. Content surfaces: mechanism → L2; code → ink material face; statement → L0 or olive; archive → L3 band. |
 | **L5** | red `#e63946` + deep-red `#cc2a26` | 红系：事件与焦点 Red: events & focus | red = **动态事件**（压力点、主动路径、进度条、关键格）；deep-red = **静态焦点**（判词词眼、关键数字、check 编号、结果格） |Neither red ever forms a layer — lines, dots, small blocks, word-level only. red is current, deep-red is a rivet. Red-surface thresholds (authoritative): <24×24 ignored; ≥24×24 & <64×64 small block allowed; ≥64×64 is a violating surface (UI interaction states exempt); total red ≤1% viewport. Sole exception: solid red circle ≤128px for pressure/turning-point conclusions. |
@@ -73,7 +73,7 @@ amber     → 只落在 .code（ink 材料面上的语法色，作用域例外�
 
 ## Axis — 轴线系统
 
-- **全页唯一倾角 20°（自水平线量取，即与垂直成 70°）**；唯一方向：斜边自右上角向左下方（`/` 家族）。 Single 20° slant page-wide, one direction: upper-right to lower-left.
+- **全页唯一倾角 20°（自水平线量取，即与垂直成 70°）**；唯一方向：斜边自右上角向左下方（`/` 家族）。
 - 参与轴线的元素：楔形切角、标题带切角、kicker 切角、三角指针、对角分隔线、剖面线。全部平行于同一斜率。
 - **实现**：切角深度与组件设计高度成比例（≈0.36 = tan20°），各级深度数值与 `clip-path` 逼近方法见 style-guide → Tokens → 轴线实现（数值源）。**斜切只发生在组件底部呼吸区（padding 区），禁止切入文本区**。
 - **作用域**：轴线属于页面构造层，**永不进入机制图解内部**（图解内部保持正交）。
@@ -114,15 +114,15 @@ Rectangles are the base unit; circles and diagonals are upgrades. The axis, rule
 
 ### 容器词汇（G1–G8）
 
-切角 G1 / 楔形 G2 / 圆形 G3 / 偏移 G4 / 色场 G5 / 嵌套 G6 / 阶梯 G7 / 重叠 G8——内容容器词汇（规格见 style-guide → Geometric Specs）。**机制图解内部永远保持规整精确，非矩形容器不替代图解**。 Non-rectangular containers never replace diagrams inside mechanism figures.
+切角 G1 / 楔形 G2 / 圆形 G3 / 偏移 G4 / 色场 G5 / 嵌套 G6 / 阶梯 G7 / 重叠 G8——内容容器词汇（规格见 style-guide → Geometric Specs）。**机制图解内部永远保持规整精确，非矩形容器不替代图解**。
 
 ### 形式有效性（Form Validity）
 
-机制组件的形态选择是**规则驱动**的管线，不是数量目标。 Form selection is rule-driven, not a numbers game.
+机制组件的形态选择是**规则驱动**的管线，不是数量目标。
 
-- **规则 A：退化形式禁令**——当机制组件退化为**同构格阵**时（大量单元仅靠矩形与颜色区分，编码不了移动 / 方向 / 转移 / 连接关系），该形态已经失效，必须重选既有形态。审查辅助阈值：>16 个同构单元仅靠颜色区分即可判定退化——阈值只是审查触发线，不是使用配额。**正面例（免疫条款）**：punch card 的列位置 = 位号，位置本身携带语义——格阵数量大但位置承载信息时不触发退化判定。 A form that degrades into a homogeneous grid (>16 units by color only) is failed — reselect. punch card is immune: column position carries the bit-weight semantics.
+- **规则 A：退化形式禁令**——当机制组件退化为**同构格阵**时（大量单元仅靠矩形与颜色区分，编码不了移动 / 方向 / 转移 / 连接关系），该形态已经失效，必须重选既有形态。审查辅助阈值：>16 个同构单元仅靠颜色区分即可判定退化——阈值只是审查触发线，不是使用配额。**正面例（免疫条款）**：punch card 的列位置 = 位号，位置本身携带语义——格阵数量大但位置承载信息时不触发退化判定。
 - **规则 B：Step 5 形态理由**——每个机制组件写一行「认知类型 → 形态 → 该形态编码了什么语义操作」，质检 #13-7 逐条核验：理由站不住即打回重选形态——不是删组件，是打回形态。
-- 语义没命中的页面允许全部矩形——`none` 标注本身就是合规状态；多样性是语义匹配的自然结果，不是目标。 All-rectangle pages are legal when semantics miss — diversity is a result, not a goal.
+- 语义没命中的页面允许全部矩形——`none` 标注本身就是合规状态；多样性是语义匹配的自然结果，不是目标。
 
 ## Composition — 构图系统
 
@@ -133,7 +133,7 @@ Rectangles are the base unit; circles and diagonals are upgrades. The axis, rule
 - 文字轨：正文段落 ≈68 字符，偏左对齐——可读性不动。
 - 图版轨：图版、仪器带、图版横列、巨字判词占满**主栏可用宽**——展件横向展开到主栏右缘。
 - 带 sidebar：`.board { max-width: 1240px; margin: 0 auto; }`；不带 sidebar：主栏 `max-width: 980px` 居中；≤768px 全部塌单栏。
-- **对称默认规则**：板面与组件排布默认对称；非对称（偏左板面、右侧留白、左轨出血、非对称网格、错位双栏）仅在能论证「带来了语义增益」时使用，论证不了就回到对称。 Symmetry is the default; asymmetry must argue semantic gain.
+- **对称默认规则**：板面与组件排布默认对称；非对称（偏左板面、右侧留白、左轨出血、非对称网格、错位双栏）仅在能论证「带来了语义增益」时使用，论证不了就回到对称。
 - 留白是气质：两侧对称留白 + 组件间距构成呼吸；展件展开不等于塞满。
 
 ### 页面骨架（Page Skeleton）
@@ -154,7 +154,7 @@ crop marks（四角）──────────────
 版权条（版式 / 字体 / 色版 / 图版数）
 ```
 
-要点：**图版只装裱图解与判词，正文段落保持流式**——教程的可读性不受图版化影响；图版是内容里的「展件」。 Plates mount diagrams and verdicts only; prose stays fluid.
+要点：**图版只装裱图解与判词，正文段落保持流式**——教程的可读性不受图版化影响；图版是内容里的「展件」。
 
 ### 天际线节奏（Skyline Rhythm）
 

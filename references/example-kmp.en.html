@@ -151,6 +151,9 @@ body {
 .archival-tag { display: inline-block; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--paper); background: var(--ink); padding: 2px 8px; margin-bottom: var(--gap-xs); letter-spacing: .1em; }
 .inset-panel { background: var(--olive); border: 2px solid var(--ink); padding: var(--gap-sm) var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
 .inset-label { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--steel); display: block; margin-bottom: var(--gap-xs); }
+.inset-panel .table-scroll + p { margin-top: var(--gap-sm); }
+.inset-panel ul { margin: 0 0 0 var(--gap-md); }
+.inset-panel li { font-size: var(--text-sm); }
 .g6-outer { background: var(--olive); border: 2px solid var(--ink); padding: var(--gap-sm) var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
 .g6-outer .g6-label { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .1em; margin-bottom: var(--gap-sm); display: block; }
 .g6-inner { border: 2px solid var(--ink); padding: var(--gap-sm); background: var(--steel); }
@@ -341,7 +344,7 @@ body {
             </table>
           </div>
         </div>
-        <p style="margin-top:var(--gap-sm);">Method 2 (recurrence) check: next[4] = 2 because T[3]=a equals T[1]=a → next[4] = next[3]+1 = 2; next[5] = 3 because T[4]=b equals T[2]=b → next[5] = next[4]+1 = 3. Both methods agree ✓.</p>
+        <p>Method 2 (recurrence) check: next[4] = 2 because T[3]=a equals T[1]=a → next[4] = next[3]+1 = 2; next[5] = 3 because T[4]=b equals T[2]=b → next[5] = next[4]+1 = 3. Both methods agree ✓.</p>
       </div>
 
       <div class="text-rail">
@@ -593,7 +596,7 @@ nextval[<span class="num">1</span>] = <span class="num">0</span>;
             </tbody>
           </table>
         </div>
-        <p style="margin-top:var(--gap-sm);">Verification: next position by position against "longest common prefix-suffix + 1"; nextval against the inheritance rule — j=5 (a) equals T[next[5]]=T[3]=a → inherit nextval[3]=0; j=6 (a) differs from T[next[6]]=T[4]=b → keep 4. Every step verifiable on the spot — don't skip steps on the exam.</p>
+        <p>Verification: next position by position against "longest common prefix-suffix + 1"; nextval against the inheritance rule — j=5 (a) equals T[next[5]]=T[3]=a → inherit nextval[3]=0; j=6 (a) differs from T[next[6]]=T[4]=b → keep 4. Every step verifiable on the spot — don't skip steps on the exam.</p>
       </div>
       <div class="text-rail">
         <p>The question tests more than memory: <strong>j = 7 is the watershed</strong> — T[1..6]="ababaa"'s longest common prefix-suffix drops from 3 ("aba") to 1 ("a"), because the extra "a" at position 6 breaks the "abab" continuation. Understanding "why it drops here" beats memorizing 2 — change the pattern slightly and you can tell who memorized from who computes.</p>
@@ -630,7 +633,7 @@ nextval[<span class="num">1</span>] = <span class="num">0</span>;
             </tbody>
           </table>
         </div>
-        <p style="margin-top:var(--gap-sm);"><strong>Standard trap: character 6 cannot be determined</strong> — next[6] depends only on T[1..5]; any character satisfies the table. The correct answer is "first five characters 'ababa', sixth arbitrary"; any option naming a specific character is wrong.</p>
+        <p><strong>Standard trap: character 6 cannot be determined</strong> — next[6] depends only on T[1..5]; any character satisfies the table. The correct answer is "first five characters 'ababa', sixth arbitrary"; any option naming a specific character is wrong.</p>
       </div>
       <div class="inset-panel">
         <span class="inset-label">VARIANT 3 · Option analysis: T = "aaaaaa" — which next / nextval statements hold?</span>
@@ -645,7 +648,7 @@ nextval[<span class="num">1</span>] = <span class="num">0</span>;
             </tbody>
           </table>
         </div>
-        <p style="margin-top:var(--gap-sm);">Key insight: an all-same segment is nextval's zeroing extreme — on seeing "climbing next + all-zero nextval", suspect options that swap "inherit nextval" for "keep next".</p>
+        <p>Key insight: an all-same segment is nextval's zeroing extreme — on seeing "climbing next + all-zero nextval", suspect options that swap "inherit nextval" for "keep next".</p>
       </div>
       <div class="inset-panel">
         <span class="inset-label">VARIANT 4 · Application: count occurrences of T = "abab" in S = "ababab" (overlapping allowed)</span>
@@ -660,7 +663,7 @@ nextval[<span class="num">1</span>] = <span class="num">0</span>;
             </tbody>
           </table>
         </div>
-        <p style="margin-top:var(--gap-sm);"><strong>Key action: after a success, j does not reset to 1 — it becomes next[m]</strong>; the pattern remembers the overlap, so one scan counts all (including overlapping) occurrences. BF's equivalent is advancing the round start by one — same answer, O(n×m).</p>
+        <p><strong>Key action: after a success, j does not reset to 1 — it becomes next[m]</strong>; the pattern remembers the overlap, so one scan counts all (including overlapping) occurrences. BF's equivalent is advancing the round start by one — same answer, O(n×m).</p>
       </div>
       <div class="warning-box">
         <span class="warning-tag">VARIANT TRAP · NEXTVAL INHERITS NEXTVAL</span>
@@ -677,7 +680,7 @@ nextval[<span class="num">1</span>] = <span class="num">0</span>;
             </tbody>
           </table>
         </div>
-        <p style="margin-top:var(--gap-sm);">The same pattern yields different next values under the two conventions ("abab" → [0,1,1,2] vs [-1,0,0,1]). <strong>Check the subscript convention in the question before writing anything</strong> — this page follows Yan Weimin 1-indexed.</p>
+        <p>The same pattern yields different next values under the two conventions ("abab" → [0,1,1,2] vs [-1,0,0,1]). <strong>Check the subscript convention in the question before writing anything</strong> — this page follows Yan Weimin 1-indexed.</p>
       </div>
     </section>
 
@@ -740,11 +743,11 @@ next[<span class="num">1</span>] = <span class="num">0</span>;
       </figure>
       <div class="inset-panel">
         <span class="inset-label">CODE MEMORY · FOUR POINTS</span>
-        <ul style="margin:0 0 0 var(--gap-md)">
-          <li style="font-size:var(--text-sm)"><strong>1-indexed</strong>: strings start at index 1, next[1] = 0, arrays sized m+1.</li>
-          <li style="font-size:var(--text-sm)"><strong>j == 0 unifies</strong>: construction and matching share the <code>j == 0 || equal</code> branch — "text advances, pattern restarts" needs no separate path.</li>
-          <li style="font-size:var(--text-sm)"><strong>Construction ≡ matching</strong>: both are while + if-else; the match branch writes <code>next[i] = j</code> here, advance-then-check-<code>j &gt; m</code> there.</li>
-          <li style="font-size:var(--text-sm)"><strong>nextval's extra check</strong>: inside the construction match branch, test <code>T[i] != T[j]</code> — equal inherits <code>nextval[j]</code>, different assigns <code>j</code> (Fig. 6).</li>
+        <ul>
+          <li><strong>1-indexed</strong>: strings start at index 1, next[1] = 0, arrays sized m+1.</li>
+          <li><strong>j == 0 unifies</strong>: construction and matching share the <code>j == 0 || equal</code> branch — "text advances, pattern restarts" needs no separate path.</li>
+          <li><strong>Construction ≡ matching</strong>: both are while + if-else; the match branch writes <code>next[i] = j</code> here, advance-then-check-<code>j &gt; m</code> there.</li>
+          <li><strong>nextval's extra check</strong>: inside the construction match branch, test <code>T[i] != T[j]</code> — equal inherits <code>nextval[j]</code>, different assigns <code>j</code> (Fig. 6).</li>
         </ul>
       </div>
       <div class="insight-panel">

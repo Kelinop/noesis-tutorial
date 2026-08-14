@@ -7,7 +7,7 @@ description: Use when the user asks for technical tutorials, concept explanation
 
 ## Purpose
 
-Create complete, runnable HTML learning notes for technical topics. The page should help learners understand why a concept exists, what engineering pressure shaped it, how it works, what tradeoffs it introduces, and how it connects to broader system design patterns. **Write the page in the language the user used in their request** — the request language is the page language, with no default fallback — and always follow the specific art style. If the content is too enormous for a single file, break it into multiple files divided by subtopics. Each file should be self-contained and navigable.
+Create complete, runnable HTML learning notes for technical topics. The page should help learners understand why a concept exists, what engineering pressure shaped it, how it works, what tradeoffs it introduces, and how it connects to broader system design patterns. **Write the page in the language the user used in their request** — the request language is the page language, with no default fallback — and always follow the specific art style. If the content is too enormous for a single file, break it into multiple files divided by subtopics — the split decision is content-driven, see Multi-File Split Convention. Each file should be self-contained and navigable.
 
 The result should feel like a designed engineering knowledge product, not a textbook dump, Markdown-to-HTML conversion, or generic summary.
 
@@ -16,13 +16,13 @@ The result should feel like a designed engineering knowledge product, not a text
 - The user wants a brief verbal explanation or Q&A without a deliverable page → answer directly, do not apply this skill.
 - The user explicitly requests Markdown / plain text / slides or another format → do not apply this skill.
 - The topic is too thin (a one-sentence fact, a term lookup) → not worth a full page structure.
-- The user explicitly asks for lightweight fast output ("keep it simple", "rough overview") → unless an HTML page is still confirmed, do not apply the mounting / density / axis system; the only degradation path is the Step 1 Cheatsheet mode (light mounting, all-dense, no verdict), not "sloppy work".
+- The user explicitly asks for lightweight fast output ("keep it simple", "rough overview") → unless an HTML page is still confirmed, do not apply this skill. If an HTML page is confirmed but light, the only permitted lightweight variant is Cheatsheet mode (Step 0) — a deliberate, rule-governed density mode, never "sloppy work".
 - Non-teaching tasks (coding, debugging, review, data analysis) → this skill does not apply.
 
 ## How to Use References
 
 - `references/visual-system.md` — design philosophy: three principles (construction visible / color is function / geometry is instrumentation), layer model L0–L5 + stacking matrix, axis system (20°), geometry instrument library (core/extended), composition system (dual rails / plate system / skyline), teaching-type mapping. **Read this first.**
-- `references/style-guide.md` — design methodology + CSS tokens + component specs: Layout Specs (board / ruler / three-level plate mounting / horizontal composition), Geometric Specs (G1–G8 + axis formulas), Instrument Specs (exploded frame / gauge / triangle pointer / hatching / giant verdict). **Write your own CSS based on the rules and adjust it to fit the specific needs of the context**. **Read this second.**
+- `references/style-guide.md` — design methodology + CSS tokens + component specs: Layout Specs (board / ruler / three-level plate mounting / horizontal composition), Geometric Specs (G1–G8 + axis formulas), Instrument Specs (exploded frame / gauge / triangle pointer / hatching / giant verdict). **Write your own CSS based on the rules and adjust it to fit the specific needs of the context**. **Read this second.** The file opens with a Quick Reference card (速查卡). The default remains the full read; when the context budget is tight, you may work from the card and dip into referenced sections on demand while writing CSS — the 13-item Quality Checklist still requires consulting the specific sections it names.
 - `references/example-twos-complement.html` — two's complement: plate system, punch card (plate-row three-code comparison), trace, blueprint callout; print-family dominant.
 - `references/example-virtual-memory.html` — virtual memory: memory map, nested tree, exploded frame, gauge, rail-hang, hatching; blueprint-family assembly.
 - `references/example-tcp.html` — TCP three-way handshake: swimlane, state diagram (plate.light), ascii, dialogue, split.
@@ -34,7 +34,7 @@ The result should feel like a designed engineering knowledge product, not a text
 
 ## Rules Source
 
-All rules live in `references/` as the single source of truth. Read both `references/visual-system.md` (why — layers / axis / geometry semantics) and `references/style-guide.md` (how — tokens / component specs / remediation actions) in full before executing; consult specific sections when in doubt during execution. Numeric rules are authoritative where marked 数值源 (numeric source).
+All rules live in `references/` as the single source of truth. Read both `references/visual-system.md` (why — layers / axis / geometry semantics) and `references/style-guide.md` (how — tokens / component specs / remediation actions) in full before executing — under a tight context budget the style-guide full read may fall back to its Quick Reference card, see How to Use References; consult specific sections when in doubt during execution. Numeric rules are authoritative where marked 数值源 (numeric source). Delivery-time gate values are consolidated in the Numeric Gate Table (style-guide → 速查卡); any 数值源 edit must be mirrored there — the table never overrides its sources.
 
 ## Research Mandate
 
@@ -54,17 +54,22 @@ If a topic is too broad to research thoroughly, narrow the scope rather than gue
 
 ## Creation Workflow
 
-### Step 0: Research & Inventory
-
-Verify mechanism, history, constraints (Research Mandate). Also create a **knowledge checklist (topic inventory)**: the points this topic must cover. The page structure must address every item on the checklist, or explicitly declare omissions — the "Key Takeaways" at the end must map back to each item on the checklist.
-
-**User-provided material**: When the user provides lecture notes, textbooks, or study material, treat them as the scope boundary and checklist source; the verification obligation is not waived — errors in the material must be corrected against authoritative sources and noted on the page.
-
-### Step 1: Determine Context
+### Step 0: Determine Context
 
 - **Exams** (e.g. China's 408 postgraduate entrance, campus recruiting interviews) → activate Exam-Point Teaching.
 - **Engineering understanding** → use Teaching Architecture as the primary mode.
-- **Cheatsheet** (user explicitly requests) → density-first: one-sentence Essence Hook, skip evolution / system-impact, use data tables, checklists, and compact code blocks as the main body; each item still needs one sentence of causal explanation — dense but not shallow. Cheatsheet = **light-mounting mode**: mounting drops to light level, no giant verdict, no breather, all-dense density, no horizontal composition; the ruler rail stays.
+- **Cheatsheet** (user explicitly requests) → density-first: one-sentence Essence Hook, skip evolution / system-impact, use data tables, checklists, and compact code blocks as the main body; each item still needs one sentence of causal explanation — dense but not shallow. Cheatsheet = **light-mounting mode**:
+  - **Mounting**: mechanism figures mount as `.plate.light` (registration marks + figure number + caption, no frame); no giant verdict; no breather — every section `.density-dense`; no horizontal composition (staggered / plate-row / strip / asym / split all off);
+  - **Kept**: edge ruler rail, crop marks, colophon, full page header (standard or poster); sidebar only when the page is long enough for navigation (Long-Form Reading Support);
+  - **Still enforced**: coverage (skipped evolution / system-impact declared at the top of the page) and the 13-item checklist with the exemptions above — exam-point depth relaxes to the one-sentence causal line, never to a bare name list.
+
+### Step 1: Research & Inventory
+
+Verify mechanism, history, constraints (Research Mandate). Also create a **knowledge checklist (topic inventory)** — scoped by Step 0: exam context → the checklist is the exam-point list (each point with how it is tested and weight); engineering → mechanism / history / tradeoffs / code; cheatsheet → fact sheet (definitions, formulas, key data, common traps). The page structure must address every item on the checklist, or explicitly declare omissions — the "Key Takeaways" at the end must map back to each item on the checklist.
+
+**User-provided material**: When the user provides lecture notes, textbooks, or study material, treat them as the scope boundary and checklist source; the verification obligation is not waived — errors in the material must be corrected against authoritative sources and noted on the page.
+
+**Planning artifacts**: Steps 2–5 append their artifacts — causal chain, essence hook, section plan with density annotations, and each one-line form rationale — to `plan-<topic>.md` in the working directory as they are produced. This file is the resumable planning record; do not start the HTML without it.
 
 ### Step 2: Extract the Causal Chain
 
@@ -86,7 +91,7 @@ For each spatial concept choose the diagram type (memory map / timeline / state 
 
 Then write a one-line **form rationale** for each mechanism component: cognitive type → form → what semantic operation the form encodes (e.g. "pointer movement → SVG dual-rail diagram → encodes the main-string pointer's advance and retreat"). A form that degrades into a homogeneous grid array (>16 units distinguished only by color, encoding only arrangement, not movement/direction/transfer/connection) is a failed form — reselect from the existing forms (degraded-form prohibition, see visual-system → Form Validity).
 
-Then run the **mounting decision**: mechanism-class components (diagram / trace / swimlane / punch card / exploded frame) default to full plate mounting (`figure.plate.full` + figure number + caption); archive / dialogue / checklist components stay fluid. **Every mounted plate must be cross-referenced from the prose (see Fig. N) or its caption must state the mechanism conclusion.**
+Then run the **mounting decision**: mechanism-class components (diagram / trace / swimlane / punch card / exploded frame) default to full plate mounting (`figure.plate.full` + figure number + caption); archive / dialogue / checklist components stay fluid. **Every mounted plate must be cross-referenced from the prose (见图 N / see Fig. N) or its caption must state the mechanism conclusion.**
 
 ### Step 6: Generate HTML
 
@@ -96,19 +101,38 @@ Build the page. For long documents, use the Large Document Strategy below.
 
 Build in phases — generating a full-length technical document in one pass inevitably results in truncation and degraded quality.
 
-1. **Scaffold**: `<!DOCTYPE html>` + `<head>` (Font System CDN) + CSS tokens + all section containers with headings + sidebar (if needed) + ruler rail + crop marks + colophon.
-2. **Fill sections**: One section at a time: causal explanation → diagram (mounted as plate if mechanism-class) → code (explain why the implementation works this way) → run each paragraph through Signal Density check.
+1. **Scaffold**: `<!DOCTYPE html>` + `<head>` (Font System CDN) + CSS tokens + all section containers with headings + sidebar (if needed) + ruler rail + crop marks + colophon. Write the scaffold to the target HTML file before filling.
+2. **Fill sections**: Append each completed section to the HTML file immediately — never hold more than one section in memory. One section at a time: causal explanation → diagram (mounted as plate if mechanism-class) → code (explain why the implementation works this way) → run each paragraph through Signal Density check.
 3. **Review**: Does the causal chain flow seamlessly across sections? Do diagrams tie back to the hook? Does the rhythm vary (dense text → diagram → verdict → summary)? Are cross-references, figure numbers, and sidebar anchors correct? Is the knowledge checklist fully covered? Run the 13-item Quality Checklist.
+4. **Interruption recovery**: if generation is interrupted, re-read `plan-<topic>.md` and the partial HTML and continue from the first incomplete section — never regenerate from scratch.
+
+### Multi-File Split Convention
+
+The split decision is made at **Step 4 planning time, from content semantics — never from a line count**. A file boundary is legitimate exactly where a causal arc closes; one file = one arc = one essence hook → one verdict (the giant verdict is one-per-page).
+
+**Split when** the knowledge checklist decomposes into two or more subtopics, each with its own complete causal chain — its own problem → pressure → mechanism → tradeoff closure:
+
+- each subtopic carries its own figure cluster (≈3+ plates) that works as an independent exhibit;
+- exam mode: exam points group into independently teachable clusters (each cluster still taught in depth — mechanism + derivation + trap; splitting is not an excuse for listing).
+
+**Do not split when** the topic is a single mechanism arc, even a long one — splitting mid-arc breaks the causal-chain continuity the review step checks. Long single-arc topics stay in one file and use the skyline rhythm (breather / standard / dense) to carry the length.
+
+Once split — mechanics:
+
+1. **Structure**: one `topic.html` (overview: causal chain + essence hook + part links) + one `topic-<subtopic>.html` per subtopic; never split inside a section; every file repeats the full page header, CSS, crop marks, and colophon (self-contained).
+2. **Part navigation**: each file carries a `.part-nav` strip under the page header — prev / next links + `PART 1 / 3` indicator; plain ink borders, no new colors. This is the only cross-file navigation.
+3. **Figures**: figure numbers run continuously across the series; cross-file references link the target file (`href="topic-subtopic.html#fig-7"`); each colophon reports its own file's range (e.g. 图版 7–11 / 系列共 15, in the page's language).
+4. **Sections**: per-file numbering restarts at 01 (ruler ticks, sidebar, `.sec-num` are per-file).
 
 ## Output Contract
 
-- Every deliverable is a standalone HTML file starting with `<!DOCTYPE html>` (split into subtopic files when too large; each self-contained and navigable); inline CSS; inline JS only when interaction genuinely aids understanding.
+- Every deliverable is a standalone HTML file starting with `<!DOCTYPE html>` (split into subtopic files when the topic decomposes into multiple causal arcs — see Multi-File Split Convention; each self-contained and navigable); inline CSS; inline JS only when interaction genuinely aids understanding. Write the page to `<kebab-case-topic>.html` in the current working directory (a split series writes the `topic.html` index plus each `topic-<subtopic>.html`); report the file path(s) to the user when done.
 - kebab-case English filenames (`twos-complement.html`, `kmp-algorithm.html`); `<title>` in the page's language.
 - Explanations in the requested language; semantic HTML; responsive (single 768px breakpoint).
 - Sole external dependency: Google Fonts CDN (see Font System).
 - Required Page Header (kicker + title + metadata; standard or poster, see style-guide → Page Header).
-- Required construction items: edge ruler rail (≥1100px static ticks with numbers; <1100px numbering taken over by `.sec-num`; **no vertical line, no scroll progress bar** — progress bar only in the sidebar footer), four corner crop marks, print colophon (layout / fonts / palette / figure count / 20° axis).
-- Plate convention: `<figure class="plate full|light" id="fig-N">` + `<span class="fig-num">Fig. N</span>` + `<figcaption class="plate-caption">`; prose cross-references with `<a class="fig-ref" href="#fig-N">see Fig. N</a>`.
+- Required construction items: edge ruler rail (≥1100px static ticks with numbers; <1100px numbering taken over by `.sec-num`; **no vertical line, no scroll progress bar** — progress bar only in the sidebar footer), four corner crop marks, print colophon (layout / fonts / palette / figure count / 20° axis). Exemptions: only the R4 short-verdict recipe (visual-system → R4) may drop the ruler rail together with the sidebar; crop marks and colophon are never exempt.
+- Plate convention: `<figure class="plate full|light" id="fig-N">` + `<span class="fig-num">图 N / Fig. N</span>` (the numbering label follows the page's language) + `<figcaption class="plate-caption">`; prose cross-references with `<a class="fig-ref" href="#fig-N">见图 N / see Fig. N</a>`. The `id="fig-N"` value stays ASCII.
 - Avoid: Markdown-to-HTML conversion, half-finished fragments, pseudo-layout, flat articles without the visual system.
 
 ## Font System
@@ -124,7 +148,7 @@ CDN `<link>` goes in `<head>`; the full snippet lives in `references/style-guide
 
 Use `var(--font-num)` for numeric contexts (indices, position markers, pure-number cells). Weight discipline (no hard whitelist): body/labels 400–600; 300 only for large display (poster headlines, giant numerals); 600 only for display giant text (Urbanist / Noto Sans SC), never in body copy; ≤3 weights per screen — weights not declared in the CDN link do not render, so any weight change must be synced to the CDN link.
 
-Windows renders fonts too bold — the following must be in `body`:
+Cross-platform weight normalization — the following must be in `body`:
 
 ```css
 body {
@@ -158,7 +182,7 @@ Rules:
 
 ## Exam-Point Teaching
 
-For exam contexts, every exam point must be taught in depth, not listed. Activated when Step 1 detects an exam scenario.
+For exam contexts, every exam point must be taught in depth, not listed. Activated when Step 0 detects an exam scenario.
 
 ### Forbidden
 
@@ -339,7 +363,7 @@ At `≤768px`: headings scale down (3xl→2xl, 2xl→xl); giant figures scale do
 
 Alternate dense explanation, diagrams, visual separators, insight blocks, walkthroughs, and concise summaries — rhythmic variation combats reading fatigue. The **skyline rhythm** (breather / standard / dense annotations + giant verdict) is the systematized form of this principle.
 
-Canonical long-form navigation: **left-column sticky table of contents** (click-to-jump + scroll-spy highlighting the active section + red progress bar, specs in style-guide → Sidebar) + **edge ruler rail** (position/numbering, specs in style-guide → Edge Ruler). Short pages get no navigation — navigation does not exist to fill space.
+Canonical long-form navigation: **left-column sticky table of contents** (click-to-jump + scroll-spy highlighting the active section + red progress bar, specs in style-guide → Sidebar) + **edge ruler rail** (position/numbering, specs in style-guide → Edge Ruler). A page is long-form — and takes the sidebar — when the Step 4 plan has ≥4 top-level sections. Shorter pages get no sidebar, and the R4 short-verdict recipe may then also drop the ruler rail (see Output Contract) — navigation and numbering do not exist to fill space. On every other page the ruler rail is required.
 
 ## Quality Checklist
 
@@ -355,13 +379,13 @@ Verify every item before delivery (13 items):
 8. **Form**: Cognitive type matches form (mechanism components re-verified per-rationale in #13-7)? Tables only for two-dimensional lookups? No table-stuffing?
 9. **Language**: No typos or grammar errors? Terminology used accurately?
 10. **Navigation**: Long pages have a left-column TOC (full-width vertical on narrow screens)? Anchors correspond one-to-one with section IDs? Edge ruler ticks match section order and numbers?
-11. **Technical**: Single file starting with `<!DOCTYPE html>`? Only Google Fonts CDN? Font weights follow the discipline (400–600 for body/labels, 300/600 display-only, ≤3 weights per screen)? Semantic tags? 768px responsive? Inline styles for one-off only? Fixed-track grid invariants hold — every row in `.tr-grid` / `.bf-grid` / `.pf-grid` has exactly the track-count `<div>`s (default 10 / `.c3` 4 / `.c4` 5 / `.c5` 6; 数值源 style-guide → Trace 列数约束), and `.pc-bit` keeps `box-sizing: border-box`? Scroll-progress JS is progressive enhancement (page fully readable without JS)?
+11. **Technical**: Single file starting with `<!DOCTYPE html>`? Only Google Fonts CDN? Font weights follow the discipline (400–600 for body/labels, 300/600 display-only, ≤3 weights per screen)? Semantic tags? 768px responsive? Inline styles for one-off only? Fixed-track grid invariants hold — every row in `.tr-grid` / `.bf-grid` / `.pf-grid` has exactly the track-count `<div>`s (per the Numeric Gate Table, style-guide → 速查卡), and `.pc-bit` keeps `box-sizing: border-box`? Scroll-progress JS is progressive enhancement (page fully readable without JS)?
 12. **Delivery**: Page Header complete (kicker + title + metadata)? `<title>` in the page's language? kebab-case filename? Colophon present (layout / fonts / palette / figure count / 20° axis)?
 13. **Rule-driven review (seven checks, screen by screen)** — each with its criterion and remediation:
     - **13-1 Layers**: No non-L0 layers stack directly adjacent; ochre sits only on L0 and never within gap-md (32px) of any L2 component (bounding-box distance — "both on screen = violation" is forbidden); olive (L0 material grade) is not a layer-order violation — verify against visual-system layer rows L0/L1; consistent with Step 4 annotations. Red quantities → 13-5; white scope → 13-6; dark spacing → 13-4.
     - **13-2 Axis**: Every slanted element (wedge / section band / kicker / exploded frame / separators / triangle pointers) shares the page axis and direction; cuts never enter text areas; no slants inside mechanism figures; body text never slanted.
-    - **13-3 Mounting & plate discipline**: Mechanism-class components mounted per Step 5; tiering sensible (main figure full / secondary light / small items fluid); no decorative extras on plate frames; every plate cross-referenced from prose (see Fig. N) or its caption states the mechanism conclusion — unreferenced plates are deleted; the giant verdict must be referenced from the review section (anchor closure).
-    - **13-4 Dark discipline (single sampling pass)**: At 3–4 scroll positions, check both: L1+L2+L3 combined area ≤60% of the viewport (remediation: verdict back to L0 or unmount); dark fills (ink / blue / ochre / steel structural surfaces, >900px²) spaced per the dark-spacing table (numeric source, visual-system → prohibitions): same-layer ≥12px, cross-layer ≥gap-md (32px), plate padding ≥gap-md. The 13-1 L3–L2 adjacency check is verified in the same pass.
-    - **13-5 Red surfaces**: Verify against style-guide → red-surface thresholds (≥64×64 is a violating surface, ≤1% viewport total, red circle ≤128px sole exception). Remediation: ratio-bar red segments become outlines or ≤24px tall; table headers never red-filled (deep-red text + red left rule).
+    - **13-3 Mounting & plate discipline**: Mechanism-class components mounted per Step 5; tiering sensible (main figure full / secondary light / small items fluid); no decorative extras on plate frames; every plate cross-referenced from prose (见图 N / see Fig. N) or its caption states the mechanism conclusion — unreferenced plates are deleted; the giant verdict must be referenced from the review section (anchor closure).
+    - **13-4 Dark discipline (single sampling pass)**: At 3–4 scroll positions, check both: L1+L2+L3 combined area ≤60% of the viewport (remediation: verdict back to L0 or unmount); dark fills (ink / blue / ochre / steel structural surfaces, >900px²) spaced per the dark-spacing row of the Numeric Gate Table (style-guide → 速查卡). The 13-1 L3–L2 adjacency check is verified in the same pass.
+    - **13-5 Red surfaces**: Verify against the red-surface row of the Numeric Gate Table (style-guide → 速查卡). Remediation: ratio-bar red segments become outlines or ≤24px tall; table headers never red-filled (deep-red text + red left rule).
     - **13-6 White-card scope**: White fill in content areas (trace/swimlane/stepper/ascii/code-block/punch-card/inset/essence-hook/dialogue answers/warning/stair/circle-callout) is a violation; exemptions are exactly three: sidebar, page-level floating UI (incl. G8 collage float), punch holes. Content surfaces follow the four classes in style-guide → white-card scope: mechanism → L2 blueprint / code → ink material face / statement → L0 or olive / archive → L3 ochre band; steel structural-surface exceptions (G6 inner / G7 mechanism level) and the G7 level color ramp (level 3 steel / level 4 ink) per their specs.
     - **13-7 Form validity**: Every mechanism component must answer "what semantic operation does this form encode" — verify each Step 5 form rationale; a rationale that does not hold sends the form back for reselection (not deletion); a homogeneous grid (>16 units by color only, encoding no movement/direction/transfer/connection) is degenerate. Do not police the number of geometry types — diversity is not the goal; form-semantics correspondence is.

@@ -103,6 +103,7 @@ body {
 .blueprint { background: var(--blue); background-image: linear-gradient(rgba(241,236,226,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(241,236,226,.05) 1px, transparent 1px); background-size: 24px 24px; padding: var(--gap-md); }
 .punch-card { display: grid; gap: 2px; }
 .pc-row { display: grid; grid-template-columns: 5rem 1fr; align-items: stretch; }
+.pc-row + .pc-row { margin-top: 2px; }
 .pc-key { background: var(--paper); color: var(--deep-red); font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 600; letter-spacing: .1em; display: flex; align-items: center; justify-content: center; text-align: center; padding: var(--gap-xs); }
 .pc-body { background: var(--blue); background-image: linear-gradient(rgba(241,236,226,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(241,236,226,.05) 1px, transparent 1px); background-size: 24px 24px; padding: var(--gap-md); display: grid; grid-template-columns: auto 1fr; gap: var(--gap-xs) var(--gap-sm); align-items: center; }
 .pc-idx { grid-column: 1 / -1; display: flex; gap: 6px; }
@@ -139,6 +140,7 @@ body {
 .archival-tag { display: inline-block; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--paper); background: var(--ink); padding: 2px 8px; margin-bottom: var(--gap-xs); letter-spacing: .1em; }
 .inset-panel { background: var(--olive); border: 2px solid var(--ink); padding: var(--gap-sm) var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
 .inset-label { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--steel); display: block; margin-bottom: var(--gap-xs); }
+.inset-panel .table-scroll + p { margin-top: var(--gap-sm); }
 .warning-box { background: var(--olive); border: 2px solid var(--ink); border-left: 4px solid var(--red); padding: var(--gap-sm) var(--gap-md); max-width: var(--text-rail); margin: var(--gap-md) 0; }
 .warning-tag { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--red); font-weight: 600; display: block; margin-bottom: var(--gap-xs); }
 .warning-box strong { color: var(--deep-red); }
@@ -304,7 +306,7 @@ body {
                 <div class="pc-note">符号位 0 = 正</div>
               </div>
             </div>
-            <div class="pc-row" style="margin-top:2px">
+            <div class="pc-row">
               <div class="pc-key">−5<br>1000 0101</div>
               <div class="pc-body">
                 <div class="pc-idx"><i>7</i><i>6</i><i>5</i><i>4</i><i>3</i><i>2</i><i>1</i><i>0</i></div>
@@ -327,7 +329,7 @@ body {
                 <div class="pc-note">与正数一致</div>
               </div>
             </div>
-            <div class="pc-row" style="margin-top:2px">
+            <div class="pc-row">
               <div class="pc-key">−5<br>1111 1010</div>
               <div class="pc-body">
                 <div class="pc-idx"><i>7</i><i>6</i><i>5</i><i>4</i><i>3</i><i>2</i><i>1</i><i>0</i></div>
@@ -350,7 +352,7 @@ body {
                 <div class="pc-note">正数与原码相同</div>
               </div>
             </div>
-            <div class="pc-row" style="margin-top:2px">
+            <div class="pc-row">
               <div class="pc-key">−5<br>1111 1011</div>
               <div class="pc-body">
                 <div class="pc-idx"><i>7</i><i>6</i><i>5</i><i>4</i><i>3</i><i>2</i><i>1</i><i>0</i></div>
@@ -512,7 +514,7 @@ body {
             </tbody>
           </table>
         </div>
-        <p style="margin-top:var(--gap-sm);">速算技巧：从最低位找第一个 1，该位左侧全部取反——1110 0101 的末位是 1，左侧 1110 010 取反得 0001 101 = 27 ✓。两种方法可互验。</p>
+        <p>速算技巧：从最低位找第一个 1，该位左侧全部取反——1110 0101 的末位是 1，左侧 1110 010 取反得 0001 101 = 27 ✓。两种方法可互验。</p>
       </div>
       <div class="inset-panel">
         <span class="inset-label">WORKED EXAMPLE 2 · 判读：0x9C 的十进制值</span>
@@ -527,7 +529,7 @@ body {
             </tbody>
           </table>
         </div>
-        <p style="margin-top:var(--gap-sm);">验算：−100 的补码 = 2⁸ − 100 = 156 = 1001 1100 ✓——用 2ⁿ − X 直算与取反加一互验。</p>
+        <p>验算：−100 的补码 = 2⁸ − 100 = 156 = 1001 1100 ✓——用 2ⁿ − X 直算与取反加一互验。</p>
       </div>
       <div class="inset-panel">
         <span class="inset-label">WORKED EXAMPLE 3 · 溢出：125 + 10 在 8 位补码下</span>
@@ -542,7 +544,7 @@ body {
             </tbody>
           </table>
         </div>
-        <p style="margin-top:var(--gap-sm);">125 + 10 = 135 &gt; 127，必然溢出——钟面走过头了。考试陷阱：让你算 8 位补码 125+10 时，正确回答是「溢出」，不是 −121。</p>
+        <p>125 + 10 = 135 &gt; 127，必然溢出——钟面走过头了。考试陷阱：让你算 8 位补码 125+10 时，正确回答是「溢出」，不是 −121。</p>
       </div>
     </section>
 

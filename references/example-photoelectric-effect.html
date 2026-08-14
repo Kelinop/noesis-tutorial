@@ -144,6 +144,7 @@ body {
 .archival-panel { background: var(--ochre); color: var(--ink); border: 3px solid var(--ink); padding: var(--gap-sm) var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
 .archival-panel p { font-size: var(--text-sm); line-height: 1.6; margin-bottom: 0; }
 .archival-panel p + p { margin-top: var(--gap-xs); }
+.p-sm { font-size: var(--text-sm); margin: 0; }
 .archival-tag { display: inline-block; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--paper); background: var(--ink); padding: 2px 8px; margin-bottom: var(--gap-xs); letter-spacing: .1em; }
 .timetable { border-left: 2px solid var(--ink); padding-left: var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
 .timetable .tt-row { position: relative; padding: var(--gap-sm) 0; }
@@ -359,10 +360,10 @@ body {
       <h2><span class="sec-num">04</span>波动说在三个预言上全部落败</h2>
       <div class="staggered">
         <div style="border:2px solid var(--ink);padding:var(--gap-sm)">
-          <p style="font-size:var(--text-sm);margin:0"><strong>经典预言（波动说）</strong>：光强 = 能量密度，光越强电子动能越大；任何频率只要足够强都能打出电子；弱光需要时间积累能量（秒级延迟）。</p>
+          <p class="p-sm"><strong>经典预言（波动说）</strong>：光强 = 能量密度，光越强电子动能越大；任何频率只要足够强都能打出电子；弱光需要时间积累能量（秒级延迟）。</p>
         </div>
         <div style="background:var(--olive);border:2px solid var(--red);padding:var(--gap-sm)">
-          <p style="font-size:var(--text-sm);margin:0"><strong>实验事实</strong>：动能与光强无关、只随频率线性增长；低于红限永远打不出；出射无延迟（&lt;10⁻⁹ s）。三条预言全部反着来。</p>
+          <p class="p-sm"><strong>实验事实</strong>：动能与光强无关、只随频率线性增长；低于红限永远打不出；出射无延迟（&lt;10⁻⁹ s）。三条预言全部反着来。</p>
         </div>
       </div>
       <div class="dialogue">
@@ -455,7 +456,7 @@ body {
         <div>
           <div class="g1-cut" style="margin-bottom:var(--gap-md)">
             <h4>截止电压读数</h4>
-            <p style="font-size:var(--text-sm);margin:0">V₀ = 1.10 V</p>
+            <p class="p-sm">V₀ = 1.10 V</p>
             <p style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--steel);margin:0">E_k = e·V₀ = 1.10 eV</p>
           </div>
           <p style="font-size:var(--text-sm)">G1 切角容器：工业精度读数——V₀ 与 E<sub>k max</sub> 的一一对应。</p>
@@ -494,7 +495,7 @@ body {
         <figcaption class="plate-caption">图 6：波粒二象性是光电效应的系统影响——它打开了整个量子力学</figcaption>
       </figure>
       <div class="insight-panel">
-        <p style="font-size:var(--text-sm);margin:0"><strong>应试技巧</strong>：光电效应计算三件套——① E(eV) = 1240/λ(nm)（背住 hc ≈ 1240 eV·nm）；② E<sub>k</sub> = E − W₀；③ 红限判断 E ≥ W₀。单位统一（J ↔ eV）是失分重灾区：出 eV 结果先问自己「÷e 了吗」。</p>
+        <p class="p-sm"><strong>应试技巧</strong>：光电效应计算三件套——① E(eV) = 1240/λ(nm)（背住 hc ≈ 1240 eV·nm）；② E<sub>k</sub> = E − W₀；③ 红限判断 E ≥ W₀。单位统一（J ↔ eV）是失分重灾区：出 eV 结果先问自己「÷e 了吗」。</p>
       </div>
       <div class="strip">
         <div class="readout">
@@ -529,11 +530,11 @@ body {
       </div>
       <div class="inset-panel">
         <span class="inset-label">Q2 · 光强加倍，截止电压如何变？</span>
-        <p style="font-size:var(--text-sm);margin:0">光强加倍 → 光子数加倍 → <strong>光电流（饱和）加倍，截止电压不变</strong>（V₀ 只由频率与 W₀ 决定）。题设若同时提高频率，V₀ 按 ΔV₀ = (h/e)·Δν 增大。</p>
+        <p class="p-sm">光强加倍 → 光子数加倍 → <strong>光电流（饱和）加倍，截止电压不变</strong>（V₀ 只由频率与 W₀ 决定）。题设若同时提高频率，V₀ 按 ΔV₀ = (h/e)·Δν 增大。</p>
       </div>
       <div class="inset-panel">
         <span class="inset-label">Q3 · 由 V₀–ν 图求 h 与 W₀</span>
-        <p style="font-size:var(--text-sm);margin:0">斜率 = h/e → h = 斜率 × e；延长线与 ν 轴交点 = 红限 ν₀ → W₀ = h·ν₀。两条信息一条直线全给（<a class="fig-ref" href="#fig-5">见图 5</a>）。</p>
+        <p class="p-sm">斜率 = h/e → h = 斜率 × e；延长线与 ν 轴交点 = 红限 ν₀ → W₀ = h·ν₀。两条信息一条直线全给（<a class="fig-ref" href="#fig-5">见图 5</a>）。</p>
       </div>
       <div class="warning-box">
         <span class="warning-tag">易错 · 三种「加倍」各改什么</span>
