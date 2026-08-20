@@ -75,6 +75,7 @@ body {
 .article p { margin-bottom: var(--gap-sm); }
 .page-header { padding: var(--gap-lg) 0 var(--gap-md); }
 .kicker { display: inline-block; background: var(--ink); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; padding: 4px 18px 4px 10px; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%); }
+/* ══ 共享组件：页头 · 钩子 · 判词 · 图版系统 ══ */
 .page-header h1 { font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.02em; line-height: 1.05; margin: var(--gap-sm) 0 var(--gap-xs); }
 .hdr-bar { width: 4rem; height: 8px; background: var(--red); margin: var(--gap-sm) 0; }
 .subtitle { font-size: var(--text-lg); font-weight: 500; color: var(--steel); max-width: var(--text-rail); }
@@ -99,6 +100,7 @@ body {
 .plate-caption .cap-num { color: var(--deep-red); font-weight: 600; }
 .fig-ref { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--red); text-decoration: none; }
 .blueprint { background: var(--blue); background-image: linear-gradient(rgba(241,236,226,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(241,236,226,.05) 1px, transparent 1px); background-size: 24px 24px; padding: var(--gap-md); }
+/* ══ 本篇规范组件：trace · bf 格阵 · pf 前后缀表 · 分步器 ══ */
 .trace { background: var(--blue); background-image: linear-gradient(rgba(241,236,226,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(241,236,226,.05) 1px, transparent 1px); background-size: 24px 24px; padding: var(--gap-md); overflow-x: auto; }
 .legend { display: flex; gap: var(--gap-sm); align-items: center; margin-top: var(--gap-xs); color: var(--blue-note); font-size: var(--text-xs); font-family: var(--font-mono); }
 .legend-box { width: 14px; height: 14px; display: inline-block; }
@@ -128,7 +130,8 @@ body {
 .pf-grid span { background: rgba(241,236,226,.07); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); padding: 6px 8px; }
 .pf-grid .pf-h { color: var(--blue-note); background: transparent; }
 .pf-grid .pf-key { color: var(--red); font-weight: 600; }
-.code { background: var(--ink); padding: var(--gap-md); overflow-x: auto; font-family: var(--font-mono); font-size: var(--text-sm); color: var(--paper); line-height: 1.7; }
+/* ══ 共享组件：代码块 ══ */
+.code { background: var(--ink); padding: var(--gap-md); overflow-x: auto; font-family: var(--font-mono); font-size: var(--text-sm); color: var(--paper); line-height: 1.7; white-space: pre; text-align: left; }
 .code .kw-s { color: var(--red); font-weight: 600; }
 .code .st { color: var(--amber); }
 .code .num { color: var(--blue-note); }
@@ -145,12 +148,18 @@ body {
 .step-controls button { background: var(--ink); color: var(--paper); border: none; font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; padding: 6px 14px; cursor: pointer; }
 .step-controls button:hover { background: var(--red); }
 .step-ind { font-family: var(--font-num); font-size: var(--text-sm); color: var(--blue-note); }
+/* ══ 本篇规范组件：档案面板 · G6 嵌套面板 ══ */
 .archival-panel { background: var(--ochre); color: var(--ink); border: 3px solid var(--ink); padding: var(--gap-sm) var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
 .archival-panel p { font-size: var(--text-sm); line-height: 1.6; margin-bottom: 0; }
 .archival-panel p + p { margin-top: var(--gap-xs); }
 .archival-tag { display: inline-block; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--paper); background: var(--ink); padding: 2px 8px; margin-bottom: var(--gap-xs); letter-spacing: .1em; }
+/* ══ 共享组件：易错框 · 插页 ══ */
+.warning-box { background: var(--olive); border: 2px solid var(--ink); border-left: 4px solid var(--red); padding: var(--gap-sm) var(--gap-md); max-width: var(--text-rail); margin: var(--gap-md) 0; }
+.warning-tag { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--red); font-weight: 600; display: block; margin-bottom: var(--gap-xs); }
+.warning-box strong { color: var(--deep-red); }
 .inset-panel { background: var(--olive); border: 2px solid var(--ink); padding: var(--gap-sm) var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
 .inset-label { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--steel); display: block; margin-bottom: var(--gap-xs); }
+.inset-panel .table-scroll + p { margin-top: var(--gap-sm); }
 .g6-outer { background: var(--olive); border: 2px solid var(--ink); padding: var(--gap-sm) var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
 .g6-outer .g6-label { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .1em; margin-bottom: var(--gap-sm); display: block; }
 .g6-inner { border: 2px solid var(--ink); padding: var(--gap-sm); background: var(--steel); }
@@ -158,9 +167,7 @@ body {
 .g6-inner .data-table th { color: var(--paper); border-bottom-color: rgba(241,236,226,.35); }
 .g6-inner .data-table td { color: var(--paper); border-bottom-color: rgba(241,236,226,.2); }
 .g6-inner .data-table .key-cell { color: var(--paper); }
-.warning-box { background: var(--olive); border: 2px solid var(--ink); border-left: 4px solid var(--red); padding: var(--gap-sm) var(--gap-md); max-width: var(--text-rail); margin: var(--gap-md) 0; }
-.warning-tag { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--red); font-weight: 600; display: block; margin-bottom: var(--gap-xs); }
-.warning-box strong { color: var(--deep-red); }
+/* ══ 共享组件：因果链 · 标注 · 数据表 · 比例条 · 洞见面板 ══ */
 .cause-chain { display: flex; flex-direction: column; gap: var(--gap-xs); max-width: var(--text-rail); margin: var(--gap-md) 0; }
 .cause-node { background: var(--olive); border: 2px solid var(--ink); padding: var(--gap-sm) var(--gap-md); }
 .cause-node p { margin: 0; font-size: var(--text-sm); }
@@ -341,7 +348,7 @@ body {
             </table>
           </div>
         </div>
-        <p style="margin-top:var(--gap-sm);">Method 2 (recurrence) check: next[4] = 2 because T[3]=a equals T[1]=a → next[4] = next[3]+1 = 2; next[5] = 3 because T[4]=b equals T[2]=b → next[5] = next[4]+1 = 3. Both methods agree ✓.</p>
+        <p>Method 2 (recurrence) check: next[4] = 2 because T[3]=a equals T[1]=a → next[4] = next[3]+1 = 2; next[5] = 3 because T[4]=b equals T[2]=b → next[5] = next[4]+1 = 3. Both methods agree ✓.</p>
       </div>
 
       <div class="text-rail">
@@ -378,14 +385,12 @@ body {
       <figure class="plate full" id="fig-3">
         <span class="fig-num">Fig. 3</span>
         <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
-        <div class="code" role="img" aria-label="KMP main loop: when j is 0 or characters match both advance, otherwise j retreats to next j, i never retreats">
-<span class="cm">// 1-indexed: S[1..n], T[1..m], next[1..m] precomputed</span>
+        <div class="code" role="img" aria-label="KMP main loop: when j is 0 or characters match both advance, otherwise j retreats to next j, i never retreats"><span class="cm">// 1-indexed: S[1..n], T[1..m], next[1..m] precomputed</span>
 <span class="hl"><span class="kw-s">while</span> (i &lt;= n &amp;&amp; j &lt;= m) {
     <span class="kw-s">if</span> (j == <span class="num">0</span> || S[i] == T[j]) { i++; j++; }   <span class="cm">// match or sentinel: advance both</span>
     <span class="kw-s">else</span> j = next[j];                            <span class="cm">// fail: j retreats, i stays</span>
 }</span>
-<span class="cm">// j &gt; m means success at position i - m; otherwise return 0</span>
-        </div>
+<span class="cm">// j &gt; m means success at position i - m; otherwise return 0</span></div>
         <figcaption class="plate-caption"><span class="cap-num">Fig. 3</span>: one if-else unifies "advance" and "retreat" — i is monotonic, the source of O(n) (§06 amortized proof)</figcaption>
       </figure>
 
@@ -422,13 +427,9 @@ body {
         </div>
         <figcaption class="plate-caption"><span class="cap-num">Fig. 4</span>: 8 comparisons vs BF's 12 — the 4 saved are Fig. 1's hatched cells; i monotonic is the intuitive source of O(n)</figcaption>
       </figure>
-      <div class="warning-box">
-        <span class="warning-tag">TRAP · MATCH POSITION</span>
-        <p><strong>Success position = i − m</strong> (Yan Weimin): when the loop ends, i points just past the matched segment. Fig. 4's last step: i=7, m=4 → position 3. <code>i−j+1</code> also works (then j=m+1, both equal) — but mixing 0-indexed and 1-indexed conventions on the exam is the classic off-by-one disaster. Fix the convention before writing anything.</p>
-      </div>
-      <div class="warning-box">
-        <span class="warning-tag">ANSWER FORMAT · WALKTHROUGH QUESTIONS</span>
-        <p>Record <strong>every step's i, j, comparison result and action (advance / jump)</strong> — Fig. 4's steps follow exactly this format. State explicitly that after a jump you do <strong>not recompare</strong> the characters guaranteed by the prefix-suffix structure — that sentence is where points are won, and the most common omission.</p>
+      <div class="text-rail">
+        <p><span class="kw">TRAP · MATCH POSITION</span>: <strong>Success position = i − m</strong> (Yan Weimin) — when the loop ends, i points just past the matched segment; Fig. 4's last step: i=7, m=4 → position 3. <code>i−j+1</code> also works (then j=m+1, both equal); mixing 0-indexed and 1-indexed conventions on the exam is the classic off-by-one disaster — fix the convention before writing anything.</p>
+        <p><strong>ANSWER FORMAT · WALKTHROUGH QUESTIONS</strong>: Record <strong>every step's i, j, comparison result and action (advance / jump)</strong> — Fig. 4's steps follow exactly this format. State explicitly that after a jump you do <strong>not recompare</strong> the characters guaranteed by the prefix-suffix structure — that sentence is where points are won, and the most common omission.</p>
       </div>
     </section>
 
@@ -471,10 +472,12 @@ body {
               <rect x="450" y="46" width="42" height="40" fill="rgba(241,236,226,.07)"/><text x="471" y="72">a</text>
               <rect x="492" y="46" width="42" height="40" fill="rgba(241,236,226,.07)"/><text x="513" y="72">a</text>
             </g>
+            <rect x="4" y="46" width="20" height="40" fill="none" stroke="var(--paper)" stroke-width="1.5" stroke-dasharray="3 3"/>
+            <text x="14" y="72" text-anchor="middle" font-family="var(--font-mono)" font-size="12" fill="var(--paper)">0</text>
             <path d="M 219 42 q -42 -22 -80 -6" fill="none" stroke="var(--red)" stroke-width="3" stroke-dasharray="6 4"/>
             <text x="168" y="18" text-anchor="middle" font-family="var(--font-mono)" font-size="12" fill="var(--red)">next[5]=3 ✗ doomed</text>
-            <path d="M 219 42 q 30 -30 80 -10" fill="none" stroke="var(--paper)" stroke-width="3"/>
-            <text x="310" y="16" text-anchor="middle" font-family="var(--font-mono)" font-size="12" fill="var(--paper)">nextval[5] = nextval[3] = 0 ✓ straight to sentinel</text>
+            <path d="M 219 92 q -105 28 -205 0" fill="none" stroke="var(--paper)" stroke-width="3"/>
+            <text x="240" y="108" font-family="var(--font-mono)" font-size="12" fill="var(--paper)">nextval[5] = nextval[3] = 0 ✓ one step to sentinel (left, j=0)</text>
             <text x="30" y="130" font-family="var(--font-mono)" font-size="11" fill="var(--blue-note)">T[5]=a fails → next[5]=3: T[3]=a equals T[5] → jumping to 3 still fails against S[i]</text>
             <text x="30" y="152" font-family="var(--font-mono)" font-size="11" fill="var(--blue-note)">Inherit: nextval[5] = nextval[3] = 0 (sentinel) → i++, j=1, restart at T[1] — one doomed comparison removed</text>
             <line x1="30" y1="175" x2="534" y2="175" stroke="var(--blue-note)" stroke-width="1"/>
@@ -487,14 +490,12 @@ body {
       <figure class="plate full" id="fig-6">
         <span class="fig-num">Fig. 6</span>
         <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
-        <div class="code" role="img" aria-label="nextval recurrence code: if T j equals T of next j, inherit nextval of next j, otherwise keep next j">
-<span class="cm">// next[1..m] known; compute nextval[1..m] (1-indexed)</span>
+        <div class="code" role="img" aria-label="nextval recurrence code: if T j equals T of next j, inherit nextval of next j, otherwise keep next j"><span class="cm">// next[1..m] known; compute nextval[1..m] (1-indexed)</span>
 nextval[<span class="num">1</span>] = <span class="num">0</span>;
 <span class="hl"><span class="kw-s">for</span> (j = <span class="num">2</span>; j &lt;= m; j++) {
     <span class="kw-s">if</span> (T[j] == T[next[j]]) nextval[j] = nextval[next[j]];
     <span class="kw-s">else</span> nextval[j] = next[j];
-}</span>
-        </div>
+}</span></div>
         <figcaption class="plate-caption"><span class="cap-num">Fig. 6</span>: the nextval recurrence — Fig. 5's chain is this one if-statement drawn as geometry: equal → inherit along the chain, different → keep</figcaption>
       </figure>
 
@@ -593,7 +594,7 @@ nextval[<span class="num">1</span>] = <span class="num">0</span>;
             </tbody>
           </table>
         </div>
-        <p style="margin-top:var(--gap-sm);">Verification: next position by position against "longest common prefix-suffix + 1"; nextval against the inheritance rule — j=5 (a) equals T[next[5]]=T[3]=a → inherit nextval[3]=0; j=6 (a) differs from T[next[6]]=T[4]=b → keep 4. Every step verifiable on the spot — don't skip steps on the exam.</p>
+        <p>Verification: next position by position against "longest common prefix-suffix + 1"; nextval against the inheritance rule — j=5 (a) equals T[next[5]]=T[3]=a → inherit nextval[3]=0; j=6 (a) differs from T[next[6]]=T[4]=b → keep 4. Every step verifiable on the spot — don't skip steps on the exam.</p>
       </div>
       <div class="text-rail">
         <p>The question tests more than memory: <strong>j = 7 is the watershed</strong> — T[1..6]="ababaa"'s longest common prefix-suffix drops from 3 ("aba") to 1 ("a"), because the extra "a" at position 6 breaks the "abab" continuation. Understanding "why it drops here" beats memorizing 2 — change the pattern slightly and you can tell who memorized from who computes.</p>
@@ -604,11 +605,9 @@ nextval[<span class="num">1</span>] = <span class="num">0</span>;
         <div class="blueprint">
           <div class="table-scroll" style="margin:0">
             <table class="data-table">
-              <thead><tr><th>j</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th></tr></thead>
+              <thead><tr><th>j = 7 retreat chain</th><th>basis</th></tr></thead>
               <tbody>
-                <tr><td>T[j]</td><td>a</td><td>b</td><td>a</td><td>b</td><td>a</td><td>a</td><td>a</td><td>b</td><td>a</td><td>b</td><td>a</td><td>a</td></tr>
-                <tr><td>next[j]</td><td>0</td><td>1</td><td>1</td><td>2</td><td>3</td><td>4</td><td>2</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
-                <tr><td>j=7 trace</td><td colspan="3">where next[7]=2 comes from:</td><td colspan="9">T[1..6]="ababaa" longest common prefix-suffix = "a" (length 1) → +1 = 2</td></tr>
+                <tr><td class="key-cell">next[7] = 2</td><td>T[1..6] = "ababaa" longest common prefix-suffix = "a" (length 1) → +1 = 2 — the extra "a" at position 6 breaks the "abab" continuation</td></tr>
               </tbody>
             </table>
           </div>
@@ -616,6 +615,12 @@ nextval[<span class="num">1</span>] = <span class="num">0</span>;
         </div>
         <figcaption class="plate-caption"><span class="cap-num">Fig. 9</span>: the j=7 "drop" — each retreat along the next chain answers "which prefix can still continue"</figcaption>
       </figure>
+      <div class="text-rail">
+        <p><strong>Convention comparison (0-indexed textbooks)</strong>: some exam-prep books use the 0-indexed convention — next is defined as the longest common prefix-suffix length (no +1), next[0] = −1, success position = i − m + 1. The same pattern yields different values under the two conventions ("abab": Yan Weimin next = [0,1,1,2], 0-indexed next = [-1,0,0,1]) — <strong>check the question's subscript convention before writing anything</strong>; 408 papers follow Yan Weimin 1-indexed.</p>
+      </div>
+      <div class="text-rail">
+        <p><span class="kw">TRAP · INHERIT NEXTVAL, NOT NEXT</span>: for T = "ababaaababaa", nextval[6] = 4 (T[6]=a differs from T[next[6]]=T[4]=b → keep). Writing "inherit next[next[j]]" instead of "inherit nextval[next[j]]" turns nextval[6] into 2 — you inherit the optimized value; every link in the chain has already skipped doomed comparisons.</p>
+      </div>
       <div class="inset-panel">
         <span class="inset-label">VARIANT 2 · Reverse engineering: given next = [0, 1, 1, 2, 3, 4] (Yan Weimin, 6 chars), find T</span>
         <div class="table-scroll">
@@ -630,7 +635,7 @@ nextval[<span class="num">1</span>] = <span class="num">0</span>;
             </tbody>
           </table>
         </div>
-        <p style="margin-top:var(--gap-sm);"><strong>Standard trap: character 6 cannot be determined</strong> — next[6] depends only on T[1..5]; any character satisfies the table. The correct answer is "first five characters 'ababa', sixth arbitrary"; any option naming a specific character is wrong.</p>
+        <p><strong>Standard trap: character 6 cannot be determined</strong> — next[6] depends only on T[1..5]; any character satisfies the table. The correct answer is "first five characters 'ababa', sixth arbitrary"; any option naming a specific character is wrong.</p>
       </div>
       <div class="inset-panel">
         <span class="inset-label">VARIANT 3 · Option analysis: T = "aaaaaa" — which next / nextval statements hold?</span>
@@ -645,39 +650,10 @@ nextval[<span class="num">1</span>] = <span class="num">0</span>;
             </tbody>
           </table>
         </div>
-        <p style="margin-top:var(--gap-sm);">Key insight: an all-same segment is nextval's zeroing extreme — on seeing "climbing next + all-zero nextval", suspect options that swap "inherit nextval" for "keep next".</p>
+        <p>Key insight: an all-same segment is nextval's zeroing extreme — on seeing "climbing next + all-zero nextval", suspect options that swap "inherit nextval" for "keep next".</p>
       </div>
-      <div class="inset-panel">
-        <span class="inset-label">VARIANT 4 · Application: count occurrences of T = "abab" in S = "ababab" (overlapping allowed)</span>
-        <div class="table-scroll">
-          <table class="data-table">
-            <thead><tr><th>step</th><th>state</th><th>action</th></tr></thead>
-            <tbody>
-              <tr><td>1</td><td>i=1..4, j=1..4: S[1..4]="abab" fully matches</td><td class="key-cell">count=1, j = next[4] = 2 (reuse the "ab" overlap)</td></tr>
-              <tr><td>2</td><td>i=4, j=2: S[4]=b == T[2]=b; i=5, j=3: S[5]=a == T[3]=a</td><td>continue</td></tr>
-              <tr><td>3</td><td>i=6, j=4: S[6]=b == T[4]=b → matches again</td><td class="key-cell">count=2, j = next[4] = 2</td></tr>
-              <tr><td>4</td><td>i=6, j=2: S[6]=b == T[2]=b → i=7 past end</td><td>done, count = 2</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p style="margin-top:var(--gap-sm);"><strong>Key action: after a success, j does not reset to 1 — it becomes next[m]</strong>; the pattern remembers the overlap, so one scan counts all (including overlapping) occurrences. BF's equivalent is advancing the round start by one — same answer, O(n×m).</p>
-      </div>
-      <div class="warning-box">
-        <span class="warning-tag">VARIANT TRAP · NEXTVAL INHERITS NEXTVAL</span>
-        <p>T = "ababaaababaa": nextval[6] = 4 because T[6]=a, T[next[6]]=T[4]=b differ → keep next[6]=4. <strong>Writing "inherit next[next[j]]" instead of "inherit nextval[next[j]]" turns nextval[6] into 2</strong> — you inherit the optimized value; every link in the chain has already skipped doomed comparisons.</p>
-      </div>
-      <div class="inset-panel">
-        <span class="inset-label">CONVENTION COMPARISON · 0-INDEXED TEXTBOOKS</span>
-        <div class="table-scroll">
-          <table class="data-table">
-            <thead><tr><th>convention</th><th>next definition</th><th>next[1]/next[0]</th><th>failure jump</th><th>success position</th></tr></thead>
-            <tbody>
-              <tr><td>Yan Weimin 1-indexed</td><td>longest common prefix-suffix + 1</td><td>next[1] = 0</td><td>j = next[j]</td><td>i − m</td></tr>
-              <tr><td>some textbooks 0-indexed</td><td>longest common prefix-suffix (no +1)</td><td>next[0] = −1</td><td>j = next[j] (−1: i++, j=0)</td><td>i − m + 1</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p style="margin-top:var(--gap-sm);">The same pattern yields different next values under the two conventions ("abab" → [0,1,1,2] vs [-1,0,0,1]). <strong>Check the subscript convention in the question before writing anything</strong> — this page follows Yan Weimin 1-indexed.</p>
+      <div class="text-rail">
+        <p><strong>VARIANT 4 · OVERLAPPING COUNT</strong>: count occurrences of T = "abab" in S = "ababab" (overlapping allowed) — after S[1..4] fully matches, <span class="kw">j does not reset to 1; it becomes j = next[4] = 2</span> (reuse the "ab" overlap), and the continued match hits again at S[3..6] — 2 in total. Key action: after a success the pattern itself remembers the overlap, so one scan counts all (including overlapping) occurrences; BF's equivalent is advancing the round start by one — same answer, O(n×m) cost.</p>
       </div>
     </section>
 
@@ -726,26 +702,18 @@ nextval[<span class="num">1</span>] = <span class="num">0</span>;
       <figure class="plate full" id="fig-10">
         <span class="fig-num">Fig. 10</span>
         <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
-        <div class="code" role="img" aria-label="getNext self-matching construction: the pattern matches itself; on match next i plus 1 equals j plus 1, on failure retreat next j">
-<span class="cm">// compute next[1..m] (Yan Weimin 1-indexed) — the pattern matches itself</span>
+        <div class="code" role="img" aria-label="getNext self-matching construction: the pattern matches itself; on match next i plus 1 equals j plus 1, on failure retreat next j"><span class="cm">// compute next[1..m] (Yan Weimin 1-indexed) — the pattern matches itself</span>
 next[<span class="num">1</span>] = <span class="num">0</span>;
 <span class="kw-s">int</span> i = <span class="num">1</span>, j = <span class="num">0</span>;
 <span class="hl"><span class="kw-s">while</span> (i &lt; m) {
     <span class="kw-s">if</span> (j == <span class="num">0</span> || T[i] == T[j]) { ++i; ++j; next[i] = j; }
     <span class="kw-s">else</span> j = next[j];                     <span class="cm">// same skeleton as Fig. 3</span>
 }</span>
-<span class="cm">// compare Fig. 3: the match branch writes i++; j++; there, ++i; ++j; next[i]=j; here</span>
-        </div>
+<span class="cm">// compare Fig. 3: the match branch writes i++; j++; there, ++i; ++j; next[i]=j; here</span></div>
         <figcaption class="plate-caption"><span class="cap-num">Fig. 10</span>: getNext construction = self-matching — why next computes in O(m), and the shared skeleton of all three functions</figcaption>
       </figure>
-      <div class="inset-panel">
-        <span class="inset-label">CODE MEMORY · FOUR POINTS</span>
-        <ul style="margin:0 0 0 var(--gap-md)">
-          <li style="font-size:var(--text-sm)"><strong>1-indexed</strong>: strings start at index 1, next[1] = 0, arrays sized m+1.</li>
-          <li style="font-size:var(--text-sm)"><strong>j == 0 unifies</strong>: construction and matching share the <code>j == 0 || equal</code> branch — "text advances, pattern restarts" needs no separate path.</li>
-          <li style="font-size:var(--text-sm)"><strong>Construction ≡ matching</strong>: both are while + if-else; the match branch writes <code>next[i] = j</code> here, advance-then-check-<code>j &gt; m</code> there.</li>
-          <li style="font-size:var(--text-sm)"><strong>nextval's extra check</strong>: inside the construction match branch, test <code>T[i] != T[j]</code> — equal inherits <code>nextval[j]</code>, different assigns <code>j</code> (Fig. 6).</li>
-        </ul>
+      <div class="text-rail">
+        <p><strong>Code memory points (four)</strong>: ① <strong>1-indexed</strong> — strings start at index 1, next[1] = 0, arrays sized m+1; ② <strong>j == 0 unifies</strong> — construction and matching share the <code>j == 0 || equal</code> branch; "text advances, pattern restarts" needs no separate code path; ③ <strong>construction ≡ matching</strong> — both are while + if-else; the only difference is the if branch: construction writes <code>next[i] = j</code>, matching advances then checks <code>j &gt; m</code>; ④ <strong>nextval's extra check</strong> — inside the construction branch, test <code>T[i] != T[j]</code>: equal inherits <code>nextval[j]</code>, different assigns <code>j</code> (Fig. 6).</p>
       </div>
       <div class="insight-panel">
         <p style="font-size:var(--text-sm);margin:0"><strong>One sentence</strong>: next[j] tells the pattern where to jump on failure; nextval[j] tells it "if the jump lands on the same character, keep jumping". <span class="kw">The main-string pointer never needs to retreat — that is the whole essence of KMP.</span></p>
@@ -760,11 +728,11 @@ next[<span class="num">1</span>] = <span class="num">0</span>;
       <ul class="checklist">
         <li><span class="ck">01</span>BF waste: failure retreat discards structure, worst O(n×m) — four-state grid walkthrough (<a href="#fig-1">Fig. 1</a>).</li>
         <li><span class="ck">02</span>next definition & two methods: definition (longest common prefix-suffix + 1) and recurrence cross-check; next[1]=0, next[2]=1 (§03 + <a href="#fig-2">Fig. 2</a>).</li>
-        <li><span class="ck">03</span>Traps: length + 1 not length, position = i−m, convention first (warning boxes).</li>
+        <li><span class="ck">03</span>Traps: length + 1 not length (§03 warning box), position = i−m, convention first (§04 keyword).</li>
         <li><span class="ck">04</span>Matching loop: sentinel j==0; failure j=next[j], i stays (<a href="#fig-3">Fig. 3</a>, <a href="#fig-4">Fig. 4</a> interactive).</li>
         <li><span class="ck">05</span>nextval: T[j]==T[next[j]] inherits nextval[next[j]], else keeps; all-same extreme (<a href="#fig-5">Fig. 5</a>, <a href="#fig-6">Fig. 6</a>, <a href="#fig-7">Fig. 7</a>).</li>
         <li><span class="ck">06</span>Complexity: monotonic i amortized → O(n+m), space O(m); "who retreats" decides the class (<a href="#fig-8">Fig. 8</a>).</li>
-        <li><span class="ck">07</span>Worked examples: full table for "ababaaababaa", j=7 drop, 0-indexed comparison (<a href="#fig-9">Fig. 9</a>) + variants 2–4 (reverse engineering / option analysis / overlapping count).</li>
+        <li><span class="ck">07</span>Worked examples: full table for "ababaaababaa" + j=7 drop + 0-indexed convention comparison + variant triple — reverse engineering / option analysis / overlapping count (§07).</li>
         <li><span class="ck">08</span>Related: AC fail pointers, string hashing, minimal period; mnemonic "next adds one, nextval inherits" and triple verification (§08).</li>
         <li><span class="ck">09</span>Code essentials: getNext self-matching (<a href="#fig-10">Fig. 10</a>), shared skeleton, four memory points, one sentence (§09).</li>
         <li><span class="ck">10</span>Core verdict: <a href="#verdict-1">"the main-string pointer never retreats"</a> — the whole secret of linearity.</li>

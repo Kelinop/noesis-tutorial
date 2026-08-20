@@ -75,6 +75,7 @@ body {
 .article p { margin-bottom: var(--gap-sm); }
 .page-header { padding: var(--gap-lg) 0 var(--gap-md); }
 .kicker { display: inline-block; background: var(--ink); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; padding: 4px 18px 4px 10px; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%); }
+/* ══ 共享组件：页头 · 钩子 · 判词 · 图版系统 · 蓝图 ══ */
 .page-header h1 { font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.02em; line-height: 1.05; margin: var(--gap-sm) 0 var(--gap-xs); }
 .hdr-bar { width: 4rem; height: 8px; background: var(--red); margin: var(--gap-sm) 0; }
 .subtitle { font-size: var(--text-lg); font-weight: 500; color: var(--steel); max-width: var(--text-rail); }
@@ -99,6 +100,11 @@ body {
 .plate-caption .cap-num { color: var(--deep-red); font-weight: 600; }
 .fig-ref { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--red); text-decoration: none; }
 .blueprint { background: var(--blue); background-image: linear-gradient(rgba(241,236,226,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(241,236,226,.05) 1px, transparent 1px); background-size: 24px 24px; padding: var(--gap-md); }
+.mmap-row { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: var(--gap-xs) var(--gap-sm); align-items: center; padding: 2px 0; }
+.mm-addr { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--blue-note); text-align: right; }
+.mm-seg { background: rgba(241,236,226,.07); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); padding: var(--gap-xs) var(--gap-sm); letter-spacing: .05em; min-height: 28px; display: flex; align-items: center; }
+.mm-legend { display: flex; align-items: center; gap: var(--gap-xs); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--blue-note); margin-top: var(--gap-sm); }
+/* ══ 本篇规范组件：泳道 · 状态图 · ASCII 段头 · 标记三角 · 轨道出血 · trace ══ */
 .swim { display: grid; grid-template-columns: 6rem 1fr 1fr 1fr; gap: 3px; min-width: 540px; }
 .sw-h { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); text-align: center; padding: 4px 0; }
 .sw-role { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; display: flex; align-items: center; }
@@ -131,12 +137,14 @@ body {
 .tr-c.red { background: var(--red); color: var(--paper); }
 .trace-header { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); margin-bottom: var(--gap-xs); }
 .trace-action { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); margin-top: var(--gap-sm); }
-.code { background: var(--ink); padding: var(--gap-md); overflow-x: auto; font-family: var(--font-mono); font-size: var(--text-sm); color: var(--paper); line-height: 1.7; }
+/* ══ 共享组件：代码块 ══ */
+.code { background: var(--ink); padding: var(--gap-md); overflow-x: auto; font-family: var(--font-mono); font-size: var(--text-sm); color: var(--paper); line-height: 1.7; white-space: pre; text-align: left; }
 .code .kw-s { color: var(--red); font-weight: 600; }
 .code .st { color: var(--amber); }
 .code .num { color: var(--blue-note); }
 .code .cm { color: var(--steel); }
 .code .hl { border-left: 2px solid var(--red); padding-left: var(--gap-xs); display: block; }
+/* ══ 本篇规范组件：对话 ══ */
 .dialogue { background: var(--olive); border-top: 3px solid var(--ink); max-width: var(--text-rail); margin: var(--gap-md) 0; }
 .d-voice { padding: var(--gap-sm) var(--gap-md); border-bottom: 1px solid rgba(28,28,28,.2); }
 .d-voice:last-child { border-bottom: none; }
@@ -144,23 +152,16 @@ body {
 .d-voice.b { margin-left: var(--gap-md); }
 .d-voice.b::before { content: ""; display: inline-block; width: 14px; height: 14px; background: var(--red); clip-path: polygon(0 0, 100% 0, calc(100% - 5px) 100%); margin-right: var(--gap-xs); vertical-align: -2px; }
 .d-voice.b .d-name { background: var(--red); }
-.archival-panel { background: var(--ochre); color: var(--ink); border: 3px solid var(--ink); padding: var(--gap-sm) var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
-.archival-panel p { font-size: var(--text-sm); line-height: 1.6; margin-bottom: 0; }
-.archival-panel p + p { margin-top: var(--gap-xs); }
-.archival-tag { display: inline-block; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--paper); background: var(--ink); padding: 2px 8px; margin-bottom: var(--gap-xs); letter-spacing: .1em; }
+/* ══ 共享组件：易错框 · 插页 · 标注 · 对比表 · 清单 ══ */
 .warning-box { background: var(--olive); border: 2px solid var(--ink); border-left: 4px solid var(--red); padding: var(--gap-sm) var(--gap-md); max-width: var(--text-rail); margin: var(--gap-md) 0; }
 .warning-tag { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--red); font-weight: 600; display: block; margin-bottom: var(--gap-xs); }
 .warning-box strong { color: var(--deep-red); }
 .inset-panel { background: var(--olive); border: 2px solid var(--ink); padding: var(--gap-sm) var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
 .inset-label { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--steel); display: block; margin-bottom: var(--gap-xs); }
+.p-sm { font-size: var(--text-sm); margin: 0; }
 .bp-callout { position: relative; border: 2px solid var(--ink); background: var(--olive); padding: var(--gap-sm) var(--gap-md); max-width: var(--text-rail); margin: var(--gap-lg) 0 var(--gap-md); }
 .bp-callout::before { content: ""; position: absolute; left: 2rem; top: calc(-1 * var(--gap-md)); width: 2px; height: var(--gap-md); background: var(--steel); }
 .bp-callout .bp-tag { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--steel); display: block; margin-bottom: var(--gap-xs); }
-.data-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
-.data-table th { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--deep-red); text-align: left; padding: var(--gap-xs); border-bottom: 2px solid var(--ink); }
-.data-table td { padding: var(--gap-xs); border-bottom: 1px solid var(--ink); }
-.data-table .key-cell { color: var(--deep-red); font-weight: 600; font-family: var(--font-num); }
-.table-scroll { overflow-x: auto; margin: var(--gap-md) 0; }
 .cmp-wrap { overflow-x: auto; margin: var(--gap-md) 0; }
 .cmp { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
 .cmp th { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .05em; color: var(--deep-red); text-align: left; padding: var(--gap-xs); border-bottom: 2px solid var(--ink); }
@@ -336,7 +337,7 @@ body {
           <span class="d-name">追问：</span>「那四次握手不是更安全？」
         </div>
         <div class="d-voice b">
-          <span class="d-name">工程现实：</span>四次对双向确认是冗余的——第三次 ACK 之后，双方的确认链已经闭合：客户端确认服务器（SYN-ACK）、服务器确认客户端（ACK）。四次只是重复第三次的语义。<span class="kw">一次太少，两次不够，三次是下界，四次多余。</span>
+          <span class="d-name">工程现实：</span>四次对双向确认是冗余的——第三次 ACK 之后，双方的确认链已经闭合：客户端确认服务器（SYN-ACK）、服务器确认客户端（ACK）。四次只是重复第三次的语义。<span class="kw">一次太少，两次不够，三次是下界，四次多余。</span><br>附带一个易错点：第三次 ACK <strong>可以携带数据</strong>（TCP 允许捎带）；状态迁移到 ESTABLISHED 以<strong>收到</strong>第三条为准。
         </div>
       </div>
       <figure class="plate full" id="fig-4">
@@ -353,10 +354,6 @@ body {
         </div>
         <figcaption class="plate-caption"><span class="cap-num">图 4</span>：延迟重放是两次握手的致命伤——第三次 ACK 让服务器在分配资源前先得到确认</figcaption>
       </figure>
-      <div class="warning-box">
-        <span class="warning-tag">易错 · 第三次 ACK 不能携带数据？</span>
-        <p><strong>第三次 ACK 可以携带数据</strong>（TCP 允许捎带）——「三次握手要等确认再发数据」是错的；真正的语义是「第三次 ACK 发出后，客户端侧确认链闭合」。面试写「第三次 ACK 后双方才 ESTABLISHED」时，注意状态迁移是<strong>收到</strong>第三条才算数。</p>
-      </div>
     </section>
 
     <!-- ═══ 05 可靠传输 ═══ -->
@@ -390,13 +387,11 @@ body {
       <figure class="plate full" id="fig-6">
         <span class="fig-num">图 6</span>
         <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
-        <div class="code" role="img" aria-label="滑动窗口伪代码：窗口内流水线发送，窗口外等待">
-<span class="cm">// 发送方：窗口 [base, base + win) 内可流水线发送</span>
+        <div class="code" role="img" aria-label="滑动窗口伪代码：窗口内流水线发送，窗口外等待"><span class="cm">// 发送方：窗口 [base, base + win) 内可流水线发送</span>
 <span class="kw-s">while</span> (nextseq &lt; base + win)
     send(seq = nextseq++);              <span class="cm">// 窗口内：不等确认直接发</span>
 <span class="cm">// 收到累积确认：base = ack（窗口前滑）</span>
-<span class="kw-s">if</span> (ack &gt; base) base = ack;           <span class="cm">// 一个 ack 前滑整个窗口</span>
-        </div>
+<span class="kw-s">if</span> (ack &gt; base) base = ack;           <span class="cm">// 一个 ack 前滑整个窗口</span></div>
         <figcaption class="plate-caption"><span class="cap-num">图 6</span>：窗口把「逐段等待」变成「流水线」——确认是累积的，所以一个 ACK 能前滑整个窗口</figcaption>
       </figure>
     </section>
@@ -442,8 +437,8 @@ body {
         <span class="fig-num">图 8</span>
         <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
         <div class="blueprint">
-          <div class="mmap-row" style="grid-template-columns:6rem minmax(0,1fr)"><span class="mm-addr" style="text-align:right">TCP</span><div class="mm-seg" style="color:var(--blue-note)">可靠 · 有序 · 流式 · 面向连接 —— 状态多、首包慢、队头阻塞</div></div>
-          <div class="mmap-row" style="grid-template-columns:6rem minmax(0,1fr)"><span class="mm-addr" style="text-align:right">UDP</span><div class="mm-seg">尽力而为 · 无连接 · 报文 —— 零状态、首包即发、乱序自付</div></div>
+          <div class="mmap-row"><span class="mm-addr">TCP</span><div class="mm-seg" style="color:var(--blue-note)">可靠 · 有序 · 流式 · 面向连接 —— 状态多、首包慢、队头阻塞</div></div>
+          <div class="mmap-row"><span class="mm-addr">UDP</span><div class="mm-seg">尽力而为 · 无连接 · 报文 —— 零状态、首包即发、乱序自付</div></div>
           <div class="mm-legend">选择不是「哪个更好」，是「这个应用愿付哪笔账」</div>
         </div>
         <figcaption class="plate-caption"><span class="cap-num">图 8</span>：TCP vs UDP——可靠是买来的，账单是延迟、状态与阻塞</figcaption>
@@ -468,19 +463,19 @@ body {
       <h2><span class="sec-num">08</span>常考问答：从握手到挥手的一问一答</h2>
       <div class="inset-panel">
         <span class="inset-label">Q1 · 为什么是三次而不是两次？</span>
-        <p style="font-size:var(--text-sm);margin:0">双向确认的下界：第三次 ACK 让服务器确认「客户端收到了我的 SYN-ACK」。两次握手在延迟 SYN 重放时会为死连接分配资源（<a class="fig-ref" href="#fig-4">见图 4</a>）。答「防半连接」不够精确——准确说法是「服务器侧确认链无法闭合」。</p>
+        <p class="p-sm">双向确认的下界：第三次 ACK 让服务器确认「客户端收到了我的 SYN-ACK」。两次握手在延迟 SYN 重放时会为死连接分配资源（<a class="fig-ref" href="#fig-4">见图 4</a>）。答「防半连接」不够精确——准确说法是「服务器侧确认链无法闭合」。</p>
       </div>
       <div class="inset-panel">
         <span class="inset-label">Q2 · seq 初始值为什么随机？</span>
-        <p style="font-size:var(--text-sm);margin:0">防<strong>延迟重放与序号猜测</strong>：固定的初始序号让攻击者能伪造在途报文；随机 ISN + 时间戳让旧连接的延迟报文无法冒充新连接的数据（RFC 793 要求初始序号随时间变化）。</p>
+        <p class="p-sm">防<strong>延迟重放与序号猜测</strong>：固定的初始序号让攻击者能伪造在途报文；随机 ISN + 时间戳让旧连接的延迟报文无法冒充新连接的数据（RFC 793 要求初始序号随时间变化）。</p>
       </div>
       <div class="inset-panel">
         <span class="inset-label">Q3 · 快速重传与超时重传的区别？</span>
-        <p style="font-size:var(--text-sm);margin:0">超时重传依赖 RTO 定时器（慢，且 RTO 估算困难）；快速重传收到 <strong>3 个重复 ACK</strong> 立即重发，不等待超时（<a class="fig-ref" href="#fig-5">见图 5</a>）。代价：重复 ACK 需要接收方「缓存乱序段」配合——这是接收窗口存在的另一层理由。</p>
+        <p class="p-sm">超时重传依赖 RTO 定时器（慢，且 RTO 估算困难）；快速重传收到 <strong>3 个重复 ACK</strong> 立即重发，不等待超时（<a class="fig-ref" href="#fig-5">见图 5</a>）。代价：重复 ACK 需要接收方「缓存乱序段」配合——这是接收窗口存在的另一层理由。</p>
       </div>
       <div class="inset-panel">
         <span class="inset-label">Q4 · TIME_WAIT 为什么是 2MSL？</span>
-        <p style="font-size:var(--text-sm);margin:0">MSL = 报文最大生存时间。主动关闭方等 2MSL：<strong>保证最后一个 ACK 如果丢失，对方重发的 FIN 还能到达</strong>（一来一回 2MSL）；同时让在途报文死透，避免与复用同一四元组的新连接串扰（<a class="fig-ref" href="#fig-7">见图 7</a>）。</p>
+        <p class="p-sm">MSL = 报文最大生存时间。主动关闭方等 2MSL：<strong>保证最后一个 ACK 如果丢失，对方重发的 FIN 还能到达</strong>（一来一回 2MSL）；同时让在途报文死透，避免与复用同一四元组的新连接串扰（<a class="fig-ref" href="#fig-7">见图 7</a>）。</p>
       </div>
       <div class="cmp-wrap">
         <table class="cmp">

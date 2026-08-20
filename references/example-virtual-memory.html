@@ -75,6 +75,7 @@ body {
 .article p { margin-bottom: var(--gap-sm); }
 .page-header { padding: var(--gap-lg) 0 var(--gap-md); }
 .kicker { display: inline-block; background: var(--ink); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; padding: 4px 18px 4px 10px; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%); }
+/* ══ 共享组件：页头 · 钩子 · 判词 · 图版系统 ══ */
 .page-header h1 { font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.02em; line-height: 1.05; margin: var(--gap-sm) 0 var(--gap-xs); }
 .hdr-bar { width: 4rem; height: 8px; background: var(--red); margin: var(--gap-sm) 0; }
 .subtitle { font-size: var(--text-lg); font-weight: 500; color: var(--steel); max-width: var(--text-rail); }
@@ -99,6 +100,7 @@ body {
 .plate-caption .cap-num { color: var(--deep-red); font-weight: 600; }
 .fig-ref { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--red); text-decoration: none; }
 .blueprint { background: var(--blue); background-image: linear-gradient(rgba(241,236,226,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(241,236,226,.05) 1px, transparent 1px); background-size: 24px 24px; padding: var(--gap-md); }
+/* ══ 本篇规范组件：内存地图 · 嵌套树 · 爆炸框 · 剖面线 ══ */
 .mmap-row { display: grid; grid-template-columns: 5rem minmax(0, 1fr); gap: var(--gap-xs) var(--gap-sm); align-items: center; padding: 2px 0; }
 .mm-addr { font-family: var(--font-num); font-weight: 600; color: var(--blue-note); font-size: var(--text-xs); text-align: right; }
 .mm-seg { background: rgba(241,236,226,.07); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); padding: var(--gap-xs) var(--gap-sm); letter-spacing: .05em; min-height: 28px; display: flex; align-items: center; }
@@ -133,6 +135,7 @@ body {
 .tr-c.red { background: var(--red); color: var(--paper); }
 .trace-header { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); margin-bottom: var(--gap-xs); }
 .trace-action { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); margin-top: var(--gap-sm); }
+/* ══ 本篇规范组件：分步器 · 仪表 ══ */
 .stepper { max-width: var(--text-rail); margin: var(--gap-md) 0; background: var(--blue); background-image: linear-gradient(rgba(241,236,226,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(241,236,226,.05) 1px, transparent 1px); background-size: 24px 24px; padding: var(--gap-md); }
 .step { display: grid; grid-template-columns: 2.5rem 1fr; gap: var(--gap-sm); padding: var(--gap-sm) 0; border-bottom: 1px solid rgba(241,236,226,.25); }
 .step-n { font-family: var(--font-num); font-weight: 600; color: var(--blue-note); }
@@ -144,7 +147,8 @@ body {
 .step-controls button { background: var(--ink); color: var(--paper); border: none; font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; padding: 6px 14px; cursor: pointer; }
 .step-controls button:hover { background: var(--red); }
 .step-ind { font-family: var(--font-num); font-size: var(--text-sm); color: var(--blue-note); }
-.code { background: var(--ink); padding: var(--gap-md); overflow-x: auto; font-family: var(--font-mono); font-size: var(--text-sm); color: var(--paper); line-height: 1.7; }
+/* ══ 共享组件：代码块 ══ */
+.code { background: var(--ink); padding: var(--gap-md); overflow-x: auto; font-family: var(--font-mono); font-size: var(--text-sm); color: var(--paper); line-height: 1.7; white-space: pre; text-align: left; }
 .code .kw-s { color: var(--red); font-weight: 600; }
 .code .st { color: var(--amber); }
 .code .num { color: var(--blue-note); }
@@ -154,24 +158,16 @@ body {
 .gauge-wrap .gv { text-align: center; }
 .gauge-wrap .ro-num { font-family: var(--font-num); font-weight: 600; font-size: 2rem; line-height: 1; display: block; }
 .gauge-wrap .ro-lab { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .1em; }
-.archival-panel { background: var(--ochre); color: var(--ink); border: 3px solid var(--ink); padding: var(--gap-sm) var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
-.archival-panel p { font-size: var(--text-sm); line-height: 1.6; margin-bottom: 0; }
-.archival-panel p + p { margin-top: var(--gap-xs); }
-.archival-tag { display: inline-block; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--paper); background: var(--ink); padding: 2px 8px; margin-bottom: var(--gap-xs); letter-spacing: .1em; }
+/* ══ 共享组件：易错框 · 插页 · 标注 · 因果链 · 数据表 ══ */
 .warning-box { background: var(--olive); border: 2px solid var(--ink); border-left: 4px solid var(--red); padding: var(--gap-sm) var(--gap-md); max-width: var(--text-rail); margin: var(--gap-md) 0; }
 .warning-tag { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--red); font-weight: 600; display: block; margin-bottom: var(--gap-xs); }
 .warning-box strong { color: var(--deep-red); }
 .inset-panel { background: var(--olive); border: 2px solid var(--ink); padding: var(--gap-sm) var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
 .inset-label { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--steel); display: block; margin-bottom: var(--gap-xs); }
+.inset-panel .table-scroll + p { margin-top: var(--gap-sm); }
 .bp-callout { position: relative; border: 2px solid var(--ink); background: var(--olive); padding: var(--gap-sm) var(--gap-md); max-width: var(--text-rail); margin: var(--gap-lg) 0 var(--gap-md); }
 .bp-callout::before { content: ""; position: absolute; left: 2rem; top: calc(-1 * var(--gap-md)); width: 2px; height: var(--gap-md); background: var(--steel); }
 .bp-callout .bp-tag { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--steel); display: block; margin-bottom: var(--gap-xs); }
-.ratio-bar { display: flex; height: 24px; margin: var(--gap-md) 0; max-width: 28rem; }
-.ratio-bar .rb-seg { display: flex; align-items: center; justify-content: center; font-family: var(--font-num); font-weight: 600; font-size: var(--text-xs); color: var(--paper); }
-.ratio-bar .rb-ink { background: var(--ink); }
-.ratio-bar .rb-blue { background: var(--blue); }
-.ratio-bar .rb-ochre { background: var(--ochre); }
-.ratio-bar .rb-alt { border: 2px solid var(--red); color: var(--red); background: var(--paper); }
 .strip { display: flex; align-items: flex-end; gap: var(--gap-md); border-bottom: 2px solid var(--steel); padding-bottom: var(--gap-sm); margin: var(--gap-md) 0; flex-wrap: wrap; }
 .readout .ro-num { font-family: var(--font-num); font-weight: 600; font-size: 4rem; line-height: 1; }
 .readout .ro-lab { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .1em; }
@@ -389,14 +385,10 @@ body {
             <div class="tr-lab">查表</div><div class="tr-c">PD[1] → PT 基址</div><div class="tr-c">PT[3] → PFN 0x1F0</div><div class="tr-c">透传</div>
             <div class="tr-lab">结果</div><div class="tr-c red">PA = PFN×4KB + 偏移</div><div class="tr-c">= 0x1F0000 + 0x00A</div><div class="tr-c">0x1F000A</div>
           </div>
-          <p class="trace-action">两次查表 + 一次拼接；若任一级 PTE 的 P 位 = 0 → page fault（第 06 节）</p>
+          <p class="trace-action">两次查表 + 一次拼接；<b style="color:var(--red)">低 12 位 = 页内偏移，永不参与查表</b>（直接作页框内偏移，把它当页号查表是最高频错误）；若任一级 PTE 的 P 位 = 0 → page fault（第 06 节）</p>
         </div>
         <figcaption class="plate-caption"><span class="cap-num">图 5</span>：翻译 = 两次查表 + 拼接——页内偏移不参与查表，直接透传（页框内偏移 = 页内偏移）</figcaption>
       </figure>
-      <div class="warning-box">
-        <span class="warning-tag">易错 · 偏移不查表</span>
-        <p><strong>页内偏移（12 位）永远不参与翻译</strong>——它直接作为物理页框内偏移。考场上拆分地址时，先确认「低 12 位 = 偏移」再动手；把偏移当页号去查表是最高频错误。</p>
-      </div>
     </section>
 
     <!-- ═══ 06 TLB 与缺页 ═══ -->
@@ -504,7 +496,7 @@ body {
             </tbody>
           </table>
         </div>
-        <p style="margin-top:var(--gap-sm);">速查：页目录索引 = VA &gt;&gt; 22；页表索引 = (VA &gt;&gt; 12) &amp; 0x3FF；偏移 = VA &amp; 0xFFF——三条位运算，考场 30 秒。</p>
+        <p>速查：页目录索引 = VA &gt;&gt; 22；页表索引 = (VA &gt;&gt; 12) &amp; 0x3FF；偏移 = VA &amp; 0xFFF——三条位运算，考场 30 秒。</p>
       </div>
       <div class="inset-panel">
         <span class="inset-label">WORKED EXAMPLE 2 · 已知 PD[46] → PT 基址 0x90000、PT[243] → PFN 0x1F，求物理地址</span>
@@ -518,7 +510,7 @@ body {
             </tbody>
           </table>
         </div>
-        <p style="margin-top:var(--gap-sm);">验算方向：物理地址低 12 位必须等于 VA 低 12 位（偏移透传）——不等即算错。</p>
+        <p>验算方向：物理地址低 12 位必须等于 VA 低 12 位（偏移透传）——不等即算错。</p>
       </div>
       <div class="inset-panel">
         <span class="inset-label">WORKED EXAMPLE 3 · 进程页表占多少内存（两级、稀疏 1MB 已映射）</span>
@@ -532,7 +524,7 @@ body {
             </tbody>
           </table>
         </div>
-        <p style="margin-top:var(--gap-sm);">单级页表无论用多少都要 4MB；两级页表只付「用到的段」——这是它存在的全部理由。</p>
+        <p>单级页表无论用多少都要 4MB；两级页表只付「用到的段」——这是它存在的全部理由。</p>
       </div>
     </section>
 
@@ -547,7 +539,7 @@ body {
         <li><span class="ck">03</span>地址空间布局：栈 / 堆 / 未映射区 / 空指针保护区（<a href="#fig-1">图 1</a>）。</li>
         <li><span class="ck">04</span>分页与 PTE 字段：PFN / P / W / U / A / D（<a href="#fig-3">图 3</a>）。</li>
         <li><span class="ck">05</span>两级页表：10+10+12 拆分、按需分配（<a href="#fig-4">图 4</a>）。</li>
-        <li><span class="ck">06</span>地址翻译走查：两次查表 + 偏移透传（<a href="#fig-5">图 5</a>）；偏移不查表（warning box）。</li>
+        <li><span class="ck">06</span>地址翻译走查：两次查表 + 偏移透传（<a href="#fig-5">图 5</a>）；偏移不查表（图 5 易错标注）。</li>
         <li><span class="ck">07</span>TLB 命中率与局部性；缺页 vs 段错误（<a href="#fig-6">图 6</a>、<a href="#fig-7">图 7</a>）。</li>
         <li><span class="ck">08</span>页大小权衡：碎片 vs 页表/TLB（<a href="#fig-8">图 8</a>）。</li>
         <li><span class="ck">09</span>手算三连：拆分 / 查表 / 页表开销（第 08 节）。</li>

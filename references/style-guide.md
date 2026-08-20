@@ -1,8 +1,60 @@
 # Style Guide — Tokens & Component Specs
 
-**用法**：Tokens 是法（精确值，不可改）；Specs 是意图与约束——**据此自己写 CSS，不要寻找成品模板**。组件的完整实现范例见 `references/example-*.html` 七篇例文（六篇中文 + 英文旗舰 `example-kmp.en.html`；组件覆盖矩阵见 `example-coverage.md`）。
+**用法**：Tokens 是法（精确值，不可改）；Specs 是意图与约束——**据此自己写 CSS，不要寻找成品模板**。每个组件的 Specs 开头有**能力卡**（主语义 / 次语义 / 替代候选 / 兼容衔接 / 冲突互斥 / 变体轴），用于组合决策——完整定义见 `visual-system.md` → Combination Grammar。组件的完整实现范例见 `references/example-*.html` 七篇例文（六篇中文 + 英文旗舰 `example-kmp.en.html`；组件覆盖矩阵见 `example-coverage.md`）。例文的骨架 CSS 内联重复是自包含成品的固有约束；骨架改动以 `example-kmp.html` 为基准同步其余六篇（maxwell 在海报式页头处分叉），不用 `<link>` 外链。
 
-色彩语义（色层模型）、轴线与几何语义见 `visual-system.md`，此处不重复。
+色彩语义（色层模型）、轴线与几何语义、颜色叙事状态、组合关系、页面角色、构图先例见 `visual-system.md`，此处不重复。
+
+## 速查卡 Quick Reference
+
+**章节索引**：术语表 → visual-system → Combination Grammar；规则权威索引与数值门控表 → 本卡；页头 / 侧栏 / 标尺 / 角标 / 版权条 → Layout Specs；图版三级装裱 → Plate Specs；G1–G8 → Geometric Specs；测量仪器 → Instrument Specs；认知形态 → Form Specs；机制图解 → Diagram Specs；交互 → Interaction Specs；响应式 → Responsive Spec；类名速查 → 类名注册表。**每个组件 Specs 开头有能力卡**——用于组合决策（主语义 / 替代 / 兼容 / 冲突 / 变体轴），完整组合关系见 `visual-system.md` → Combination Grammar。
+
+**术语表**：能力卡与组合语法所用术语（主语义 / 次语义 / 适用条件 / 替代候选 / 兼容衔接 / 冲突互斥 / 变体轴 / 页面角色 / 协同·替代·冲突组合 / 构图先例）的定义见 `visual-system.md` → Combination Grammar → 术语表（单一权威）。
+
+**规则权威索引**（有疑问只查权威来源，不从重复位置引用）：
+
+| 规则 | 权威来源 |
+|---|---|
+| 色层模型 L0–L5 | visual-system → Color System |
+| 白卡作用域 | visual-system → 禁令·白卡作用域 |
+| 红面阈值 | visual-system → L5 行（数值源） |
+| 深色间距表 | visual-system → 禁令·深色间距表（数值源） |
+| 60% 规则 | visual-system → L0 行 + 禁令 |
+| 轴线 20° | visual-system → Axis |
+| 形式有效性 | visual-system → Form Validity |
+| 装裱纪律 | visual-system → core instruments（Plate 行） |
+| 双红分工 | visual-system → 双红分工 |
+| 叠加矩阵 | visual-system → 叠加矩阵 |
+| 双家族 | visual-system → 双家族 |
+| 对称默认规则 | visual-system → Composition → 板面 |
+
+**数值门控表 Numeric Gate Table（交付期验证用；任何数值源被修改后必须同步本表，本表不覆盖数值源）**：
+
+| Gate | Value | 数值源 |
+|---|---|---|
+| 连续深色（L1+L2+L3） | ≤60% / 视口 | visual-system → 禁令 |
+| 深色间距（ink / blue / ochre / steel 结构面 >900px²） | 同层 ≥12px；跨层 ≥gap-md（32px）；图版内衬 ≥gap-md | visual-system → 禁令 |
+| 红面阈值 | <24×24 忽略；24–64 小方块；≥64×64 违规面；总量 ≤1% 视口；实心红圆 ≤128px 唯一例外 | visual-system → L5 |
+| trace 列数（每行 div 数） | 默认 10（1 标签 + 9 数据）；`.c3` 4 / `.c4` 5 / `.c5` 6；`.bf-grid` 1+6；`.pf-grid` 6 | 本节 → Trace 列数约束 |
+| punch card 孔位 | `.pc-bit` 保持 `box-sizing: border-box`（孔与环同外径 24px） | 本节 → Punch Card |
+| 退化形式审查触发线 | >16 同构单元仅靠颜色区分（审查触发线，不是配额） | visual-system → 形式有效性 |
+| G7 阶梯级数 | ≤4 级（超过拆分或改用 causal chain） | 本节 → Geometric Specs → G7 |
+| Nested Tree 层级 | ≤4 层（超过拆分） | 本节 → Form Specs → Nested Tree |
+| Stepper / Step-Through 步数 | 3–7 步（禁空转，每步必须有数据变化） | 本节 → Diagram Specs → Stepper；Interaction Specs → Step-Through |
+| 轴线倾角与切角深度 | 全页唯一 20° 单向；kicker 8px / 标题带 16px / 楔形 56px / 三角指针 5px；G1 固定 20–24px 豁免 | visual-system → Axis + 本节 → Tokens → 轴线实现 |
+| 字重纪律 | 正文/标签 400–600；300 仅大字号展示；600 仅展示巨字；同屏 ≤3 种字重 | SKILL.md → Font System |
+
+**高频违规 top-10（交付前自检，逐条指向规格）**：
+
+1. 白底容器（white 仅 sidebar / 页面级浮起 UI / punch 孔位 → 白卡作用域）
+2. 红面超阈（≥64×64 即违规面、总量 ≤1% → 红面阈值）
+3. 表格滥用（仅真正的二维查找用表 → Tables）
+4. 图版无人引用（→ Plate Specs）
+5. trace 列数错位（行内 div = 1 + 数据轨数 → Trace 列数约束）
+6. steel 落 L2 / L3、deep-red 落蓝底（→ visual-system 色层禁令）
+7. clip-path 与 border / box-shadow 组合（→ Geometric Specs 总前提）
+8. 类名漂移（照注册表落名 → 类名注册表）
+9. 轴线失序（全页 20° 单向、斜切只进底部呼吸区 → Tokens 轴线实现）
+10. 深色连片（≤60%/屏，dense ≠ 深色 → visual-system 禁令）
 
 ## Tokens
 
@@ -49,7 +101,7 @@
 }
 ```
 
-CDN（放 `<head>`；字重纪律见 `visual-system.md` → Typography Discipline）：
+CDN（放 `<head>`；字重纪律见 `SKILL.md` → Font System）：
 
 ```html
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -150,8 +202,11 @@ Body base：font-sans / 1rem / line-height 1.7 / ink on paper / 必加 `-webkit-
 - **标准式**：cut-corner kicker（ink 底 paper 字 mono xs，右下切角，切角 8px）+ text-3xl 标题 + 4rem×8px red bar（每页仅一处）+ steel 副题 text-lg 500 + meta 行。
 - **海报式**：顶部 flex（cut-corner + `.poster-marks` 色票条——ink / red / deep-red / ochre 四个 12px 小方块，编码页面自身色板）+ `clamp(2.5rem, 7vw, 4rem)` 标题（`em` 词眼 6px red 下划线）+ meta 行。页面实际使用 olive / amber 时在色票条中追加。
 - kicker 切角 8px（小切角件，轴线系）。
+- **meta 行字段**（`.meta`，mono xs steel 横排）：日期 · 学科 · 阅读时长（≈ N MIN）· 范围声明（scope：主例范围 / 采用约定 / 显式省略）——四字段齐备，语言随页面。
 
 ### Section Band（斜切标题带，机制重心声明，一页最多一节）
+
+> **能力卡** — 主语义：机制重心声明（节级标题带） | 次语义：轴线系大切角件 | 替代：section-tag（节级标签而非标题带）、G2 wedge（全页最强冲突而非节级重心） | 兼容：section band → L2 机制图版（重心声明 → 机制展开） | 冲突：一页最多一节；带内不再放其他组件 | 变体轴：切角深度（固定 16px）
 
 ```css
 .section-band {
@@ -168,9 +223,11 @@ Body base：font-sans / 1rem / line-height 1.7 / ink on paper / 必加 `-webkit-
 
 ### Giant Verdict（巨字判词，extended，一页最多一处）
 
+> **能力卡** — 主语义：机制段结论句（整幅判词，一页一次） | 次语义：机制→权衡转折点的高潮 | 替代：G8 collage（结论从证据浮现而非整幅判词）、insight panel（更长分析而非≤2行判词）、wedge block（强冲突而非结论） | 兼容：L2 机制图版 → giant verdict → checklist（机制 → 结论 → 闭环） | 冲突：与 G8 二选一（同一高点不叠加）；必须被 checklist 引用（锚点闭环）；≤2 行 | 变体轴：字号（clamp）、词眼标记（em + red 下划线）
+
 ```css
 .giant-verdict {
-  font-size: clamp(1.75rem, 4.2vw, 3.2rem); /* 较早期稿 -30% */
+  font-size: clamp(1.75rem, 4.2vw, 3.2rem);
   font-weight: 600; /* 展示巨字允许（字重纪律上限） */
   line-height: 1.2;
   letter-spacing: -0.02em;
@@ -245,6 +302,8 @@ Body base：font-sans / 1rem / line-height 1.7 / ink on paper / 必加 `-webkit-
 
 ## Plate Specs（图版装裱三级）
 
+> **能力卡（图版系统）** — 主语义：机制图解装裱为独立展件 | 次语义：三级装裱（全/轻/不装裱）编码主次 | 替代：无（装裱是装裱纪律本身，不可替代） | 兼容：所有机制类组件 → plate | 冲突：无人引用的图版 = 装饰；图版框保持正交矩形；图版内禁白卡 | 变体轴：装裱级别（full / light / 不装裱）、内衬（≥gap-md）
+
 ```css
 .plate { position: relative; margin: var(--gap-md) 0; }
 .plate.full { border: 2px solid var(--ink); padding: var(--gap-sm); }
@@ -268,7 +327,7 @@ Body base：font-sans / 1rem / line-height 1.7 / ink on paper / 必加 `-webkit-
 - **全装裱**：2px ink 框 + 四角对版十字 + 图号 + 图题。机制类组件（图解/trace/swimlane/punch card/爆炸框）默认全装裱。
 - **轻装裱**：无框，仅对版十字 + 图号 + 图题。独立成立但非主图的展件。
 - **不装裱**：流式，随文。小 SVG、轻量示意。
-- **图版必须被引用**：正文交叉引用 `图 N`（`.fig-ref`），或图题本身传达机制结论。无人引用的图版 = 装饰。
+- **图版必须被引用**：正文交叉引用 `图 N`（`.fig-ref`），或图题本身传达机制结论。无人引用的图版 = 装饰。图号标签语言随页面（中文「图 N」/ 英文「Fig. N」）；`id="fig-N"` 值保持 ASCII。
 - 图版框保持正交矩形，框上不得加对角线动作。
 - **图版内衬**：进入图版框的 L2 容器 padding ≥ gap-md，图纸内容不贴框线。
 - **深色间距表**：数值与判定见 visual-system → 禁令·深色间距表（数值源）；深色贴边按间距表判定，不按「接触视口边缘」（滚动瞬态误报）。
@@ -284,7 +343,7 @@ Body base：font-sans / 1rem / line-height 1.7 / ink on paper / 必加 `-webkit-
             letter-spacing: .05em; display: flex; gap: var(--gap-md); flex-wrap: wrap; }
 ```
 
-内容：版式 / 字体 / 色版（ink·red·blue·ochre）/ 图版数 N / 轴线 20°。与页头色票首尾呼应；页面实际使用 olive / amber 时在色版中追加列明。
+内容：版式 / 字体 / 色版（ink·red·blue·ochre）/ 图版数 N / 轴线 20°。与页头色票首尾呼应；页面实际使用 olive / amber 时在色版中追加列明。多文件拆分时每个文件按单文件标准报告自己的图版数。
 
 ## Geometric Specs（几何容器 G1–G8）
 
@@ -292,10 +351,14 @@ Body base：font-sans / 1rem / line-height 1.7 / ink on paper / 必加 `-webkit-
 
 ### G1 Cut-Corner Block（切角容器）
 
+> **能力卡** — 主语义：工业精度 | 次语义：读数面板容器 | 替代：inset-panel（无切角随文面板） | 兼容：readout / gauge（作为容器承载读数） | 冲突：无 | 变体轴：切角大小（固定 20–24px）、材料层（L0 / olive）
+
 - 语义：工业精度。固定切角 20–24px（**右上切**，默认方向；切角一律在右侧）。
 - 防裁规则：切角方向 padding ≥ 切角深度 + 正常内边距。
 
 ### G2 Wedge Block（楔形块）
+
+> **能力卡** — 主语义：力量方向——全页最强冲突/转折 | 次语义：压力开场 | 替代：giant verdict（结论句而非冲突判词）、insight panel（更长的分析性结论） | 兼容：problem 节 → 楔形 → L2 机制图版 | 冲突：多个楔形同页（力量均匀化）；与 giant verdict 承载同一结论 | 变体轴：方向（正向/镜像）、宽度（85%）、材料层（ink 底反转）
 
 - 语义：力量方向——只用于全页最强的冲突/转折点；每处都用楔形，力量就均匀了。
 - 默认 ink 底 paper 字反转；宽度收窄 85%（≤768px 回 100%）。
@@ -316,10 +379,14 @@ Body base：font-sans / 1rem / line-height 1.7 / ink on paper / 必加 `-webkit-
 
 ### G3 Circle Callout（圆形标注）
 
+> **能力卡** — 主语义：焦点声明 | 次语义：事件级焦点（红圆 = 压力/转折结论） | 替代：readout（数值权重而非几何焦点）、blueprint callout（局部放大批注） | 兼容：essence hook（定锚角色）、giant verdict（高潮角色） | 冲突：同屏两个等重焦点互抢 | 变体轴：框色（ink 普通 / red 事件级）、直径（8rem / 6rem）
+
 - 语义：焦点声明。ink 圆框 = 普通焦点；**red 圆框 = 事件级焦点**（该焦点同时是压力/转折性结论，Rodchenko 红日）——语义成立才用，同屏不出现两个等重焦点互抢。机制径向圆（SVG 钟面、环）不受此约束。
 - 规格：直径 8rem（≤768px 6rem）；`border-radius` 两处例外之一（另一处为 punch card 孔位）。
 
 ### G4 Offset Block（偏移块）
+
+> **能力卡** — 主语义：位置偏移即关系声明（inset 附属 / outset 强调） | 次语义：随文批注（inset）/ 突破测量（outset） | 替代：inset-panel（inset 的通用形态）、blueprint callout（局部放大而非位置偏移） | 兼容：rail-hang（outset 挂入标尺轨）→ 图版 | 冲突：outset 须能论证语义增益，否则回对称 | 变体轴：方向（inset / outset）、偏移量（1.5rem）
 
 - 语义：位置偏移即关系声明——**inset（内嵌）** = 附属/批注（内容从属于正文流）；**outset（外挂）** = 强调/突破（组件被标尺「测量」）。
 - 解剖：
@@ -340,6 +407,8 @@ Body base：font-sans / 1rem / line-height 1.7 / ink on paper / 必加 `-webkit-
 
 ### G5 Color Field（色场）
 
+> **能力卡** — 主语义：段落级材料归属声明 | 次语义：档案区（ochre 场）/ 结构判词区（ink 场） | 替代：archival panel（定义/规则面板而非段落级归属）、section band（节级重心而非段落级） | 兼容：timetable（ochre 场承载时间序列）、giant verdict（ink 场化形态） | 冲突：blue/red/steel 禁作色场；ochre 场不与 L2 相邻 | 变体轴：色（ink / ochre）、宽度（通栏 / 85%）、面积（≤ section 一半）
+
 - 语义：段落级材料归属声明——**ink 场** = 结构/判词区（标题带、判词的场化形态）；**ochre 场** = 档案区（L3 档案层的条带形态，史料/演进）。
 - 解剖：通栏或收窄 85% 的纯色矩形容器；ink 场上 paper 反白字，ochre 场上 ink 字（ink/ochre ≈5.3:1 达标 AA）；内承组件随场换色板，不加新色相。
 - 规则：
@@ -352,6 +421,8 @@ Body base：font-sans / 1rem / line-height 1.7 / ink on paper / 必加 `-webkit-
 
 ### G6 Nested Panel（嵌套面板）
 
+> **能力卡** — 主语义：语境包含内容（外层语境 × 内层内容） | 次语义：双材料层对比（olive 信封 × steel 面板） | 替代：nested tree（完整层级图解而非容器嵌套）、G7 stair（递进构建而非包含） | 兼容：机制图版（内层承载机制时转 L2） | 冲突：退化为纯缩进列表时形态失效（规则 A） | 变体轴：外层材料（L0 / olive）、内层材料（paper / steel / L2）、装裱（机制类装裱 / 陈述类流式）
+
 - 语义：面板套面板 = 包含/从属——外层是语境，内层是内容（容器级嵌套；层级包含的完整图解形态用 Nested Tree，见 Form Specs）。
 - 解剖：外层容器（陈述语境：L0 或橄榄纸底 `--olive` + ink 边框）+ 内层面板；**内层承载机制内容时用 steel 结构面（钢灰面板 + paper 粗体字）——「橄榄纸信封里一张钢结构面板」**；内层为纯陈述内容时保持 paper；机制节内整体进图版时内层转 L2 图纸底，内层组件（stepper 等）随之图纸化；层级标签 mono 小字（次结构注释：L0/olive 底 steel，steel 面上改 paper 粗体）。
 - 规则：
@@ -362,6 +433,8 @@ Body base：font-sans / 1rem / line-height 1.7 / ink on paper / 必加 `-webkit-
 - 形态理由（规则 B）：语境包含内容 → nested panel → 编码「外层语境 × 内层内容」的几何从属。
 
 ### G7 Stair Group（阶梯组）
+
+> **能力卡** — 主语义：递进构建（每项建立在前项之上） | 次语义：级位即进度（层级色阶编码进度） | 替代：nested tree（层级包含而非递进）、causal chain（因果序列而非步骤递进） | 兼容：essence hook → stair（心智模型 → 递进展开） | 冲突：扁平枚举禁用（递进是语义前提）；>4 级拆分或改用 causal chain | 变体轴：级数（2–4）、材料色阶（paper → olive → steel → ink）、方向（沿轴线错位）
 
 - 语义：**递进构建**——每项建立在前项之上（推导链、复杂度递增、抽象升级）；扁平枚举禁用（递进是语义前提，不是造型）。
 - 解剖：
@@ -383,6 +456,8 @@ Body base：font-sans / 1rem / line-height 1.7 / ink on paper / 必加 `-webkit-
 
 ### G8 Overlapping Planes（重叠平面 / 拼贴）
 
+> **能力卡** — 主语义：结论从证据浮现（浮动平面承载判词，压在证据之上） | 次语义：系统影响高点形态 | 替代：giant verdict（整幅判词而非拼贴浮现）、readout（数值权重而非结论浮现） | 兼容：证据图版/trace → G8（推演 → 结论浮现） | 冲突：与 giant verdict 二选一（同一高点不叠加两种高潮形态） | 变体轴：下层材料（L0 / olive）、投影色（red 固定）、≤768px 转静态全宽
+
 - 语义：**结论从证据浮现**——浮动平面承载判词，压在下层证据平面之上（系统影响节的「高点」形态；collage 的容器语义）。
 - 解剖：下层 = 证据平面（L0 或橄榄纸底 `--olive` 上的流式组件 / 图版残片）；上层 = 浮动平面（**L4 白底**——白卡三处豁免之「页面级浮起 UI / G8 拼贴浮动平面」）+ 硬投影 `8px 8px 0 red`（判词以事件方式落下，投影无模糊）。
 - 规则：
@@ -396,6 +471,8 @@ Body base：font-sans / 1rem / line-height 1.7 / ink on paper / 必加 `-webkit-
 
 ### Triangle Pointer（三角指针）
 
+> **能力卡** — 主语义：方向与起点 | 次语义：消息箭头、仪表指针尖、图解指示点 | 替代：无（方向标记不可替代） | 兼容：swimlane（交接箭头）、gauge（指针尖）、causal chain（序列起点） | 冲突：禁用对称正三角；静止指示三态随表面 | 变体轴：色态（red 方向 / ink L0 静止 / paper L2 静止）
+
 ```css
 .tri { width: 14px; height: 14px; background: var(--red);
        clip-path: polygon(0 0, 100% 0, calc(100% - 5px) 100%); } /* 5px ≈ 20°（参考高 14px） */
@@ -405,6 +482,8 @@ Body base：font-sans / 1rem / line-height 1.7 / ink on paper / 必加 `-webkit-
 - 场景：序列起点、仪表指针尖、消息箭头、图解指示点。
 
 ### Exploded Frame（爆炸框）
+
+> **能力卡** — 主语义：机制分解为零件陈列（沿轴线逐级错位） | 次语义：末级用 red tag 标记事件/结果 | 替代：punch card（整卡读值而非拆零件）、blueprint callout（局部批注而非零件陈列） | 兼容：memory map → exploded frame（地址布局 → PTE 字段拆解） | 冲突：与 punch card 不混用（整卡 vs 拆零件）；与 blueprint callout 分工 | 变体轴：错位级数、末级标记色（red tag）、材料层（L2 零件说明用 blue-note）
 
 ```css
 .x-frame { position: relative; padding: var(--gap-sm) 0 var(--gap-sm) 5rem; }
@@ -424,11 +503,15 @@ Body base：font-sans / 1rem / line-height 1.7 / ink on paper / 必加 `-webkit-
 
 ### Gauge（仪表盘）
 
+> **能力卡** — 主语义：阈值型读数（负载因子、水位、利用率、开销逼近阈值） | 次语义：径向可视化 | 替代：readout（线性读数而非阈值型径向）、ratio bar（比例分布而非阈值） | 兼容：instrument strip（横排成仪表台）→ tradeoff 节 | 冲突：线性读数用 readout/ratio bar——gauge 不做线性；指针角度不受轴线约束 | 变体轴：刻度范围、指针色（red 三角指针）、材料层（L0 整体 / L2 局部）
+
 - SVG 径向：圆弧 + 刻度 + 指针（red 三角指针做指针尖）。只用于**阈值型读数**（负载因子、水位、利用率、开销逼近阈值）；线性读数用 readout / ratio bar。
 - 指针角度 = 读数，不受轴线约束（轴线约束切角几何，不约束仪表读数）。刻度 blue-note（steel 禁落 L2；仪表整体落 L0 时可用 steel），结构 ink 3px。
 - 禁动画；`role="img"` + `aria-label` 描述读数含义。
 
 ### Hatching（剖面线）
+
+> **能力卡** — 主语义：材料/角色身份（多角色图解的第二身份通道） | 次语义：未映射区/失效区/共享区标记 | 替代：blue-note（L2 上的注释色区分）、新色相（禁止） | 兼容：memory map（区块身份 >4）、swimlane（角色 ≥3） | 冲突：仅 ink/paper/red 单色系；非明显时必须带图例 | 变体轴：色系（ink / red / paper）、周期（8–12px）
 
 ```css
 .hatch { background-image: repeating-linear-gradient(110deg,
@@ -447,7 +530,9 @@ Body base：font-sans / 1rem / line-height 1.7 / ink on paper / 必加 `-webkit-
 
 ### Punch Card（打孔卡）
 
-> 认知映射：位模式 / 编码 / 指令格式（SKILL.md → Form Selection）。一张卡片 = **左轨字段名（L0）+ 右轨孔阵（L2）** 两种材料区，由 grid 分栏承载，不共享表面。
+> **能力卡** — 主语义：位模式 / 编码 / 指令格式（位置 × 二值状态） | 次语义：多卡对照（原码/反码/补码并置） | 替代：exploded frame（拆零件陈列）、ASCII（精确文本布局） | 兼容：plate-row（多卡并置）→ blueprint callout（局部放大关键孔） | 冲突：位置不携带语义的纯列表/计数格阵应选 trace / 表格；与 exploded frame 不混用 | 变体轴：位宽、多卡并置、孔径（24px / 20px）
+
+> 认知映射：位模式 / 编码 / 指令格式（SKILL.md → Step 5 → Candidate entry index）。一张卡片 = **左轨字段名（L0）+ 右轨孔阵（L2）** 两种材料区，由 grid 分栏承载，不共享表面。
 
 **解剖**：
 
@@ -508,6 +593,7 @@ CSS 骨架（据此自写，非成品模板）：
 
 **规则**：
 
+- **孔位尺寸一致性（数值源）**：`.pc-bit` 的 `box-sizing: border-box` 不可省略——省略后含边框实占 27px（24 + 1.5×2），与无边框的 `.pc-hole`（24px）外径不一致，多行孔阵的位号列与孔位错位。
 - **位置即语义**：列位置 = 位号（权重/偏移），孔 = 1、无孔 = 0——位置本身携带语义，颜色只做状态确认。因此 punch card **免疫退化形式禁令**（它编码的是位置与值，不是「仅靠颜色区分的同构格阵」）；反之，位置不携带语义的纯列表/纯计数格阵应选 trace / 表格。
 - **red 用法（L2 约束）**：L2 上的 red 仅限 ≥2px 线与 ≥sm 粗体标签——主动路径（进位链、比较路径）用 red 2px 线连接关键孔，压力位号可用 red ≥sm 粗体；**deep-red 禁落蓝底**，字段名与结果对照一律走 L0 轨。
 - **装裱**：机制类默认全装裱（`figure.plate.full` + 图号 + 图题）；图版须被正文引用（见图 N）或图题传达机制结论。**白卡作用域适用于卡片本体**：仅孔位（`pc-hole`）豁免 white，其余表面禁止。
@@ -519,15 +605,19 @@ CSS 骨架（据此自写，非成品模板）：
 
 ### Dialogue（对话）
 
+> **能力卡** — 主语义：对比 / 争论 / 误解纠正（两个立场交锋，正解从交锋中浮现） | 次语义：考点误解纠正 | 替代：compare table（二维对照而非立场交锋）、split（等价并置而非对立） | 兼容：problem 节 → dialogue → trace（误解 → 纠正 → 推演验证） | 冲突：与 warning box 不叠加（warning = 单向警示，dialogue = 双向交锋） | 变体轴：声部数（2 声部为主）、正解标记（G4 错位 + 楔形 + red 芯片）
+
 - 语义：对比 / 争论 / 误解纠正——两个立场交锋，正解从交锋中浮现。
 - 解剖：olive 整块底（陈述类表面）双声部（`.dialogue .d-voice`），声部间 1px ink 分隔；说话人标签 = ink 底 paper 字 mono 芯片（`.d-name`）；正解方 `.b` 三件套——G4 错位（margin-left gap-md）+ 轴线楔形（`.d-voice.b::before` 红三角，20° 系）+ red 说话人芯片；正解句 deep-red 词眼（落 L0）；散文收文字轨（`max-width: var(--text-rail)`）。
 - 规则：
   - 陈述类 → **不装裱**、保持流式（装裱判定）；整块底是 olive，不是 white（白卡作用域）；
-  - 误解方与正解方用 G4 错位 + 楔形标记区分（见 visual-system → 教学类型 × 系统映射）；楔形指向正解（轴线系）；
+  - 误解方与正解方用 G4 错位 + 楔形标记区分（见 visual-system → 组合语法 G4 与轴线系）；楔形指向正解（轴线系）；
   - 答案行属「陈述类」表面——禁白底（白卡作用域）；声部间分隔线用 rgba ink 1px（次结构，不作主边框）。
 - 形态理由：观点交锋 → dialogue → 编码「立场对立 + 正解浮现」，错位与楔形编码纠错方向。
 
 ### Swimlane（泳道）
+
+> **能力卡** — 主语义：多角色 / 多阶段流程交接（角色 × 时序二维归属） | 次语义：消息交接方向 | 替代：trace（全局并置而非角色交接）、state diagram（状态转移而非角色序列） | 兼容：triangle pointer（交接箭头）→ state diagram（交接后进入状态转移） | 冲突：单角色流程不需要泳道（改用 trace / stepper） | 变体轴：角色数（≥3 用剖面线/blue-note 区分）、方向（水平为主）
 
 - 语义：多角色 / 多阶段流程交接（Multi-role / multi-stage process handoff）。
 - 解剖：
@@ -545,12 +635,16 @@ CSS 骨架（据此自写，非成品模板）：
 
 ### Nested Tree（嵌套树）
 
+> **能力卡** — 主语义：层级包含（地址空间、作用域、缓存层次） | 次语义：父子边框层级即包含关系 | 替代：G6 nested panel（容器级嵌套而非完整树形）、G7 stair（递进构建而非包含） | 兼容：memory map（地址空间布局）→ nested tree（页表层级） | 冲突：退化为纯缩进列表时形态失效（规则 A）；>4 层拆分 | 变体轴：层级数（≤4）、材料层（L2 图纸底）
+
 - 语义：层级包含（地址空间、作用域、缓存层次）——Hierarchical containment。
 - 解剖：嵌套矩形（外层包含内层，父子边框层级即包含关系）+ 每层左侧 mono 层级标签；最内层承载实际内容（基址 / 页号 / 对象）。
 - 规则：机制类 → **默认全装裱**；L2 图纸底（地址/作用域 = 可测量内容）；层级 ≤4（与 G7 阶梯同级数上限一致）；退化为纯缩进列表时改用列表 / stair——嵌套矩形必须编码「包含」关系本身，否则形态失效（规则 A）。
 - 形态理由：层级包含 → nested tree → 编码「包含 / 被包含」的几何从属。
 
 ### Readout（读数）
+
+> **能力卡** — 主语义：关键读数 / 状态 / 判定数字（数值的权重） | 次语义：尺度对比即构图（4–6rem ↔ 0.75rem） | 替代：gauge（阈值型径向读数）、ratio bar（比例分布而非单一数值） | 兼容：instrument strip（横排成仪表台）→ tradeoff 节 | 冲突：阈值型读数用 gauge，线性读数用 readout——不做仪表 | 变体轴：数字尺寸（4–6rem）、窄栏友好（入窄栏改纵向堆叠）、状态标记（red 动态 / deep-red 判定）
 
 - 语义：关键读数 / 状态 / 判定数字（Key readings / state / verdict figures）。
 - 解剖：大数字（num 字体，4–6rem ↔ 0.75rem mono 标签并置——尺度对比是构图）+ 单位/标签 + 可选状态标记（red = 动态，deep-red = 判定词眼，字级）。
@@ -559,12 +653,16 @@ CSS 骨架（据此自写，非成品模板）：
 
 ### Timetable（时间表）
 
+> **能力卡** — 主语义：精确时间序列（演进史、版本沿革） | 次语义：档案层与"历史"语义同构 | 替代：archive card（史实引文而非时序）、G5 ochre 色场（段落级归属而非精确时序） | 兼容：archive card → timetable → L0 留白 → L2 机制（史料 → 时序 → 转场 → 机制） | 冲突：不与 L2 相邻（≥gap-md）；时间戳必须经核查 | 变体轴：方向（竖排为主）、材料层（L3 ochre 带）
+
 - 语义：精确时间序列（Precise time series）——演进史、版本沿革。
 - 解剖：竖排时间轴（num 字体时间戳 + ink 刻度线——steel 禁落 L3，≈1.3:1 不可读）+ 事件行（事件名 + 一句话因果）；档案类语义 → **L3 ochre 带表面，不进图版**。
 - 规则：ochre 永不做文字色——事件文字落 L0，ochre 只做背景带；时间戳必须经 Research Mandate 历史核查，不虚构日期；不与 L2 组件相邻（≥gap-md）。
 - 形态理由：时间演进 → timetable → 编码「先后序与历时」，ochre 档案层与「历史」语义同构。
 
 ### Blueprint Callout（蓝图标注）
+
+> **能力卡** — 主语义：机制图局部放大 / 批注 | 次语义：机制结论句 + deep-red 词眼 | 替代：exploded frame（零件拆解陈列而非局部批注）、G3 circle（焦点声明而非批注） | 兼容：L2 主图版 → blueprint callout（机制 → 局部放大） | 冲突：与 exploded frame 分工（局部批注 vs 零件拆解）；引线不进入主图内部 | 变体轴：引线方向（轴线系）、标注框材料（L0 纸底 + ink 边框）
 
 - 语义：机制图的局部放大 / 批注（Close-up annotation of a mechanism diagram）。
 - 解剖：主图（L2 图版内）+ 引线（steel 1–2px，方向与轴线同系）+ 标注框（L0 纸底、ink 边框、直角）；标注框内容 = 机制结论句 + deep-red 词眼。
@@ -573,6 +671,8 @@ CSS 骨架（据此自写，非成品模板）：
 
 ### Ratio Bar（比例条，含竖排变体）
 
+> **能力卡** — 主语义：比例 / 频度 / 分布（苏联统计图形传统） | 次语义：份额的相对量 | 替代：readout（单一数值权重）、gauge（阈值型读数）、instrument strip（多件横排） | 兼容：tradeoff 节（steel accent + 统计条）→ checklist | 冲突：红段遵守红面阈值（高 ≤24px）；ochre 段不与 L2 相邻 | 变体轴：方向（横 / 竖）、窄栏友好（竖排入窄栏）、红段处置（≤24px 或 2px 边框）
+
 - 语义：比例 / 频度 / 分布（Proportion / frequency / distribution）——苏联统计图形传统。
 - 解剖：横轨 + 分段（ink / blue / ochre，遵守深色间距表）+ 数值标签（num 字体）；竖排变体 = 纵向轨道（窄栏友好，入窄栏改纵向堆叠）；「事件」语义段用 `ratio-seg-alt`（红段处置见红面阈值：高 ≤24px，或 2px red 边框 + paper 底 + red 数值字）。
 - 规则：陈述类 → **不装裱**；红段遵守红面阈值；ochre 段遵守「不与 L2 相邻」。
@@ -580,12 +680,16 @@ CSS 骨架（据此自写，非成品模板）：
 
 ### Archive Card（档案卡）
 
+> **能力卡** — 主语义：证据 / 史实 / 引文（证明"发生过"） | 次语义：档案签戳记 | 替代：archival panel（声明"应当如此"的定义/规则）、timetable（精确时序而非单条引文） | 兼容：timetable → archive card → L0 留白（时序 → 引文 → 转场） | 冲突：与 archival panel 分工（证据 vs 定义）；不与 L2 相邻 | 变体轴：ochre 带位置（左竖 / 顶带）、戳记（rotate(-4deg) 可选）
+
 - 语义：证据 / 史实 / 引文（Evidence / historical fact / quotation）。
 - 解剖：L3 ochre 左竖带（或顶带）+ 引文主体（ink 字，**可直接落在 ochre 带上**——ink/ochre ≈5.3:1 达标 AA；或落 L0）+ 出处行（mono ink 小字——steel 禁落 L3）；档案签戳记（rotate(-4deg) 例外）可选。
 - 规则：档案类 → **不装裱**、流式；ochre 永不做文字色；不与 L2 相邻（≥gap-md）；史实必须经 Research Mandate 核查。
 - 形态理由：历史证据 → archive card → 编码「档案归属」，ochre 即档案层。
 
 ### Archival Panel（档案面板 / 定义面板）
+
+> **能力卡** — 主语义：严格学术定义与固定规则陈述（声明"应当如此"） | 次语义：考点"定义·约定"声明 | 替代：archive card（证明"发生过"而非声明规则）、G5 ochre 色场（段落级归属而非面板级定义） | 兼容：机制节 → archival panel（机制后引入精确术语）→ tradeoff | 冲突：与 archive card 分工（定义 vs 证据）；不与 L2 相邻；不与 L3 色场叠加 | 变体轴：签类型（定义 / 定义·约定 / 优化规则）、材料层（L3 ochre 全带）
 
 - 语义：**严格的学术定义与固定规则陈述**——Teaching Architecture 第 7 步「Formal definition」（直觉建立后引入精确术语）、考点教学的「定义 · 约定」声明（如「next[j] 定义」「严蔚敏约定 1-indexed」「优化规则」）。
 - 解剖：L3 ochre 全带表面 + ink 3px 边框 + 顶置档案签（`.archival-tag`：ink 底 paper 字、mono xs、+0.1em——文字即声明类型：「定义」「定义 · 约定」「优化规则」）；内容 ink 字直接落 ochre 带（ink/ochre ≈5.3:1 达标 AA）；多段用 gap-xs 分隔；散文收文字轨。
@@ -627,17 +731,29 @@ CSS 骨架（据此自写，非成品模板）：
 
 ### 对照类：Compare Table / Split
 
+> **能力卡（对照类共性）** — 主语义：让差异和取舍可见 | 替代：dialogue（立场交锋而非并置对照）、staggered（垂直错位而非同基线并置） | 兼容：tradeoff 节 → compare/split（权衡 → 对照） | 冲突：compare table 表头禁红底；split = 等价并置（非主从，主从用 asym） | 变体轴：compare table（超宽滚动）、split（≤768px 塌单栏）
+
 - **compare table**：对照表——二维查找表格的对照变体（考点关联、利弊对照）；表头禁红底（deep-red 文字 + 红左划线）；超宽横向滚动；规格同 Tables。
 - **split**：对称双栏（**等价内容并置，非主从**）——与 asym（主 2/3 + 窄 1/3）区分；两栏同基线、无错位；≤768px 塌单栏。
 
 ### 陈述类容器通则（essence-hook / insight-panel / inset-panel / warning-box / stair / collage）
 
+> **能力卡（共性）** — 主语义：各自见下 | 次语义：陈述类表面（L0 / olive，禁白底） | 替代：见各自条目 | 兼容：见各自条目 | 冲突：禁白底（白卡作用域）；仅靠边框/硬阴影成型 | 变体轴：材料（L0 / olive）、边框/阴影、宽度（85% / 100%）
+
 共性：陈述类 → **L0 或 L0 材料档橄榄纸（`--olive`）、禁白底**、仅靠边框 / 硬阴影成型（白卡作用域分类之「陈述类」；`--olive` 归 L0 材料档，不计入深色 60% 规则）；散文收文字轨（`max-width: var(--text-rail)`）。
 
-- **essence-hook**（类名 `.hook`）：本质钩容器——hook 句 + deep-red 词眼（落 L0）；对应 Essence Hook 教学节，一页一个为主。
-- **insight-panel**：洞察面板——判词类容器（宽收窄 85%，≤768px 回 100%），L0 或橄榄纸底（`--olive`）+ ink 边框或硬投影 + deep-red 词眼；与楔形块分工：楔形承载 ≤2 行强冲突判词（ink 底反转），insight panel 承载更长的分析性结论（考点教学「应试技巧」形态）。
-- **inset-panel**：内嵌面板——随文小面板（G4 内嵌语义），ink 边框或硬阴影成型，无圆角。
-- **warning-box**：警示框——易错陷阱容器（考点教学「易错陷阱」形态）；左 4px red 边（事件）+ ink 边框；词眼 deep-red。
+- **essence-hook**（类名 `.hook`）：
+  > **能力卡** — 主语义：最小心智模型（定锚角色） | 替代：G3 circle（几何焦点而非心智模型）、readout（数值而非模型） | 兼容：hook → causal chain / trace（心智模型 → 因果/推演） | 冲突：一页一个为主 | 变体轴：材料（L0 / olive）
+  - 本质钩容器——hook 句 + deep-red 词眼（落 L0）；对应 Essence Hook 教学节，一页一个为主。
+- **insight-panel**：
+  > **能力卡** — 主语义：分析性结论（比楔形更长，比判词更分析） | 替代：wedge block（≤2 行强冲突）、giant verdict（整幅判词） | 兼容：trace → insight panel → checklist（推演 → 分析 → 回顾） | 冲突：与 wedge/giant verdict 分工（长度与强度不同） | 变体轴：材料（L0 / olive）、宽度（85%）
+  - 洞察面板——判词类容器（宽收窄 85%，≤768px 回 100%），L0 或橄榄纸底（`--olive`）+ ink 边框或硬投影 + deep-red 词眼；与楔形块分工：楔形承载 ≤2 行强冲突判词（ink 底反转），insight panel 承载更长的分析性结论（考点教学「应试技巧」形态）。
+- **inset-panel**：
+  > **能力卡** — 主语义：随文小面板（G4 inset 语义） | 替代：blueprint callout（机制批注而非随文面板） | 兼容：正文流 → inset-panel（随文补充） | 冲突：inset = 附属/批注，不承担主图角色 | 变体轴：材料（L0 / olive）、边框/硬阴影
+  - 内嵌面板——随文小面板（G4 内嵌语义），ink 边框或硬阴影成型，无圆角。
+- **warning-box**：
+  > **能力卡** — 主语义：易错陷阱容器（单向警示） | 替代：dialogue（双向交锋而非单向警示） | 兼容：trace → warning-box（推演 → 陷阱标注） | 冲突：与 dialogue 不叠加（单向 vs 双向） | 变体轴：词眼色（deep-red）
+  - 警示框——易错陷阱容器（考点教学「易错陷阱」形态）；左 4px red 边（事件）+ ink 边框；词眼 deep-red。
 - **stair**：阶梯组（G7 阶梯）——递进构建语义；≤4 级；扁平枚举禁用；级间错位沿轴线方向。
 - **collage**：拼贴平面（G8 重叠）——结论从证据浮现；浮动平面投影 `8px 8px 0 red`（判词以事件方式落下）。
 
@@ -651,7 +767,7 @@ CSS 骨架（据此自写，非成品模板）：
 
 **Ratio Bar 红段**：比例条里需要「事件」语义的分段（如「KMP 省下的比较次数」）用 `ratio-seg-alt`——红段高 ≤24px，或改 2px red 边框 + paper 底 + red 数值字；禁大面积纯红填充段（红面阈值）。
 
-**形态理由（规则 B）**：Step 5 为每个机制组件写一行「认知类型 → 形态 → 该形态编码了什么语义操作」，质检 #13-9 逐条核验；形态退化为同构格阵（>16 个单元仅靠颜色区分、编码不了移动/方向/转移/连接）即失效，必须重选既有形态（见 visual-system → 形式有效性）。
+**形态理由（规则 B）**：Step 5 为每个机制组件写一行「认知类型 → 形态 → 该形态编码了什么语义操作」，质检 #11-4 逐条核验；形态退化为同构格阵（>16 个单元仅靠颜色区分、编码不了移动/方向/转移/连接）即失效，必须重选既有形态（见 visual-system → 形式有效性）。
 
 ### 字级微件（Inline Patterns）
 
@@ -670,6 +786,8 @@ CSS 骨架（据此自写，非成品模板）：
 |---|---|
 | 本质钩 essence-hook | `.hook` |
 | 词眼 / 蓝底焦点标签 / 次状态 | `.kw` / `.red-b` / `.dim` |
+| 节容器 / 密度类 / accent 词 | `.sec` + accent 词（按 Layout Specs → Sections 映射落名；例文已实现 `problem` / `essence`，其余 `misunderstanding` / `tradeoff` / `evolution` / `system-impact` 照映射，机制默认 ink 不加词）/ `.density-breather` / `.density-dense`（standard = 无类名默认） |
+| 板面骨架 | `.board` / `main.article` / `.text-rail` |
 | 节标签 / 斜切标题带 / 巨字判词 / 巨字编号 / 密度标注 | `.section-tag` / `.section-band` / `.giant-verdict`（`em` 词眼）/ `.giant-num` / `.density-tag` |
 | 图版 | `.plate.full` / `.plate.light` + `.plate-marks` + `.fig-num` + `.plate-caption`；引用 `.fig-ref` |
 | 蓝图容器（L2 底 + paper 网格） | `.blueprint` |
@@ -685,7 +803,8 @@ CSS 骨架（据此自写，非成品模板）：
 | 剖面线 | `.hatch`（`.hatch.red` / `.hatch.paper`） |
 | 档案面板 | `.archival-panel` + `.archival-tag` |
 | 读数 / 仪器带 / 对照表 | `.readout`（`.ro-num` / `.ro-lab`）/ `.strip` / `.cmp`（`.cmp-wrap`）+ `.data-table` |
-| 清单 / 版权条 / 页头 / sidebar / 标尺 | `.checklist` + `.ck` / `.colophon` / `.page-header`（`.kicker` / `.hdr-bar` / `.subtitle` / `.meta` / 海报式 `.poster-marks`）/ `.sidebar`（`.sb-head` / `.sb-track` / `.sidebar-progress`）/ `.ruler-tick`（`.rt-num` / `.rt-word`）+ `.sec-num` |
+| 横向构成 | `.staggered`（错位双栏）/ `.plate-row`（图版横列；`.stack` 紧凑纵排变体）/ `.asym`（非对称网格）/ `.split`（对称双栏） |
+| 清单 / 版权条 / 页头 / sidebar / 标尺 | `.checklist` + `.ck` / `.colophon` / `.page-header`（`.kicker` / `.hdr-bar` / `.subtitle` / `.meta` / 海报式 `.poster-marks`）/ `.sidebar`（`.sb-head` / `.sb-track` / `.sidebar-progress`）/ `.ruler-tick`（`.rt-num` / `.rt-word`）+ `.sec-num`；四角角标 `.crop-marks`（`.c1`–`.c4`） |
 | G1 切角容器 | `.g1-cut`（`h4` 读数头） |
 | G2 楔形块 | `.wedge-block` |
 | G3 圆形标注 | `.circle-callout`（事件级 `.red-c`；`.circle-inner` / `.circle-sub`） |
@@ -697,6 +816,8 @@ CSS 骨架（据此自写，非成品模板）：
 | 洞察面板 | `.insight-panel` |
 | 警示框 | `.warning-box`（`.warning-tag`） |
 | 蓝图标注 | `.bp-callout`（`.bp-tag`） |
+| 因果链 | `.cause-chain`（`.cause-node` / `.cause-tag` / `.cause-arrow` / `.cause-solution`） |
+| 面板紧凑段落 | `.p-sm`（面板内表后说明、Q&A 段：font-size text-sm + margin 0） |
 | 时间表 | `.timetable`（`.tt-row` / `.tt-time` / `.tt-evt`） |
 | 档案卡 | `.archive-card`（`.ac-quote` / `.ac-src` / `.ac-stamp`） |
 | 仪表盘 | `.gauge-wrap`（`.gv` / `.ro-num` / `.ro-lab`） |
@@ -715,12 +836,16 @@ CSS 骨架（据此自写，非成品模板）：
 
 ### Memory Map（内存图）
 
+> **能力卡** — 主语义：地址空间布局（地址区间 × 归属） | 次语义：区块身份（>4 用剖面线） | 替代：nested tree（层级包含而非地址布局）、punch card（位格式而非地址区间） | 兼容：memory map → exploded frame（地址布局 → PTE 拆解） | 冲突：地址 = 可测量内容，只落 L2；区块身份不加新色相 | 变体轴：区块数、剖面线角色、关键边界地址标记
+
 - 语义：地址空间布局。
 - 解剖：地址纵轴（num 字体地址列，blue-note）+ 区块矩形（栈 / 堆 / 代码段 / 共享区）+ 区块标注（blue-note）+ 关键边界地址（red ≥sm 粗体，压力位）。
 - 规则：机制类 → 全装裱；区块身份 >4 时用剖面线（负半区 / 共享区 / 未映射区）；地址 = 可测量内容，只落 L2。
 - 形态理由：地址布局 → memory map → 编码「地址区间 × 归属」。
 
 ### ASCII Diagram（字符图）
+
+> **能力卡** — 主语义：精确字符排布（等宽对齐即信息） | 次语义：协议帧 / 位图 / 网格 | 替代：punch card（位格式位置语义）、trace（状态逐步变化） | 兼容：swimlane → ASCII（角色交接 → 报文段头） | 冲突：纯字符格阵若不编码位置语义即退化（规则 A） | 变体轴：材料层（L2 机制 / L0 陈述）、横向滚动
 
 - 语义：精确字符排布（位图 / 协议帧 / 网格）——**等宽对齐即信息**。
 - 解剖：mono 预排版文本；机制类用 L2 图纸底 + paper 字符（陈述类可 L0 ink）；允许横向滚动（超宽条款）；关键区标记 red（≥sm 粗体或 2px 线）。
@@ -729,13 +854,18 @@ CSS 骨架（据此自写，非成品模板）：
 
 ### Trace（走查）
 
+> **能力卡** — 主语义：真实数据逐步状态并置（行 = 时间步 × 列 = 状态维） | 次语义：手工推演核心形态 | 替代：stepper（单步递进而非全表并置）、swimlane（角色交接而非状态变化）、state diagram（状态转移而非逐步数据） | 兼容：essence hook → trace → insight panel（直觉 → 推演 → 解释） | 冲突：与 stepper 不同时展示同一推演（全表 vs 单步选一个）；必须用真实数据 | 变体轴：列数（默认 10 / c3 / c4 / c5）、格阵变体（bf-grid / pf-grid）、列题/步叙/图例
+
 - 语义：真实数据逐步状态——**手工推演核心形态**（考点教学「手工推演」映射）。
 - 解剖：行 = 步骤（步号 num 字体），列 = 变量 / 寄存器 / 指针；每格一个状态值；关键格（压力点 / 失败格）red 格级标记（≤32×32 参考，格间 ink/paper 分隔）；末行结论 deep-red 词眼落 L0 轨。
 - 微件：列题行（`.tr-h` / `.trace-header`，blue-note mono 列名）；步叙行（`.trace-action`，逐轮叙述「第 N 轮：… 次比较」——落 L2 用 blue-note、落 L0 用 ink）；状态图例（`.legend`，swatch + 文字，见字级微件）。
 - 规则：机制类 → 全装裱；L2 图纸底 + 纸网格；**必须用真实数据走完每一步**（SKILL.md 手工推演要求，不能只给最终结果）；与 stepper 区分：trace = 全表并置对比，stepper = 单步递进。
+- **列数约束（数值源）**：`.tr-grid` 每行内 `<div>` 总数必须严格等于网格轨数——标签列 1 轨 + 数据轨（默认 `repeat(9)` = 10 轨；变体 `.c3` / `.c4` / `.c5` = 4 / 5 / 6 轨）。表头行同理：一个空 `.tr-h` + 各列名 `.tr-h`。多一个或少一个均导致 Grid auto-placement **静默错位**——浏览器不报错、渲染无视觉异常信号，整表逐行偏移一列级联成锯齿，只能通过诊断工具（列宽测量）发现。写完后验算：行内 `<div>` 总数 = 1 + 数据轨数，且表头列语义与数据列一一对应。数据列 >5 时无现成变体：新增变体类，或改用默认 9 轨（每行 10 个 `<div>`）。同约束适用于固定轨格阵 `.bf-grid`（1 + 6 轨）与 `.pf-grid`（固定 6 轨）。
 - 形态理由：逐步状态 → trace → 编码「行 = 时间步 × 列 = 状态维」的转移轨迹。
 
 ### State Diagram（状态图）
+
+> **能力卡** — 主语义：状态转移（转移方向与条件） | 次语义：起止标记 + 守卫条件 | 替代：trace（逐步数据变化而非状态转移）、swimlane（角色交接而非状态机） | 兼容：swimlane → state diagram（角色交接 → 交接后状态转移） | 冲突：状态节点用矩形（圆只做焦点声明 G3）；轴线不进入图解 | 变体轴：复杂度、red 主动路径标记
 
 - 语义：状态转移。
 - 解剖：状态节点（**矩形**，ink 边框）+ 转移箭头（三角指针 / red 主动路径）+ 起止标记（三角指针，轴线系）+ 守卫条件标签（blue-note）。
@@ -744,6 +874,8 @@ CSS 骨架（据此自写，非成品模板）：
 
 ### Causal Chain（因果链）
 
+> **能力卡** — 主语义：问题→压力→方案→权衡的因果序列 | 次语义：教学架构的图解版 | 替代：G7 stair（递进构建而非因果传递）、trace（逐步数据而非因果节点） | 兼容：causal chain → L2 机制图版（因果序列 → 机制展开） | 冲突：链必须闭合到权衡（不悬空）；>16 节点仅靠颜色区分 → 退化 | 变体轴：节点数、压力节点标记（red）、装裱（全/轻）
+
 - 语义：问题 → 压力 → 方案 → 权衡的因果序列（Teaching Architecture 的图解版）。
 - 解剖：节点序列（矩形）+ 连接线（ink 2px）；压力节点 red（事件）；权衡节点 blue-note 标注（steel 禁落 L2）；词眼 deep-red 落 L0。
 - 规则：机制类 → 全装裱或轻装裱（按主次）；链必须闭合到权衡（不悬空）；词眼 deep-red 落 L0 轨（**蓝底上的焦点改用 red**）；节点 >16 且仅靠颜色区分 → 退化（规则 A），重选既有形态。
@@ -751,12 +883,17 @@ CSS 骨架（据此自写，非成品模板）：
 
 ### Code Block（代码块）
 
+> **能力卡** — 主语义：可运行代码示例（执行路径的行级事件） | 次语义：黑底与判词材料面同构 | 替代：trace（状态变化而非代码执行）、ASCII（字符排布而非代码） | 兼容：机制节 → code block（机制 → 代码验证）→ tradeoff | 冲突：必须可运行（禁混用不兼容 API）；无外部高亮库/无 JS 高亮 | 变体轴：行号（可选）、关键行标记（red 2px 左竖条）、语法色
+
 - 语义：可运行代码示例。
 - 解剖：**ink 黑底**（L1 材料面——visual-system L1 行「ink = 主结构（…代码…）」归属；早期稿的 L2 蓝底是偏离）+ paper 字 + 行号（blue-note num 字，可选）+ 关键行 red 2px 左竖条（事件）+ **内置语法色**（仅 `.code` 内生效的作用域例外）：关键字 `.kw-s` red 600 / 字符串 `.st` amber / 数字 `.num` blue-note / 注释 `.cm` steel。
 - 规则：机制类 → 默认全装裱（代码即图版）；**必须可运行**（Research Mandate，禁混用不兼容版本 API）；超宽横向滚动；**无外部高亮库、无 JS 高亮**（渐进增强）——语法色是 CSS 语义色，不是高亮引擎；黑底计入深色（60% 规则，dense 节同样受限）。
+- 排版：`.code` 必须含 `white-space: pre; text-align: left;`——换行与缩进逐字保留，代码按现代 IDE 格式书写（块内缩进、行尾注释列对齐）；源码里第一行代码紧跟开标签、`</div>` 紧跟末行代码（pre 下标签前后的空白会被渲染成首尾空行）。
 - 形态理由：代码 → code block → 编码「执行路径的行级事件」；黑底与「判词材料面」同构，语法色不新增语义层。
 
 ### Checklist（清单）
+
+> **能力卡** — 主语义：索引 / 回顾（条目存在性） | 次语义：锚点闭环（引用巨字判词） | 替代：无（闭环角色不可替代） | 兼容：giant verdict / G8 → checklist（高潮 → 闭环） | 冲突：清单是索引不是内容（正文必须已完成教学）；零动作、克制 | 变体轴：无（克制即形态）
 
 - 语义：索引 / 回顾（知识清单、文末考点清单）——**零动作、克制**（教学映射「回顾 | 索引 | checklist」）。
 - 解剖：L0 上 ink 列表 + check 编号（deep-red num 字——「check 编号」是 deep-red 分工的既有成员）；无图版、无几何动作。
@@ -765,12 +902,16 @@ CSS 骨架（据此自写，非成品模板）：
 
 ### Tables（表格）
 
-- 语义：**仅真正的二维查找**（Form Selection 质检 #8：防 table-stuffing）。
+> **能力卡** — 主语义：二维查找（行 × 列交叉定位） | 次语义：对照变体（考点关联、利弊对照） | 替代：split（等价并置）、asym（主从权重）、ratio bar（比例分布） | 兼容：tradeoff 节 → compare table（权衡 → 对照） | 冲突：单维数据用列表/readout；主从语义用 asym/split；表头禁红底 | 变体轴：compare table 变体、超宽横向滚动
+
+- 语义：**仅真正的二维查找**（SKILL.md → Step 5 候选入口索引：表格仅限真正二维查找，防 table-stuffing）。
 - 解剖：表头 deep-red 文字 + 红左划线（**禁红底**——红面阈值处置）；行列分隔 ink 1px；数值列 num 字体；超宽横向滚动（超宽条款）。
 - 规则：单维数据用列表 / readout，不用表格；主从语义用 asym / split，不用表格；对照 / 权衡 / 考点联动用 compare table 变体。
 - 形态理由：二维查找 → table → 编码「行 × 列交叉定位」。
 
 ### Stepper（步进器）
+
+> **能力卡** — 主语义：真实数据单步演示（步进顺序与当前焦点） | 次语义：Step-Through 的静态基座 | 替代：trace（全表并置而非单步递进）、state diagram（状态转移而非步骤演示） | 兼容：essence hook → stepper（心智模型 → 单步演示） | 冲突：与 trace 不同时展示同一推演；步骤 3–7 步；禁空转 | 变体轴：交互性（静态 / Step-Through 交互）、步数（3–7）
 
 - 语义：真实数据单步演示——考点教学「手工推演」形态；Step-Through 的静态基座。
 - 解剖：垂直步进行：步号（num 字）+ 状态描述 + 数据快照；当前步 red 标记（事件）；L2 图纸底（数据 = 可测量）。

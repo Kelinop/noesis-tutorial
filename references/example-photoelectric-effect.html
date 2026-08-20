@@ -75,6 +75,7 @@ body {
 .article p { margin-bottom: var(--gap-sm); }
 .page-header { padding: var(--gap-lg) 0 var(--gap-md); }
 .kicker { display: inline-block; background: var(--ink); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; padding: 4px 18px 4px 10px; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%); }
+/* ══ 共享组件：页头 · 钩子 · 判词 · 图版系统 ══ */
 .page-header h1 { font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.02em; line-height: 1.05; margin: var(--gap-sm) 0 var(--gap-xs); }
 .hdr-bar { width: 4rem; height: 8px; background: var(--red); margin: var(--gap-sm) 0; }
 .subtitle { font-size: var(--text-lg); font-weight: 500; color: var(--steel); max-width: var(--text-rail); }
@@ -99,6 +100,7 @@ body {
 .plate-caption .cap-num { color: var(--deep-red); font-weight: 600; }
 .fig-ref { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--red); text-decoration: none; }
 .blueprint { background: var(--blue); background-image: linear-gradient(rgba(241,236,226,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(241,236,226,.05) 1px, transparent 1px); background-size: 24px 24px; padding: var(--gap-md); }
+/* ══ 本篇规范组件：G1 切角 · 圆环焦点 · 仪表 · trace ══ */
 .g1-cut { display: inline-block; background: var(--ink); color: var(--paper); padding: var(--gap-md); clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%); min-width: 240px; }
 .g1-cut h4 { color: var(--paper); font-size: var(--text-lg); margin-bottom: var(--gap-xs); }
 .circle-callout { width: 8rem; height: 8rem; border-radius: 50%; border: 3px solid var(--ink); display: flex; align-items: center; justify-content: center; text-align: center; margin: var(--gap-md) 0; }
@@ -120,12 +122,14 @@ body {
 .tr-c.red { background: var(--red); color: var(--paper); }
 .trace-header { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); margin-bottom: var(--gap-xs); }
 .trace-action { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); margin-top: var(--gap-sm); }
-.code { background: var(--ink); padding: var(--gap-md); overflow-x: auto; font-family: var(--font-mono); font-size: var(--text-sm); color: var(--paper); line-height: 1.7; }
+/* ══ 共享组件：代码块 ══ */
+.code { background: var(--ink); padding: var(--gap-md); overflow-x: auto; font-family: var(--font-mono); font-size: var(--text-sm); color: var(--paper); line-height: 1.7; white-space: pre; text-align: left; }
 .code .kw-s { color: var(--red); font-weight: 600; }
 .code .st { color: var(--amber); }
 .code .num { color: var(--blue-note); }
 .code .cm { color: var(--steel); }
 .code .hl { border-left: 2px solid var(--red); padding-left: var(--gap-xs); display: block; }
+/* ══ 本篇规范组件：对话 · 错位双栏 · 对分布局 ══ */
 .dialogue { background: var(--olive); border-top: 3px solid var(--ink); max-width: var(--text-rail); margin: var(--gap-md) 0; }
 .d-voice { padding: var(--gap-sm) var(--gap-md); border-bottom: 1px solid rgba(28,28,28,.2); }
 .d-voice:last-child { border-bottom: none; }
@@ -137,6 +141,7 @@ body {
 .staggered > *:nth-child(2) { margin-top: var(--gap-md); }
 .split { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-md); margin: var(--gap-md) 0; }
 .split > * { min-width: 0; }
+/* ══ 共享组件：洞见面板 · 易错框 · 档案面板 · 年表 · 数据表 · 因果链 ══ */
 .insight-panel { background: var(--olive); border: 2px solid var(--ink); box-shadow: 6px 6px 0 rgba(28,28,28,.15); padding: var(--gap-md); max-width: 85%; margin: var(--gap-md) 0; }
 .warning-box { background: var(--olive); border: 2px solid var(--ink); border-left: 4px solid var(--red); padding: var(--gap-sm) var(--gap-md); max-width: var(--text-rail); margin: var(--gap-md) 0; }
 .warning-tag { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--red); font-weight: 600; display: block; margin-bottom: var(--gap-xs); }
@@ -144,6 +149,7 @@ body {
 .archival-panel { background: var(--ochre); color: var(--ink); border: 3px solid var(--ink); padding: var(--gap-sm) var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
 .archival-panel p { font-size: var(--text-sm); line-height: 1.6; margin-bottom: 0; }
 .archival-panel p + p { margin-top: var(--gap-xs); }
+.p-sm { font-size: var(--text-sm); margin: 0; }
 .archival-tag { display: inline-block; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--paper); background: var(--ink); padding: 2px 8px; margin-bottom: var(--gap-xs); letter-spacing: .1em; }
 .timetable { border-left: 2px solid var(--ink); padding-left: var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
 .timetable .tt-row { position: relative; padding: var(--gap-sm) 0; }
@@ -335,8 +341,7 @@ body {
       <figure class="plate full" id="fig-3">
         <span class="fig-num">图 3</span>
         <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
-        <div class="code" role="img" aria-label="光电效应能量计算代码">
-<span class="kw-s">const</span> h  = <span class="num">6.626e-34</span>;   <span class="cm">// Planck 常数 J·s</span>
+        <div class="code" role="img" aria-label="光电效应能量计算代码"><span class="kw-s">const</span> h  = <span class="num">6.626e-34</span>;   <span class="cm">// Planck 常数 J·s</span>
 <span class="kw-s">const</span> c  = <span class="num">3.0e8</span>;        <span class="cm">// 光速 m/s</span>
 <span class="kw-s">const</span> e  = <span class="num">1.6e-19</span>;      <span class="cm">// 元电荷 C</span>
 <span class="kw-s">const</span> W0 = <span class="num">2.0</span>;          <span class="cm">// 钠逸出功 eV</span>
@@ -346,8 +351,7 @@ body {
     <span class="kw-s">console</span>.log(<span class="st">"E_k ="</span>, (E - W0).toFixed(<span class="num">2</span>), <span class="st">"eV"</span>);  <span class="cm">// 1.10 eV</span>
 } <span class="kw-s">else</span> {
     <span class="kw-s">console</span>.log(<span class="st">"无光电子（低于红限）"</span>);
-}</span>
-        </div>
+}</span></div>
         <figcaption class="plate-caption"><span class="cap-num">图 3</span>：方程三行可算——红限判定是 if，不是公式；考试写的也是这个逻辑</figcaption>
       </figure>
     </section>
@@ -359,10 +363,10 @@ body {
       <h2><span class="sec-num">04</span>波动说在三个预言上全部落败</h2>
       <div class="staggered">
         <div style="border:2px solid var(--ink);padding:var(--gap-sm)">
-          <p style="font-size:var(--text-sm);margin:0"><strong>经典预言（波动说）</strong>：光强 = 能量密度，光越强电子动能越大；任何频率只要足够强都能打出电子；弱光需要时间积累能量（秒级延迟）。</p>
+          <p class="p-sm"><strong>经典预言（波动说）</strong>：光强 = 能量密度，光越强电子动能越大；任何频率只要足够强都能打出电子；弱光需要时间积累能量（秒级延迟）。</p>
         </div>
         <div style="background:var(--olive);border:2px solid var(--red);padding:var(--gap-sm)">
-          <p style="font-size:var(--text-sm);margin:0"><strong>实验事实</strong>：动能与光强无关、只随频率线性增长；低于红限永远打不出；出射无延迟（&lt;10⁻⁹ s）。三条预言全部反着来。</p>
+          <p class="p-sm"><strong>实验事实</strong>：动能与光强无关、只随频率线性增长；低于红限永远打不出；出射无延迟（&lt;10⁻⁹ s）。三条预言全部反着来。</p>
         </div>
       </div>
       <div class="dialogue">
@@ -377,10 +381,11 @@ body {
         </div>
         <div class="d-voice b">
           <span class="d-name">光量子说：</span>按波动模型，微弱的紫光要让电子攒够 2 eV 需要<strong>数秒</strong>；实测出射延迟小于 10⁻⁹ 秒——能量不是攒的，是<strong>瞬间整包</strong>到的。这一条直接判了波动说的死刑。</div>
-      </div>
-      <div class="warning-box">
-        <span class="warning-tag">易错 · 光强与频率的混淆</span>
-        <p><strong>光强（光子数）改变的是光电子数量，不改变最大动能</strong>；频率改变的是最大动能。考题若说「增大光强 → 最大动能增大」即错。反直觉但必考：把光强加倍，饱和光电流加倍，截止电压不变。</p>
+        <div class="d-voice a">
+          <span class="d-name">波动说：</span>「那把光再加强一点，电子的动能总能大一点吧？」
+        </div>
+        <div class="d-voice b">
+          <span class="d-name">光量子说：</span><strong>光强（光子数）改变的是光电子数量，不改变最大动能</strong>；频率改变的才是最大动能。把光强加倍：饱和光电流加倍，<span class="kw">截止电压不变</span>——反直觉但必考。</div>
       </div>
     </section>
 
@@ -396,41 +401,41 @@ body {
         <span class="fig-num">图 4</span>
         <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
         <div class="blueprint">
-          <svg viewBox="0 0 660 280" width="100%" role="img" aria-label="光电效应实验装置：光源照射阴极 K，光电管内电子飞向阳极 A，外接可调反向电压与电流计、伏特计">
+          <svg viewBox="0 0 660 330" width="100%" role="img" aria-label="光电效应实验装置：光源照射阴极 K，光电管内光电子从 K 飞向阳极 A，外部单回路串联电流计与可调反向电压源">
             <title>光电效应实验装置</title>
-            <desc>左侧光源发出光子照射光电管阴极 K，电子从 K 飞向 A；外部电路串联电流计与可调反向电压源，伏特计并联测量截止电压</desc>
+            <desc>左侧光源发出频率 ν 的光子照射阴极 K，光电子逸出飞向阳极 A；外部电路为单一回路：K → 电流计 → 可调反向电压源 → A；反向电压调到 V₀ 时电流恰为零，e·V₀ 等于最大初动能</desc>
             <text x="20" y="28" font-family="var(--font-sans)" font-size="13" font-weight="500" fill="var(--paper)">光源（可调频率 ν · 强度 I）</text>
-            <rect x="20" y="40" width="90" height="70" fill="none" stroke="var(--ink)" stroke-width="3"/>
-            <path d="M 30 55 h 70 M 30 70 h 70 M 30 85 h 70" stroke="var(--blue-note)" stroke-width="1.5"/>
-            <path d="M 110 80 l 30 -8 M 110 80 l 30 8" stroke="var(--ink)" stroke-width="2" fill="none"/>
-            <path d="M 140 80 h 34" stroke="var(--red)" stroke-width="2" fill="none"/>
-            <circle cx="184" cy="80" r="4" fill="var(--red)"/>
-            <circle cx="198" cy="80" r="4" fill="var(--red)"/>
-            <circle cx="212" cy="80" r="4" fill="var(--red)"/>
-            <path d="M 226 80 h 34" stroke="var(--red)" stroke-width="2" fill="none"/>
-            <text x="250" y="70" text-anchor="middle" font-family="var(--font-mono)" font-size="11" fill="var(--red)">hν</text>
-            <text x="20" y="140" font-family="var(--font-mono)" font-size="11" fill="var(--blue-note)">光子能量 E = hν 由频率决定，与强度无关</text>
-            <rect x="300" y="20" width="150" height="150" fill="none" stroke="var(--paper)" stroke-width="2"/>
-            <text x="375" y="38" text-anchor="middle" font-family="var(--font-mono)" font-size="11" fill="var(--blue-note)">光电管（真空）</text>
-            <rect x="322" y="70" width="10" height="90" fill="rgba(241,236,226,.25)"/>
-            <text x="327" y="185" text-anchor="middle" font-family="var(--font-num)" font-weight="600" font-size="13" fill="var(--paper)">K 阴极</text>
-            <rect x="418" y="70" width="10" height="90" fill="rgba(241,236,226,.45)"/>
-            <text x="423" y="185" text-anchor="middle" font-family="var(--font-num)" font-weight="600" font-size="13" fill="var(--paper)">A 阳极</text>
-            <path d="M 360 130 l 16 -14 M 360 116 l 16 14 M 344 116 l 16 14" stroke="var(--red)" stroke-width="2.5" fill="none"/>
-            <text x="352" y="105" text-anchor="middle" font-family="var(--font-mono)" font-size="11" fill="var(--red)">e⁻</text>
-            <path d="M 327 160 v 60 h 45" stroke="var(--ink)" stroke-width="3" fill="none"/>
-            <path d="M 423 160 v 60 h -45" stroke="var(--ink)" stroke-width="3" fill="none"/>
-            <path d="M 372 220 h 20" stroke="var(--ink)" stroke-width="3" fill="none"/>
-            <circle cx="382" cy="240" r="18" fill="none" stroke="var(--ink)" stroke-width="3"/>
-            <text x="382" y="245" text-anchor="middle" font-family="var(--font-num)" font-weight="600" font-size="15" fill="var(--paper)">A</text>
-            <text x="382" y="272" text-anchor="middle" font-family="var(--font-mono)" font-size="11" fill="var(--blue-note)">电流计</text>
-            <path d="M 382 258 v 10 h -110 v -150 h 55" stroke="var(--ink)" stroke-width="3" fill="none"/>
-            <path d="M 327 118 h -55 v 150 h 110 v -16" stroke="var(--ink)" stroke-width="3" fill="none"/>
-            <path d="M 272 268 h 8 v -120 h 8 v 120 h 8 v -120 h 8 v 120" stroke="var(--ink)" stroke-width="3" fill="none"/>
-            <text x="300" y="280" text-anchor="middle" font-family="var(--font-num)" font-weight="600" font-size="13" fill="var(--paper)">V</text>
-            <text x="240" y="280" text-anchor="middle" font-family="var(--font-mono)" font-size="11" fill="var(--blue-note)">可调反向电压</text>
-            <path d="M 300 260 l 14 -6 M 300 260 l 14 6" stroke="var(--red)" stroke-width="2" fill="none"/>
-            <text x="414" y="268" text-anchor="middle" font-family="var(--font-mono)" font-size="11" fill="var(--red)">V₀ 时电流恰为零</text>
+            <rect x="20" y="46" width="88" height="68" fill="none" stroke="var(--ink)" stroke-width="3"/>
+            <path d="M 30 62 h 68 M 30 80 h 68 M 30 98 h 68" stroke="var(--blue-note)" stroke-width="1.5"/>
+            <text x="20" y="134" font-family="var(--font-mono)" font-size="11" fill="var(--blue-note)">光子能量 E = hν 由频率决定，与强度无关</text>
+            <path d="M 108 62 H 265 M 108 80 H 265 M 108 98 H 265" stroke="var(--red)" stroke-width="2" fill="none"/>
+            <path d="M 276 62 l -11 -5 v 10 z M 276 80 l -11 -5 v 10 z M 276 98 l -11 -5 v 10 z" fill="var(--red)"/>
+            <text x="188" y="50" text-anchor="middle" font-family="var(--font-mono)" font-size="12" fill="var(--red)">光子 hν</text>
+            <rect x="250" y="34" width="240" height="150" fill="none" stroke="var(--paper)" stroke-width="2"/>
+            <text x="370" y="50" text-anchor="middle" font-family="var(--font-mono)" font-size="11" fill="var(--blue-note)">光电管（真空）</text>
+            <rect x="280" y="58" width="10" height="108" fill="rgba(241,236,226,.25)"/>
+            <text x="285" y="22" text-anchor="middle" font-family="var(--font-num)" font-weight="600" font-size="13" fill="var(--paper)">K 阴极</text>
+            <rect x="460" y="58" width="10" height="108" fill="rgba(241,236,226,.45)"/>
+            <text x="465" y="22" text-anchor="middle" font-family="var(--font-num)" font-weight="600" font-size="13" fill="var(--paper)">A 阳极</text>
+            <path d="M 300 96 H 440 M 300 118 H 440" stroke="var(--red)" stroke-width="2.5" fill="none"/>
+            <path d="M 452 96 l -12 -6 v 12 z M 452 118 l -12 -6 v 12 z" fill="var(--red)"/>
+            <text x="375" y="88" text-anchor="middle" font-family="var(--font-mono)" font-size="11" fill="var(--red)">光电子 e⁻</text>
+            <text x="575" y="92" text-anchor="middle" font-family="var(--font-mono)" font-size="12" fill="var(--paper)">截止电压 V₀</text>
+            <text x="575" y="114" text-anchor="middle" font-family="var(--font-mono)" font-size="12" fill="var(--red)">e·V₀ = E<tspan font-size="9" dy="3">k max</tspan></text>
+            <path d="M 285 166 V 252 H 334" stroke="var(--ink)" stroke-width="3" fill="none"/>
+            <circle cx="352" cy="252" r="18" fill="none" stroke="var(--ink)" stroke-width="3"/>
+            <text x="352" y="257" text-anchor="middle" font-family="var(--font-num)" font-weight="600" font-size="15" fill="var(--paper)">A</text>
+            <path d="M 370 252 H 406" stroke="var(--ink)" stroke-width="3" fill="none"/>
+            <path d="M 406 236 V 268" stroke="var(--ink)" stroke-width="3" fill="none"/>
+            <path d="M 416 243 V 261" stroke="var(--ink)" stroke-width="5" fill="none"/>
+            <path d="M 416 252 H 465 V 166" stroke="var(--ink)" stroke-width="3" fill="none"/>
+            <text x="396" y="228" text-anchor="middle" font-family="var(--font-mono)" font-size="12" fill="var(--paper)">＋</text>
+            <text x="428" y="276" text-anchor="middle" font-family="var(--font-mono)" font-size="12" fill="var(--paper)">－</text>
+            <path d="M 390 274 L 424 234" stroke="var(--red)" stroke-width="2" fill="none"/>
+            <path d="M 424 234 l -12 2 l 7 9 z" fill="var(--red)"/>
+            <text x="352" y="292" text-anchor="middle" font-family="var(--font-mono)" font-size="11" fill="var(--blue-note)">电流计</text>
+            <text x="411" y="292" text-anchor="middle" font-family="var(--font-mono)" font-size="11" fill="var(--blue-note)">可调反向电压 V</text>
+            <text x="393" y="316" text-anchor="middle" font-family="var(--font-mono)" font-size="11" fill="var(--red)">V 调到 V₀ 时电流恰为零</text>
           </svg>
         </div>
         <figcaption class="plate-caption"><span class="cap-num">图 4</span>：装置图——反向电压 V 增大到 V₀ 时光电流恰好为零，e·V₀ = E<sub>k max</sub>；截止电压是实验的核心读数</figcaption>
@@ -455,7 +460,7 @@ body {
         <div>
           <div class="g1-cut" style="margin-bottom:var(--gap-md)">
             <h4>截止电压读数</h4>
-            <p style="font-size:var(--text-sm);margin:0">V₀ = 1.10 V</p>
+            <p class="p-sm">V₀ = 1.10 V</p>
             <p style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--steel);margin:0">E_k = e·V₀ = 1.10 eV</p>
           </div>
           <p style="font-size:var(--text-sm)">G1 切角容器：工业精度读数——V₀ 与 E<sub>k max</sub> 的一一对应。</p>
@@ -494,7 +499,7 @@ body {
         <figcaption class="plate-caption">图 6：波粒二象性是光电效应的系统影响——它打开了整个量子力学</figcaption>
       </figure>
       <div class="insight-panel">
-        <p style="font-size:var(--text-sm);margin:0"><strong>应试技巧</strong>：光电效应计算三件套——① E(eV) = 1240/λ(nm)（背住 hc ≈ 1240 eV·nm）；② E<sub>k</sub> = E − W₀；③ 红限判断 E ≥ W₀。单位统一（J ↔ eV）是失分重灾区：出 eV 结果先问自己「÷e 了吗」。</p>
+        <p class="p-sm"><strong>应试技巧</strong>：光电效应计算三件套——① E(eV) = 1240/λ(nm)（背住 hc ≈ 1240 eV·nm）；② E<sub>k</sub> = E − W₀；③ 红限判断 E ≥ W₀。单位统一（J ↔ eV）是失分重灾区：出 eV 结果先问自己「÷e 了吗」。</p>
       </div>
       <div class="strip">
         <div class="readout">
@@ -527,13 +532,8 @@ body {
           </table>
         </div>
       </div>
-      <div class="inset-panel">
-        <span class="inset-label">Q2 · 光强加倍，截止电压如何变？</span>
-        <p style="font-size:var(--text-sm);margin:0">光强加倍 → 光子数加倍 → <strong>光电流（饱和）加倍，截止电压不变</strong>（V₀ 只由频率与 W₀ 决定）。题设若同时提高频率，V₀ 按 ΔV₀ = (h/e)·Δν 增大。</p>
-      </div>
-      <div class="inset-panel">
-        <span class="inset-label">Q3 · 由 V₀–ν 图求 h 与 W₀</span>
-        <p style="font-size:var(--text-sm);margin:0">斜率 = h/e → h = 斜率 × e；延长线与 ν 轴交点 = 红限 ν₀ → W₀ = h·ν₀。两条信息一条直线全给（<a class="fig-ref" href="#fig-5">见图 5</a>）。</p>
+      <div class="text-rail">
+        <p><strong>Q2 · 光强加倍，截止电压如何变？</strong>光强加倍 → 光子数加倍 → <strong>光电流（饱和）加倍，截止电压不变</strong>（V₀ 只由频率与 W₀ 决定，即第 04 节对话的最后一问）；题设若同时提高频率，V₀ 按 ΔV₀ = (h/e)·Δν 增大。<strong>Q3 · 由 V₀–ν 图求 h 与 W₀</strong>：斜率 = h/e → h = 斜率 × e；延长线与 ν 轴交点 = 红限 ν₀ → W₀ = h·ν₀——两条信息一条直线全给（<a class="fig-ref" href="#fig-5">见图 5</a>）。</p>
       </div>
       <div class="warning-box">
         <span class="warning-tag">易错 · 三种「加倍」各改什么</span>
@@ -551,7 +551,7 @@ body {
         <li><span class="ck">02</span>本质钩：频率定门槛、光强定人数（<a href="#s-essence">第 02 节</a>）。</li>
         <li><span class="ck">03</span>爱因斯坦方程 hν = W₀ + E<sub>k</sub>；红限 ν₀ = W₀/h（<a href="#fig-1">图 1</a>、<a href="#fig-2">图 2</a>）。</li>
         <li><span class="ck">04</span>计算速记：E(eV) = 1240/λ(nm)；hc ≈ 1240 eV·nm（<a href="#fig-3">图 3</a>）。</li>
-        <li><span class="ck">05</span>波动说三预言全部落败（staggered + dialogue）。</li>
+        <li><span class="ck">05</span>波动说三预言全部落败；光强改数量不改动能（staggered + dialogue）。</li>
         <li><span class="ck">06</span>截止电压 e·V₀ = E<sub>k max</sub>；V₀–ν 直线斜率 h/e（<a href="#fig-4">图 4</a>、<a href="#fig-5">图 5</a>）。</li>
         <li><span class="ck">07</span>光强/频率/面积三种「加倍」各改什么（warning box）。</li>
         <li><span class="ck">08</span>波粒二象性 → 物质波 → 量子力学（<a href="#fig-6">图 6</a>）。</li>

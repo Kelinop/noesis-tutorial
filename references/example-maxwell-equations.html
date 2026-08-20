@@ -75,6 +75,7 @@ body {
 .article p { margin-bottom: var(--gap-sm); }
 .page-header { padding: var(--gap-lg) 0 var(--gap-md); }
 .kicker { display: inline-block; background: var(--ink); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; padding: 4px 18px 4px 10px; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%); }
+/* ══ 本篇海报式页头变体 + 共享：钩子 · 判词 · 图版系统 ══ */
 .poster-marks { display: flex; gap: 4px; margin: var(--gap-sm) 0; }
 .poster-marks i { width: 12px; height: 12px; display: inline-block; border: 1px solid var(--ink); }
 .page-header h1 { font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.02em; line-height: 1.05; margin: var(--gap-sm) 0 var(--gap-xs); }
@@ -101,6 +102,11 @@ body {
 .plate-caption .cap-num { color: var(--deep-red); font-weight: 600; }
 .fig-ref { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--red); text-decoration: none; }
 .blueprint { background: var(--blue); background-image: linear-gradient(rgba(241,236,226,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(241,236,226,.05) 1px, transparent 1px); background-size: 24px 24px; padding: var(--gap-md); }
+/* ══ 本篇规范组件：场分布 · 年表 · 档案卡 · 阶梯 · G8 拼贴 ══ */
+.mmap-row { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: var(--gap-xs) var(--gap-sm); align-items: center; padding: 2px 0; }
+.mm-addr { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--blue-note); text-align: right; }
+.mm-seg { background: rgba(241,236,226,.07); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); padding: var(--gap-xs) var(--gap-sm); letter-spacing: .05em; min-height: 28px; display: flex; align-items: center; }
+.mm-legend { display: flex; align-items: center; gap: var(--gap-xs); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--blue-note); margin-top: var(--gap-sm); }
 .timetable { border-left: 2px solid var(--ink); padding-left: var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
 .timetable .tt-row { position: relative; padding: var(--gap-sm) 0; }
 .timetable .tt-row::before { content: ""; position: absolute; left: calc(-1 * var(--gap-md) - 4px); top: 1.1em; width: 8px; height: 2px; background: var(--ink); }
@@ -122,6 +128,7 @@ body {
 .stair-item .st-num { font-family: var(--font-num); font-weight: 600; color: var(--deep-red); font-size: var(--text-xl); line-height: 1; display: block; margin-bottom: 4px; }
 .stair-item:nth-child(3) .st-num { color: var(--paper); }
 .stair-item:nth-child(4) .st-num { color: var(--red); }
+/* ══ 共享组件：因果链 · 色场 · 洞见面板 ══ */
 .cause-chain { display: flex; flex-direction: column; gap: var(--gap-xs); max-width: var(--text-rail); margin: var(--gap-md) 0; }
 .cause-node { background: var(--olive); border: 2px solid var(--ink); padding: var(--gap-sm) var(--gap-md); }
 .cause-node p { margin: 0; font-size: var(--text-sm); }
@@ -131,18 +138,20 @@ body {
 .color-field { padding: var(--gap-md); }
 .color-field.ochre-field { background: var(--ochre); color: var(--ink); max-width: 85%; }
 .insight-panel { background: var(--olive); border: 2px solid var(--ink); box-shadow: 6px 6px 0 rgba(28,28,28,.15); padding: var(--gap-md); max-width: 85%; margin: var(--gap-md) 0; }
+/* ══ 本篇规范组件：G8 拼贴 · 不对称网格 ══ */
 .g8-collage { position: relative; margin: var(--gap-lg) 0 var(--gap-md); }
 .g8-collage .g8-base { border: 2px solid var(--ink); padding: var(--gap-md); background: var(--olive); }
 .g8-collage .g8-float { position: relative; background: var(--white); border: 2px solid var(--ink); box-shadow: 8px 8px 0 var(--red); padding: var(--gap-md); margin: -2rem auto 0; max-width: 85%; z-index: 2; }
 .asym { display: grid; grid-template-columns: 2fr 1fr; gap: var(--gap-md); align-items: start; margin: var(--gap-md) 0; }
 .asym > * { min-width: 0; margin-top: 0; margin-bottom: 0; }
+/* ══ 共享组件：对比表 · 代码块 · 档案面板 · 易错框 ══ */
 .cmp-wrap { overflow-x: auto; margin: var(--gap-md) 0; }
 .cmp { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
 .cmp th { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .05em; color: var(--deep-red); text-align: left; padding: var(--gap-xs); border-bottom: 2px solid var(--ink); }
 .cmp th:first-child { border-left: 3px solid var(--red); padding-left: var(--gap-xs); }
 .cmp td { padding: var(--gap-xs); border-bottom: 1px solid var(--ink); vertical-align: top; }
 .cmp td.num { font-family: var(--font-num); }
-.code { background: var(--ink); padding: var(--gap-md); overflow-x: auto; font-family: var(--font-mono); font-size: var(--text-sm); color: var(--paper); line-height: 1.7; }
+.code { background: var(--ink); padding: var(--gap-md); overflow-x: auto; font-family: var(--font-mono); font-size: var(--text-sm); color: var(--paper); line-height: 1.7; white-space: pre; text-align: left; }
 .code .kw-s { color: var(--red); font-weight: 600; }
 .code .st { color: var(--amber); }
 .code .num { color: var(--blue-note); }
@@ -368,13 +377,11 @@ body {
       <figure class="plate full" id="fig-3">
         <span class="fig-num">图 3</span>
         <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
-        <div class="code" role="img" aria-label="光速计算：c 等于 1 除以根号下 mu0 乘 epsilon0 约等于 2.998 亿米每秒">
-<span class="kw-s">import</span> math
+        <div class="code" role="img" aria-label="光速计算：c 等于 1 除以根号下 mu0 乘 epsilon0 约等于 2.998 亿米每秒"><span class="kw-s">import</span> math
 mu0   = <span class="num">4</span> * math.pi * <span class="num">1e-7</span>     <span class="cm"># 真空磁导率（定义值）</span>
 eps0  = <span class="num">8.854187817e-12</span>       <span class="cm"># 真空介电常数（测量值）</span>
 c     = <span class="num">1</span> / math.sqrt(mu0 * eps0)  <span class="cm"># 方程组的波动解速度</span>
-<span class="kw-s">print</span>(f<span class="st">"{c:.3e} m/s"</span>)            <span class="cm"># 2.998e8 —— 与光速测量值吻合</span>
-        </div>
+<span class="kw-s">print</span>(f<span class="st">"{c:.3e} m/s"</span>)            <span class="cm"># 2.998e8 —— 与光速测量值吻合</span></div>
         <figcaption class="plate-caption"><span class="cap-num">图 3</span>：c = 1/√(μ₀ε₀)——两个「纯电磁学常数」算出的速度恰好是光速，光学从此并入电磁学</figcaption>
       </figure>
       <aside class="archival-panel">
@@ -386,10 +393,10 @@ c     = <span class="num">1</span> / math.sqrt(mu0 * eps0)  <span class="cm"># �
         <span class="fig-num">图 4</span>
         <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
         <div class="blueprint">
-          <div class="mmap-row" style="grid-template-columns:6rem minmax(0,1fr)"><span class="mm-addr" style="text-align:right">γ</span><div class="mm-seg">X 射线（1895 年伦琴发现）</div></div>
-          <div class="mmap-row" style="grid-template-columns:6rem minmax(0,1fr)"><span class="mm-addr" style="text-align:right">UV</span><div class="mm-seg">紫外</div></div>
-          <div class="mmap-row" style="grid-template-columns:6rem minmax(0,1fr)"><span class="mm-addr" style="text-align:right">可见</span><div class="mm-seg" style="background:rgba(157,184,204,.25)">380–760 nm——人类唯一的电磁窗口</div></div>
-          <div class="mmap-row" style="grid-template-columns:6rem minmax(0,1fr)"><span class="mm-addr" style="text-align:right">IR</span><div class="mm-seg">红外 · 微波 · 无线电（赫兹 1888 首次验证的就是这个频段）</div></div>
+          <div class="mmap-row"><span class="mm-addr">γ</span><div class="mm-seg">X 射线（1895 年伦琴发现）</div></div>
+          <div class="mmap-row"><span class="mm-addr">UV</span><div class="mm-seg">紫外</div></div>
+          <div class="mmap-row"><span class="mm-addr">可见</span><div class="mm-seg" style="background:rgba(157,184,204,.25)">380–760 nm——人类唯一的电磁窗口</div></div>
+          <div class="mmap-row"><span class="mm-addr">IR</span><div class="mm-seg">红外 · 微波 · 无线电（赫兹 1888 首次验证的就是这个频段）</div></div>
           <div class="mm-legend">全部都是同一种东西——以 c 传播的电磁波，区别只在频率</div>
         </div>
         <figcaption class="plate-caption"><span class="cap-num">图 4</span>：电磁波谱——「光是电磁波」把光学、无线电、X 射线全并进了一个物理对象</figcaption>
@@ -464,7 +471,7 @@ c     = <span class="num">1</span> / math.sqrt(mu0 * eps0)  <span class="cm"># �
     <footer class="colophon">
       <span>版式 海报式页头 · 图版制</span>
       <span>字体 IBM PLEX SANS · NOTO SANS SC · URBANIST · GOOGLE SANS CODE</span>
-      <span>色版 INK · RED · BLUE · OCHRE · OLIVE</span>
+      <span>色版 INK · RED · BLUE · OCHRE · OLIVE · AMBER</span>
       <span>图版数 5</span>
       <span>轴线 20°</span>
     </footer>
