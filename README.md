@@ -31,11 +31,11 @@ Not a textbook dump. Not a Markdown-to-HTML conversion.</p>
 
 <br>
 
-<a href="https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-kmp.en.html">
+<a href="https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-kmp.html">
   <img src="assets/preview-kmp.png" alt="KMP Algorithm — noesis-tutorial preview" width="720">
 </a>
 
-<p><em>KMP Algorithm: The Main-String Pointer Never Backtracks — <a href="https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-kmp.en.html">open in browser →</a></em></p>
+<p><em>KMP Algorithm: The Main-String Pointer Never Backtracks — <a href="https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-kmp.html">open in browser →</a></em></p>
 
 </div>
 
@@ -47,15 +47,11 @@ This is what the skill produces. Every example is a standalone HTML file — cli
 
 | # | Example | Topic | Highlights |
 |:---:|:---|:---|:---|
-| 01 | [KMP (English) — flagship](https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-kmp.en.html) | Complete KMP teaching | English language & implementation template, all components |
-| 02 | [Two's complement](https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-twos-complement.html) | 补码 | Punch cards, carry trace, clock-face hook |
-| 03 | [Virtual memory](https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-virtual-memory.html) | 虚拟内存 | Memory map, nested tree, exploded frame, TLB gauge |
-| 04 | [TCP handshake](https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-tcp.html) | TCP 握手 | Swimlanes, state diagram, ASCII header, dialogue |
-| 05 | [KMP — 408 exam points](https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-kmp.html) | KMP 全 408 考点 | Interactive stepper, causal chain, ratio bar |
-| 06 | [Maxwell's equations](https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-maxwell-equations.html) | 麦克斯韦方程组 | Poster header, timetable, archive cards, stair groups |
-| 07 | [Photoelectric effect](https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-photoelectric-effect.html) | 光电效应 | Gauge, red circle, dialogue, SVG apparatus |
+| 01 | [KMP — 408 exam points](https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-kmp.html) | KMP 全 408 考点 | Real-data trace, interactive stepper, alignment diagram, archival panels |
+| 02 | [Maxwell's equations](https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-maxwell-equations.html) | 麦克斯韦方程组 | Poster header, ochre timeline, stair groups, mirrored composition, collage |
+| 03 | [Photoelectric effect](https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-photoelectric-effect.html) | 光电效应 | Red sun, threshold gauge, stance dialogue, SVG apparatus |
 
-The six Chinese examples together cover every component in the visual system; the English example demonstrates the same system in English.
+Three examples with maximally different temperaments — exam-dense blueprint, poster-style geometric freedom, and short-verdict dialogue. Each demonstrates the same visual language constructed from a generative grammar, not a component catalog.
 
 ## What it produces
 
@@ -63,9 +59,9 @@ The six Chinese examples together cover every component in the visual system; th
 |:---|:---|
 | **Standalone HTML** | Zero build tools. One external dependency: Google Fonts CDN. Open in any browser. |
 | **Causal-chain teaching** | Problem → Pressure → Failed approach → Essence hook → Mechanism (real-data worked examples) → Tradeoff → Definition → System impact |
-| **Visual system** | Layer-based color model (L0–L5), 20° axis, plate mounting, gauges, punch cards, swimlanes, trace grids, dialogues, stair groups — **40+ encoded components** |
+| **Visual language** | Layer-based color model (L0–L5), 20° axis, plate mounting — a **generative grammar**: a small set of invariants plus a form vocabulary, from which forms are constructed to fit the content |
 | **Exam-point depth** | 408 postgrad entrance exams: positioning, derivations, traps, speed tricks, related topics |
-| **Quality gate** | 13-item checklist enforced before every delivery |
+| **Quality gate** | Invariant check + semantic-validity self-check before every delivery |
 
 <a name="install"></a>
 ## Install
@@ -88,9 +84,11 @@ The skill auto-activates when a request matches the frontmatter description:
 
 ```yaml
 name: noesis-tutorial
-description: Use when the user asks for technical tutorials, concept explanations,
-  learning notes, or exam-point study material, to be delivered as HTML learning pages.
-  当用户请求技术教程、概念讲解、学习笔记或考点精讲，需交付 HTML 学习页面时使用。
+description: Use only when the user asks for a learning artifact — a complete,
+  self-contained HTML learning page (technical tutorial, concept study page,
+  learning notes, exam-point review material). Conversational "explain X" / Q&A
+  requests do NOT trigger this skill; answer them directly.
+  仅当用户明确要求交付 HTML 学习页面时使用；聊天式问答不触发本技能。
 ```
 
 Or invoke it explicitly by name.
@@ -106,31 +104,30 @@ Ask for a technical topic as a learning page:
 >
 > **「写一份虚拟内存的学习笔记，要 HTML 页面」**
 
-The agent runs the **7-step workflow** in `SKILL.md`:
+The agent runs the **creation workflow** in `SKILL.md`:
 
 ```
-Research → Causal chain → Essence hook → Structure → Diagrams → HTML → Quality checklist
+Research → Causal chain → Essence hook → Semantic orchestration → Form construction → HTML → Self-check
 ```
 
-Then verifies against the **13-item checklist**. Pages are standalone — open the HTML directly in a browser.
+Then verifies against the **delivery self-check** (invariants + semantic validity). Pages are standalone — open the HTML directly in a browser.
 
 ## Repository layout
 
 ```
 noesis-tutorial/
-├── SKILL.md                        # Workflow: when to use, 7-step creation, teaching architecture, 13-item checklist
+├── SKILL.md                        # Workflow: when to use, creation workflow, teaching architecture, self-check
 ├── references/
-│   ├── visual-system.md            # Design philosophy: layer model, axis, geometry semantics, composition
-│   ├── style-guide.md              # Tokens + component specs — the rule source for every class name
-│   ├── example-*.html × 6          # Chinese example pages — component coverage & teaching samples
-│   ├── example-kmp.en.html         # English flagship example (component-heavy, complete teaching notes)
-│   └── example-coverage.md         # Component × example coverage matrix
+│   ├── visual-language.md          # The single visual reference: invariants, generative grammar, form vocabulary
+│   ├── example-kmp.html            # Exam-dense / blueprint family
+│   ├── example-maxwell-equations.html  # Poster header / geometric freedom
+│   └── example-photoelectric-effect.html  # Short verdict / dialogue / instruments
 ├── README.md                       # This file
 ├── README.zh-CN.md                 # 简体中文版本
 └── LICENSE                         # MIT License
 ```
 
-**Execution inputs**: `SKILL.md` + `visual-system.md` + `style-guide.md` + examples + coverage matrix.
+**Execution inputs**: `SKILL.md` + `visual-language.md` + three example pages.
 
 ---
 
