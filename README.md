@@ -1,74 +1,108 @@
 <div align="center">
 
-<pre style="font-family: 'IBM Plex Mono', monospace; line-height: 1.2;">
-╔══════════════════════════════════════════════════════════════╗
-║                                                              ║
-║   ███╗   ██╗ ██████╗ ███████╗███████╗██╗███████╗            ║
-║   ████╗  ██║██╔═══██╗██╔════╝██╔════╝██║██╔════╝            ║
-║   ██╔██╗ ██║██║   ██║█████╗  ███████╗██║███████╗            ║
-║   ██║╚██╗██║██║   ██║██╔══╝  ╚════██║██║╚════██║            ║
-║   ██║ ╚████║╚██████╔╝███████╗███████║██║███████║            ║
-║   ╚═╝  ╚═══╝ ╚═════╝ ╚══════╝╚══════╝╚═╝╚══════╝            ║
-║                                                              ║
-║           T U T O R I A L   ·   S K I L L                    ║
-║                                                              ║
-╚══════════════════════════════════════════════════════════════╝
-</pre>
+<p><a href="README.zh-CN.md">简体中文</a></p>
 
-<h3>Turn technical topics into designed engineering knowledge pages</h3>
+<h1>NOESIS</h1>
 
-<p>Complete, runnable HTML learning notes in a <strong>constructivist technical-editorial style</strong>.<br>
-Not a textbook dump. Not a Markdown-to-HTML conversion.</p>
+<p><strong>Study pages that think with you.</strong></p>
+
+<p>A skill for agents that turns technical topics into single-file HTML lessons<br>
+with a causal spine, a tested mental model, and diagrams that earn their place.</p>
+
+<p><sub><em>noēsis · the act of understanding, made visible</em></sub></p>
 
 <p>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-0f4c81?style=flat-square" alt="License: MIT"></a>
-  <img src="https://img.shields.io/badge/style-constructivist-1c1c1c?style=flat-square" alt="Style: Constructivist">
-  <img src="https://img.shields.io/badge/output-standalone_HTML-e63946?style=flat-square" alt="Output: Standalone HTML">
-  <img src="https://img.shields.io/badge/build-zero-b8863b?style=flat-square" alt="Build: Zero">
+  <img src="https://img.shields.io/badge/output-single_file_HTML-e63946?style=flat-square" alt="Output: single-file HTML">
+  <img src="https://img.shields.io/badge/build-zero-b8863b?style=flat-square" alt="Build: zero">
+  <img src="https://img.shields.io/badge/format-agent_skill-1c1c1c?style=flat-square" alt="Format: agent skill">
 </p>
 
-<p><a href="README.zh-CN.md">简体中文</a> · <a href="#live-preview">Live Preview</a> · <a href="#install">Install</a> · <a href="#usage">Usage</a></p>
-
-<br>
-
-<a href="https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-kmp.html">
-  <img src="assets/preview-kmp.png" alt="KMP Algorithm — noesis-tutorial preview" width="720">
-</a>
-
-<p><em>KMP Algorithm: The Main-String Pointer Never Backtracks — <a href="https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-kmp.html">open in browser →</a></em></p>
+<p>
+  <a href="https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-kmp.html"><img src="https://img.shields.io/badge/OPEN_A_LIVE_LESSON-0f4c81?style=for-the-badge" alt="Open a live lesson"></a>
+  <a href="#install"><img src="https://img.shields.io/badge/INSTALL-1c1c1c?style=for-the-badge" alt="Install"></a>
+  <a href="#how-it-works"><img src="https://img.shields.io/badge/HOW_IT_WORKS-e63946?style=for-the-badge" alt="How it works"></a>
+</p>
 
 </div>
 
+<p align="center">
+  <a href="https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-kmp.html">
+    <img src="assets/preview-kmp.png" alt="KMP learning page: constructivist technical-editorial layout with a strong headline, sidebar contents, and blueprint-style diagrams" width="100%">
+  </a>
+</p>
+
+<p align="center"><sub><em>KMP / 408 — an exam-dense lesson built as a technical blueprint.</em> · <a href="https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-kmp.html">Open the live page →</a></sub></p>
+
 ---
 
-## Live preview
+## A page should make an argument
 
-This is what the skill produces. Every example is a standalone HTML file — click to open it in your browser (rendered via [htmlpreview](https://htmlpreview.github.io/)):
+Most generated study pages stop at arrangement: a title, some summaries, a few cards, and a diagram added for visual interest.
 
-| # | Example | Topic | Highlights |
-|:---:|:---|:---|:---|
-| 01 | [KMP — 408 exam points](https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-kmp.html) | KMP 全 408 考点 | Real-data trace, interactive stepper, alignment diagram, archival panels |
-| 02 | [Maxwell's equations](https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-maxwell-equations.html) | 麦克斯韦方程组 | Poster header, ochre timeline, stair groups, mirrored composition, collage |
-| 03 | [Photoelectric effect](https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-photoelectric-effect.html) | 光电效应 | Red sun, threshold gauge, stance dialogue, SVG apparatus |
+Noesis starts with a stricter question:
 
-Three examples with maximally different temperaments — exam-dense blueprint, poster-style geometric freedom, and short-verdict dialogue. Each demonstrates the same visual language constructed from a generative grammar, not a component catalog.
+> **What should the learner be able to explain, predict, or do after this page?**
 
-## What it produces
+The answer determines everything that follows: the learning contract, the evidence, the mental model, the diagrams, the typography, and the final review.
 
-| Feature | Description |
+### Four commitments
+
+- **A causal spine.** Every lesson moves through a real problem, pressure, mechanism, boundary, and consequence. Exam mode adds positioning, derivations, traps, and transfer checks without turning the page into an answer key.
+- **Diagrams that reason.** A trace, threshold line, or causal chain is constructed from entities, relations, channels, scales, labels, and boundaries. It is not selected from a component menu and then decorated.
+- **Evidence with provenance.** Constructed inputs, measured data, and illustrative examples are distinguished. Units, baselines, uncertainty, and source status survive the visual treatment.
+- **An artifact, not a draft.** One portable HTML file, no build step, responsive layout, visible keyboard focus, and complete reading without JavaScript. Google Fonts is an optional enhancement, with readable local fallbacks.
+
+The visual language is **contemporary constructivist technical editorial**: asymmetric hierarchy, material contrast, editorial restraint, and geometry used as an instrument rather than wallpaper.
+
+<a id="live-preview"></a>
+
+## Three visual arguments
+
+The examples are standalone lessons, not screenshots of a fixed template. Each begins from a different information structure and therefore arrives at a different visual system.
+
+| [Maxwell's equations →](https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-maxwell-equations.html) | [Photoelectric effect →](https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-photoelectric-effect.html) |
+|:--:|:--:|
+| <a href="https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-maxwell-equations.html"><img src="assets/preview-mac.png" width="100%" alt="Maxwell equations lesson: poster-style header and a staged historical layout"></a> | <a href="https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-photoelectric-effect.html"><img src="assets/preview-photo.png" width="100%" alt="Photoelectric effect lesson: threshold-focused header and an evidence-led experimental narrative"></a> |
+| A historical arc carried by a timeline, staged derivation, and evidence collage. | A threshold lesson built around a calibrated axis, competing models, and an annotated apparatus. |
+
+<p align="center"><sub><a href="https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-kmp.html">01 · KMP / 408</a> · <a href="https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-maxwell-equations.html">02 · Maxwell</a> · <a href="https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-photoelectric-effect.html">03 · Photoelectric effect</a> — rendered with <a href="https://htmlpreview.github.io/">htmlpreview</a>.</sub></p>
+
+The examples are written in Mandarin Chinese; the delivered page follows the language of the request.
+
+<a id="how-it-works"></a>
+
+## Designed before it is drawn
+
+Noesis does not begin with a layout. It builds the lesson in layers:
+
+```text
+learning contract → evidence ledger → tested mental model
+→ form selection → diagram construction → responsive HTML
+→ four quality gates
+```
+
+The page is allowed to look bold only after the underlying work is sound. A diagram must pass the same tests as an argument: can the reader read it, does it imply anything false, does it show the boundary, and can its labels be recovered without the surrounding prose?
+
+### Four gates
+
+| Gate | The question it asks |
 |:---|:---|
-| **Standalone HTML** | Zero build tools. One external dependency: Google Fonts CDN. Open in any browser. |
-| **Causal-chain teaching** | Problem → Pressure → Failed approach → Essence hook → Mechanism (real-data worked examples) → Tradeoff → Definition → System impact |
-| **Visual language** | Layer-based color model (L0–L5), 20° axis, plate mounting — a **generative grammar**: a small set of invariants plus a form vocabulary, from which forms are constructed to fit the content |
-| **Exam-point depth** | 408 postgrad entrance exams: positioning, derivations, traps, speed tricks, related topics |
-| **Quality gate** | Invariant check + semantic-validity self-check before every delivery |
+| **Learning and scope** | Could a specified learner explain, predict, or transfer the model after reading? |
+| **Evidence and correctness** | Are claims traceable, scales honest, inputs identified, and code actually run? |
+| **Artifact behavior** | Does it parse, navigate, focus, reflow, and read without JavaScript? |
+| **Visual and semantic validity** | Does the visual thesis land on the main learning turn, and does every diagram remain truthful? |
 
-<a name="install"></a>
+<a id="install"></a>
+
 ## Install
 
-This is an **Agent Skill** (`SKILL.md` + `references/`). Copy the repository into your agent's skills directory:
+Noesis is an **Agent Skill**: `SKILL.md` plus optional references and examples. Copy the repository into your agent's skills directory:
 
 ```bash
+# CodeBuddy (user scope)
+cp -r noesis-tutorial ~/.codebuddy/skills/
+
 # Claude Code / Claude Desktop
 cp -r noesis-tutorial ~/.claude/skills/
 
@@ -76,58 +110,44 @@ cp -r noesis-tutorial ~/.claude/skills/
 cp -r noesis-tutorial .claude/skills/
 ```
 
-Any agent that reads `SKILL.md` can use it — the skill is just rules and examples.
+Any agent that supports `SKILL.md` plus optional reference files can use it. `visual-language.md` is loaded on demand; examples are read selectively.
 
-## Activation
+<a id="usage"></a>
 
-The skill auto-activates when a request matches the frontmatter description:
+## Ask for a lesson
 
-```yaml
-name: noesis-tutorial
-description: Use only when the user asks for a learning artifact — a complete,
-  self-contained HTML learning page (technical tutorial, concept study page,
-  learning notes, exam-point review material). Conversational "explain X" / Q&A
-  requests do NOT trigger this skill; answer them directly.
-  仅当用户明确要求交付 HTML 学习页面时使用；聊天式问答不触发本技能。
-```
+The skill activates only when you request a complete learning artifact. A conversational “explain X” stays conversational.
 
-Or invoke it explicitly by name.
-
-<a name="usage"></a>
-## Usage
-
-Ask for a technical topic as a learning page:
-
-> **"Write a complete study note on KMP with full exam points"**
+> **“Write a complete HTML study note on TCP congestion control, with diagrams and a practice section.”**
 >
-> **"Explain how TCP's three-way handshake works, as an HTML page"**
+> **“Explain how the three-way handshake works, as a standalone HTML learning page.”**
 >
-> **「写一份虚拟内存的学习笔记，要 HTML 页面」**
+> **「写一份虚拟内存的学习笔记，要 HTML 页面。」**
 
-The agent runs the **creation workflow** in `SKILL.md`:
+The output is a single HTML file you can open, keep, print, or share.
 
-```
-Research → Causal chain → Essence hook → Semantic orchestration → Form construction → HTML → Self-check
-```
+<details>
+<summary><strong>Repository map</strong></summary>
 
-Then verifies against the **delivery self-check** (invariants + semantic validity). Pages are standalone — open the HTML directly in a browser.
+<br>
 
-## Repository layout
-
-```
+```text
 noesis-tutorial/
-├── SKILL.md                        # Workflow: when to use, creation workflow, teaching architecture, self-check
+├── SKILL.md                        # Activation, learning architecture, workflow, contract, four gates
 ├── references/
-│   ├── visual-language.md          # The single visual reference: invariants, generative grammar, form vocabulary
-│   ├── example-kmp.html            # Exam-dense / blueprint family
-│   ├── example-maxwell-equations.html  # Poster header / geometric freedom
-│   └── example-photoelectric-effect.html  # Short verdict / dialogue / instruments
+│   ├── visual-language.md          # Aesthetic identity, invariants, form selection, diagram construction, typography, review
+│   ├── example-kmp.html            # Exam-dense / blueprint-led
+│   ├── example-maxwell-equations.html  # Historical arc / poster-led
+│   └── example-photoelectric-effect.html  # Threshold mechanism / instrument-led
+├── assets/                         # README previews
 ├── README.md                       # This file
 ├── README.zh-CN.md                 # 简体中文版本
 └── LICENSE                         # MIT License
 ```
 
-**Execution inputs**: `SKILL.md` + `visual-language.md` + three example pages.
+**Execution inputs:** `SKILL.md` is always active; load `visual-language.md` before writing CSS, and read only the sections of the closest example.
+
+</details>
 
 ---
 

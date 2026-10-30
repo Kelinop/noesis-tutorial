@@ -9,9 +9,9 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;600&family=Urbanist:wght@300;400;500;600&family=Google+Sans+Code:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --paper: #f1ece2; --olive: #cfd6c0; --ink: #1c1c1c; --steel: #637880;
-  --blue: #0f4c81; --blue-note: #9db8cc; --ochre: #b8863b;
-  --white: #ffffff; --red: #e63946; --deep-red: #cc2a26; --amber: #e6b04a;
+  --paper: #f1ece2; --olive: #cfd6c0; --ink: #1c1c1c; --steel: #4a5d65;
+  --blue: #0f4c81; --blue-note: #a8c2d4; --ochre: #b8863b;
+  --white: #ffffff; --red: #e63946; --deep-red: #a92520; --amber: #e6b04a;
   --font-sans: "IBM Plex Sans", "Noto Sans SC", sans-serif;
   --font-mono: "Google Sans Code", "Noto Sans SC", monospace;
   --font-num: "Urbanist", "IBM Plex Sans", sans-serif;
@@ -46,7 +46,8 @@ body {
 .sb-head { background: var(--ink); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; padding: 6px 12px; }
 .sidebar nav a { display: block; padding: 8px 12px; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--steel); font-size: var(--text-sm); }
 .sidebar nav a .n { font-family: var(--font-num); color: var(--steel); margin-right: 8px; }
-.sidebar nav a.active { border-left: 4px solid var(--red); color: var(--red); font-weight: 600; }
+.sidebar nav a.active { border-left: 4px solid var(--red); color: var(--deep-red); font-weight: 600; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; box-shadow: 0 0 0 4px var(--ink); }
 .sb-track { position: relative; height: 64px; }
 .sidebar-progress { position: absolute; left: 0; bottom: 0; width: 4px; height: 0; background: var(--red); }
 .article { position: relative; min-width: 0; }
@@ -62,7 +63,7 @@ body {
 .rt-word { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: .25em; color: var(--steel); display: block; }
 .sec { position: relative; border-top: 4px solid var(--ink); padding: var(--gap-md) 0; }
 .sec.problem { border-top-color: var(--red); }
-.sec.problem .section-tag { background: var(--red); }
+.sec.problem .section-tag { background: var(--deep-red); }
 .sec.essence { border-top-color: var(--deep-red); }
 .sec.essence .section-tag { background: var(--deep-red); }
 .section-tag { display: inline-block; background: var(--ink); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; padding: 2px 10px; margin-bottom: var(--gap-sm); }
@@ -75,15 +76,22 @@ body {
 .article p { margin-bottom: var(--gap-sm); }
 .page-header { padding: var(--gap-lg) 0 var(--gap-md); }
 .kicker { display: inline-block; background: var(--ink); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; padding: 4px 18px 4px 10px; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%); }
-/* ══ 共享组件：页头 · 钩子 · 判词 · 图版系统 ══ */
-.page-header h1 { font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.02em; line-height: 1.05; margin: var(--gap-sm) 0 var(--gap-xs); }
+/* ══ 共享组件：页头 · 本质模型 · 结论 · 图版系统 ══ */
+.page-header h1 { font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.02em; line-height: 1.05; margin: var(--gap-sm) 0 var(--gap-xs); text-wrap: balance; line-break: strict; }
+.page-header h1 em { font-style: normal; border-bottom: 6px solid var(--red); }
 .hdr-bar { width: 4rem; height: 8px; background: var(--red); margin: var(--gap-sm) 0; }
 .subtitle { font-size: var(--text-lg); font-weight: 500; color: var(--steel); max-width: var(--text-rail); }
 .meta { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .05em; margin-top: var(--gap-sm); }
 .hook { background: var(--olive); border: 2px solid var(--ink); padding: var(--gap-md); max-width: var(--text-rail); margin: var(--gap-md) 0; }
 .kw { color: var(--deep-red); font-weight: 600; }
-.giant-num { font-family: var(--font-num); font-weight: 600; font-size: 5rem; line-height: 1; color: var(--paper); -webkit-text-stroke: 2px var(--ink); }
-@supports not (-webkit-text-stroke: 1px black) { .giant-num { color: rgba(99, 120, 128, .35); } }
+.giant-num { font-family: var(--font-num); font-weight: 600; font-size: clamp(6rem, 10vw, 9rem); line-height: .72; letter-spacing: -.08em; color: var(--ink); }
+.sec.essence-index { display: grid; grid-template-columns: clamp(5rem, 9vw, 8.5rem) minmax(0, 1fr); column-gap: clamp(1rem, 2.5vw, 2.25rem); align-items: start; }
+.sec.essence-index > .section-tag { grid-column: 2; grid-row: 1; justify-self: start; margin-bottom: .75rem; }
+.sec.essence-index > h2 { grid-column: 2; grid-row: 2; max-width: 17em; margin-bottom: var(--gap-md); font-size: clamp(2.1rem, 3vw, 3.1rem); line-height: 1.12; text-wrap: balance; }
+.sec.essence-index > .giant-num { grid-column: 1; grid-row: 1 / span 2; align-self: start; }
+.sec.essence-index > .hook { grid-column: 2; grid-row: 3; }
+.sec.essence-index > .circle-callout { grid-column: 1; grid-row: 3; align-self: start; justify-self: start; }
+.sec.essence-index > .text-rail { grid-column: 2; grid-row: 4; }
 .wedge-block { width: 85%; background: var(--ink); color: var(--paper); padding: var(--gap-sm) 3rem; padding-bottom: 5rem; margin: var(--gap-md) 0; clip-path: polygon(0 0, 100% 0, calc(100% - 56px) 100%, 0 100%); font-size: var(--text-lg); font-weight: 500; line-height: 1.4; }
 .giant-verdict { font-size: clamp(1.75rem, 4.2vw, 3.2rem); font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; margin: var(--gap-lg) 0; }
 .giant-verdict em { font-style: normal; border-bottom: 6px solid var(--red); }
@@ -100,17 +108,29 @@ body {
 .plate-caption .cap-num { color: var(--deep-red); font-weight: 600; }
 .fig-ref { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--red); text-decoration: none; }
 .blueprint { background: var(--blue); background-image: linear-gradient(rgba(241,236,226,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(241,236,226,.05) 1px, transparent 1px); background-size: 24px 24px; padding: var(--gap-md); }
-/* ══ 本篇规范组件：G1 切角 · 圆环焦点 · 仪表 · trace ══ */
-.g1-cut { display: inline-block; background: var(--ink); color: var(--paper); padding: var(--gap-md); clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%); min-width: 240px; }
+/* ══ 本篇规范组件：G1 切角 · 圆环焦点 · 阈值轴 · trace ══ */
+.g1-cut { display: inline-block; background: var(--ink); color: var(--paper); padding: var(--gap-md); clip-path: polygon(0 0, 100% 0, 100% calc(100% - 24px), calc(100% - 66px) 100%, 0 100%); min-width: 240px; }
 .g1-cut h4 { color: var(--paper); font-size: var(--text-lg); margin-bottom: var(--gap-xs); }
+.g1-cut p { color: var(--blue-note); }
 .circle-callout { width: 8rem; height: 8rem; border-radius: 50%; border: 3px solid var(--ink); display: flex; align-items: center; justify-content: center; text-align: center; margin: var(--gap-md) 0; }
 .circle-callout.red-c { border-color: var(--red); }
 .circle-callout .circle-inner { font-family: var(--font-num); font-weight: 600; font-size: 2rem; line-height: 1.15; }
 .circle-callout .circle-sub { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); display: block; }
-.gauge-wrap { display: flex; align-items: center; gap: var(--gap-md); flex-wrap: wrap; }
-.gauge-wrap .gv { text-align: center; }
-.gauge-wrap .ro-num { font-family: var(--font-num); font-weight: 600; font-size: 2rem; line-height: 1; display: block; }
-.gauge-wrap .ro-lab { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .1em; }
+.threshold-wrap { display: flex; align-items: center; gap: var(--gap-md); flex-wrap: wrap; }
+.threshold-scale { flex: 1 1 260px; max-width: 340px; color: var(--paper); }
+.ts-axis-label { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .05em; }
+.ts-track { position: relative; height: 2px; background: var(--paper); margin: 2.4rem 0 1.2rem; }
+.ts-track::after { content: ""; position: absolute; right: -4px; top: -4px; border-left: 8px solid var(--paper); border-top: 4px solid transparent; border-bottom: 4px solid transparent; }
+.ts-threshold { position: absolute; left: 60%; top: -20px; width: 3px; height: 40px; background: var(--red); box-shadow: 0 0 0 3px var(--paper); }
+.ts-zone-row { display: grid; grid-template-columns: 60% 40%; font-family: var(--font-mono); font-size: var(--text-xs); }
+.ts-zone-row span { text-align: center; }
+.ts-zone-row span:first-child { color: var(--blue-note); }
+.ts-zone-row span:last-child { color: var(--paper); }
+.ts-value { position: relative; left: 60%; transform: translateX(-50%); width: max-content; max-width: 100%; margin: .75rem 0 .3rem; font-family: var(--font-mono); font-size: var(--text-xs); white-space: nowrap; }
+.ts-note { font-family: var(--font-mono); font-size: 10px; color: var(--blue-note); }
+.threshold-wrap .gv { text-align: center; }
+.threshold-wrap .ro-num { color: var(--paper); font-family: var(--font-num); font-weight: 600; font-size: 2rem; line-height: 1; display: block; }
+.threshold-wrap .ro-lab { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--blue-note); letter-spacing: .1em; }
 .trace { background: var(--blue); background-image: linear-gradient(rgba(241,236,226,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(241,236,226,.05) 1px, transparent 1px); background-size: 24px 24px; padding: var(--gap-md); overflow-x: auto; }
 .tr-grid { display: grid; grid-template-columns: 4.5rem repeat(9, minmax(2.2rem, auto)); gap: 3px; width: max-content; }
 .tr-grid.c3 { grid-template-columns: 4.5rem repeat(3, minmax(2.2rem, auto)); }
@@ -119,15 +139,15 @@ body {
 .tr-h { color: var(--blue-note); font-family: var(--font-num); font-size: var(--text-xs); text-align: center; }
 .tr-lab { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); display: flex; align-items: center; }
 .tr-c { color: var(--paper); font-family: var(--font-num); font-weight: 600; text-align: center; background: rgba(241,236,226,.07); padding: 4px 2px; }
-.tr-c.red { background: var(--red); color: var(--paper); }
+.tr-c.red { background: transparent; color: var(--paper); border: 2px solid var(--red); }
 .trace-header { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); margin-bottom: var(--gap-xs); }
 .trace-action { color: var(--blue-note); font-family: var(--font-mono); font-size: var(--text-xs); margin-top: var(--gap-sm); }
 /* ══ 共享组件：代码块 ══ */
 .code { background: var(--ink); padding: var(--gap-md); overflow-x: auto; font-family: var(--font-mono); font-size: var(--text-sm); color: var(--paper); line-height: 1.7; white-space: pre; text-align: left; }
-.code .kw-s { color: var(--red); font-weight: 600; }
+.code .kw-s { color: var(--paper); font-weight: 600; text-decoration: underline 2px var(--red); text-underline-offset: 3px; }
 .code .st { color: var(--amber); }
 .code .num { color: var(--blue-note); }
-.code .cm { color: var(--steel); }
+.code .cm { color: var(--blue-note); }
 .code .hl { border-left: 2px solid var(--red); padding-left: var(--gap-xs); display: block; }
 /* ══ 本篇规范组件：对话 · 错位双栏 · 对分布局 ══ */
 .dialogue { background: var(--olive); border-top: 3px solid var(--ink); max-width: var(--text-rail); margin: var(--gap-md) 0; }
@@ -136,15 +156,21 @@ body {
 .d-name { display: inline-block; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--paper); background: var(--ink); padding: 2px 10px; letter-spacing: .1em; margin-right: var(--gap-xs); }
 .d-voice.b { margin-left: var(--gap-md); }
 .d-voice.b::before { content: ""; display: inline-block; width: 14px; height: 14px; background: var(--red); clip-path: polygon(0 0, 100% 0, calc(100% - 5px) 100%); margin-right: var(--gap-xs); vertical-align: -2px; }
-.d-voice.b .d-name { background: var(--red); }
+.d-voice.b .d-name { background: var(--deep-red); }
 .staggered { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-md); align-items: start; margin: var(--gap-md) 0; }
 .staggered > *:nth-child(2) { margin-top: var(--gap-md); }
 .split { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap-md); margin: var(--gap-md) 0; }
 .split > * { min-width: 0; }
 /* ══ 共享组件：洞见面板 · 易错框 · 档案面板 · 年表 · 数据表 · 因果链 ══ */
 .insight-panel { background: var(--olive); border: 2px solid var(--ink); box-shadow: 6px 6px 0 rgba(28,28,28,.15); padding: var(--gap-md); max-width: 85%; margin: var(--gap-md) 0; }
+.inset-panel { background: var(--olive); border: 2px solid var(--ink); padding: var(--gap-sm) var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
+.inset-label { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--steel); display: block; margin-bottom: var(--gap-xs); }
+.inset-panel .table-scroll + p { margin-top: var(--gap-sm); }
+.g8-collage { position: relative; margin: var(--gap-lg) 0 var(--gap-md); }
+.g8-base { border: 2px solid var(--ink); padding: var(--gap-md); background: var(--olive); }
+.g8-float { position: relative; background: var(--white); border: 2px solid var(--ink); box-shadow: 8px 8px 0 var(--red); padding: var(--gap-md); margin: -2rem auto 0; max-width: 85%; z-index: 2; }
 .warning-box { background: var(--olive); border: 2px solid var(--ink); border-left: 4px solid var(--red); padding: var(--gap-sm) var(--gap-md); max-width: var(--text-rail); margin: var(--gap-md) 0; }
-.warning-tag { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--red); font-weight: 600; display: block; margin-bottom: var(--gap-xs); }
+.warning-tag { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--deep-red); font-weight: 600; display: block; margin-bottom: var(--gap-xs); }
 .warning-box strong { color: var(--deep-red); }
 .archival-panel { background: var(--ochre); color: var(--ink); border: 3px solid var(--ink); padding: var(--gap-sm) var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
 .archival-panel p { font-size: var(--text-sm); line-height: 1.6; margin-bottom: 0; }
@@ -165,22 +191,29 @@ body {
 .cause-node { background: var(--olive); border: 2px solid var(--ink); padding: var(--gap-sm) var(--gap-md); }
 .cause-node p { margin: 0; font-size: var(--text-sm); }
 .cause-tag { display: inline-block; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--paper); background: var(--ink); padding: 1px 8px; letter-spacing: .1em; margin-bottom: var(--gap-xs); }
-.cause-solution .cause-tag { background: var(--red); }
+.cause-solution .cause-tag { background: var(--deep-red); }
 .cause-arrow { text-align: center; font-size: var(--text-xl); color: var(--steel); line-height: 1; padding: var(--gap-xs) 0; }
 .strip { display: flex; align-items: flex-end; gap: var(--gap-md); border-bottom: 2px solid var(--steel); padding-bottom: var(--gap-sm); margin: var(--gap-md) 0; flex-wrap: wrap; }
 .readout .ro-num { font-family: var(--font-num); font-weight: 600; font-size: 4rem; line-height: 1; }
 .readout .ro-lab { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .1em; }
 .checklist { list-style: none; max-width: var(--text-rail); }
-.checklist li { padding: var(--gap-xs) 0; border-bottom: 1px solid rgba(28,28,28,.2); display: flex; gap: var(--gap-sm); }
+.checklist li { padding: var(--gap-xs) 0; border-bottom: 1px solid rgba(28,28,28,.2); display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: var(--gap-sm); align-items: start; }
 .checklist .ck { font-family: var(--font-num); font-weight: 600; color: var(--deep-red); }
+.checklist-body { min-width: 0; }
 .checklist a { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--red); text-decoration: none; }
 .colophon { border-top: 2px solid var(--ink); margin-top: var(--gap-lg); padding: var(--gap-xs) 0; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .05em; display: flex; gap: var(--gap-md); flex-wrap: wrap; }
 @media (max-width: 768px) {
   .board { grid-template-columns: 1fr; padding: var(--gap-sm); }
-  .sidebar { position: static; width: 100%; }
-  .page-header h1 { font-size: var(--text-2xl); }
+  .sidebar { display: none; }
+  .page-header h1 { font-size: clamp(1.5rem, 7.5vw, 2.5rem); }
   .sec h2 { font-size: var(--text-xl); }
-  .giant-num { font-size: 3rem; }
+  .sec.essence-index { grid-template-columns: 3.4rem minmax(0, 1fr); column-gap: .75rem; }
+  .sec.essence-index > .section-tag { grid-column: 1 / -1; grid-row: 1; }
+  .sec.essence-index > h2 { grid-column: 2; grid-row: 2; max-width: none; margin-bottom: var(--gap-sm); font-size: var(--text-xl); }
+  .sec.essence-index > .giant-num { grid-column: 1; grid-row: 2; font-size: 3.4rem; line-height: .8; }
+  .sec.essence-index > .hook { grid-column: 1 / -1; grid-row: 3; }
+  .sec.essence-index > .circle-callout { grid-column: 1 / -1; grid-row: 4; justify-self: start; margin: var(--gap-xs) 0 var(--gap-sm); }
+  .sec.essence-index > .text-rail { grid-column: 1 / -1; grid-row: 5; }
   .giant-verdict { font-size: clamp(1.25rem, 4.9vw, 1.75rem); }
   .wedge-block { width: 100%; padding-bottom: 3rem; }
   .staggered, .split { grid-template-columns: 1fr; }
@@ -209,12 +242,12 @@ body {
     <div class="sb-head">目录</div>
     <nav>
       <a href="#s-problem"><span class="n">01</span>三个实验事实</a>
-      <a href="#s-essence"><span class="n">02</span>本质钩 · 频率门槛</a>
+      <a href="#s-essence"><span class="n">02</span>本质模型 · 频率门槛</a>
       <a href="#s-mec"><span class="n">03</span>光量子机制</a>
       <a href="#s-conflict"><span class="n">04</span>经典预言 vs 事实</a>
       <a href="#s-experiment"><span class="n">05</span>实验装置与数据</a>
       <a href="#s-impact"><span class="n">06</span>波粒二象性</a>
-      <a href="#s-zhenti"><span class="n">07</span>真题演练</a>
+      <a href="#s-zhenti"><span class="n">07</span>例题演练</a>
       <a href="#s-review"><span class="n">08</span>考点清单</a>
     </nav>
     <div class="sb-track"><div class="sidebar-progress"></div></div>
@@ -224,10 +257,10 @@ body {
 
     <header class="page-header">
       <span class="kicker">MODERN PHYSICS · 近代物理</span>
-      <h1>光电效应：频率才是门槛，光强只决定数量</h1>
+      <h1>光电效应：<em>频率越过阈值</em><br>光强改变光电子数</h1>
       <div class="hdr-bar"></div>
-      <p class="subtitle">三个实验事实、一套失败预言、一个光量子假设：光电效应如何证明「光的能量是一份一份的」，并亲手拆掉了波动说的统治地位。</p>
-      <p class="meta">2026-08 · 近代物理 / 量子力学引论 · 阅读 ≈ 30 MIN · 范围声明：史实经核查（赫兹 1887、勒纳 1902、爱因斯坦 1905、密立根 1916）；数值例题用真实常量（h、c、e）</p>
+      <p class="subtitle">三个实验事实、一套失效预言、一个光量子模型：为什么经典波动图像不足以解释阈值、最大动能与即时响应，光电效应又如何为光的量子性提供关键证据。</p>
+      <p class="meta">2026-08 · 近代物理 / 量子力学引论 · 阅读 ≈ 30 MIN · 范围：单光子光电效应；例题使用公认物理常量与构造输入，不充当实验数据集</p>
     </header>
 
     <!-- ═══ 01 原始问题 ═══ -->
@@ -251,17 +284,17 @@ body {
     </section>
 
     <!-- ═══ 02 本质 ═══ -->
-    <section class="sec essence density-breather" id="s-essence">
-      <span class="section-tag">本质 · ESSENCE</span>
-      <h2>本质钩：频率是门槛，光强是人数</h2>
+    <section class="sec essence essence-index density-breather" id="s-essence">
+      <span class="section-tag">本质模型 · ESSENCE MODEL</span>
+      <h2>频率决定能否越阈，光强决定光电子数</h2>
       <div class="giant-num" aria-hidden="true">02</div>
       <div class="hook">
         <p>把光想成<strong>一发一发子弹</strong>（光子）：每一发的能量 E = hν 由频率决定——频率太低（λ 太长），单发子弹的能量不够击穿金属的逸出功，<span class="kw">子弹再多（光再强）也打不出电子</span>；频率达标后，每发子弹恰好能打出 <span class="kw">一个</span> 电子，多余能量变成它的动能。光强只是「每秒多少发子弹」——所以它只改变<strong>数量</strong>，不改变<strong>单发能量</strong>。</p>
       </div>
       <div class="text-rail">
-        <p>这个模型的断裂点：子弹模型只解释了「能量整包交付」，没有解释「波」的另一半——干涉、衍射依然需要波动图像。光同时是波和粒子，这个「同时」在量子力学里由波函数统一，经典模型只能二选一。</p>
+        <p>这个模型的适用边界：子弹模型只解释了「能量整包交付」，没有解释「波」的另一半——干涉、衍射依然需要波动图像。光同时是波和粒子，这个「同时」在量子力学里由波函数统一，经典模型只能二选一。</p>
       </div>
-      <div class="circle-callout red-c" style="margin:var(--gap-md) auto">
+      <div class="circle-callout red-c">
         <div><span class="circle-inner" style="color:var(--red)">E = hν</span><span class="circle-sub">事件级焦点 · 光量子</span></div>
       </div>
     </section>
@@ -272,7 +305,7 @@ body {
       <span class="section-tag">机制 · THE MECHANISM</span>
       <div class="section-band"><h2><span class="sec-num">03</span>爱因斯坦的账本：hν = W₀ + E<sub>k</sub></h2></div>
       <div class="text-rail">
-        <p>爱因斯坦（1905）把普朗克的能量子假设用到光电效应上：一包能量 hν 进入金属，先付逸出功 W₀（把电子拉出表面的最低门票），剩余的全部变成电子动能。所以<strong>最大动能 E<sub>k</sub> = hν − W₀</strong>——频率线性项，没有光强项（<a class="fig-ref" href="#fig-1">见图 1</a>）；E<sub>k</sub> = 0 时得到红限 <strong>ν₀ = W₀ / h</strong>（<a class="fig-ref" href="#fig-2">见图 2</a>）。</p>
+        <p>爱因斯坦（1905）把能量子假设用于光电效应：单个光子携带 hν，电子吸收后至少要支付逸出功 W₀ 才能离开金属；在无其他能量损失的理想情形下，剩余能量成为电子的最大动能，因此 <strong>E<sub>k max</sub> = hν − W₀</strong>。实际逸出电子可能因散射或深能级损失而具有更小动能（<a class="fig-ref" href="#fig-1">见图 1</a>）；令 E<sub>k max</sub> = 0，得到红限 <strong>ν₀ = W₀ / h</strong>（<a class="fig-ref" href="#fig-2">见图 2</a>）。</p>
       </div>
       <figure class="plate full" id="fig-1">
         <span class="fig-num">图 1</span>
@@ -281,15 +314,16 @@ body {
           <svg viewBox="0 0 620 200" width="100%" role="img" aria-label="光子能量分配：h 乘以 nu 等于逸出功加最大动能">
             <title>能量分配：hν = W₀ + E_k</title>
             <desc>横条总长代表一包光子能量 hν，前段为逸出功 W₀，后段为光电子最大动能 E_k</desc>
-            <text x="20" y="30" font-family="var(--font-sans)" font-size="13" font-weight="500" fill="var(--paper)">一包光子能量 hν（频率决定总长）</text>
+            <text x="20" y="30" font-family="var(--font-sans)" font-size="13" font-weight="500" fill="var(--paper)">单个光子能量 hν（频率决定其大小）</text>
             <rect x="20" y="45" width="220" height="40" fill="var(--blue-note)"/>
             <rect x="240" y="45" width="120" height="40" fill="none" stroke="var(--red)" stroke-width="2.5"/>
             <text x="130" y="70" text-anchor="middle" font-family="var(--font-mono)" font-size="12" fill="var(--ink)">W₀ 逸出功</text>
-            <text x="300" y="70" text-anchor="middle" font-family="var(--font-mono)" font-size="12" fill="var(--paper)">E_k 动能</text>
+            <text x="300" y="70" text-anchor="middle" font-family="var(--font-mono)" font-size="12" fill="var(--paper)">E_k 最大动能</text>
             <text x="20" y="110" font-family="var(--font-mono)" font-size="11" fill="var(--blue-note)">频率 ν 升高 → 总长变长，W₀ 不变，E_k 线性增大</text>
-            <text x="20" y="140" font-family="var(--font-mono)" font-size="11" fill="var(--blue-note)">光强升高 → 总长不变，只有「包数」变多（电子数量↑）</text>
+            <text x="20" y="140" font-family="var(--font-mono)" font-size="11" fill="var(--blue-note)">光强升高 → 总长不变，只有光子数变多（光电子数↑）</text>
             <rect x="20" y="158" width="140" height="18" fill="none" stroke="var(--red)" stroke-width="2"/>
-            <text x="172" y="171" font-family="var(--font-mono)" font-size="11" fill="var(--red)">hν &lt; W₀：包太小（短于 W₀ 段），一个电子都打不出 → 红限</text>
+            <text x="90" y="171" text-anchor="middle" font-family="var(--font-mono)" font-size="11" fill="var(--paper)">hν</text>
+            <text x="172" y="171" font-family="var(--font-mono)" font-size="11" fill="var(--paper)">hν &lt; W₀：光子能量不足，单个光子无法逸出电子 → 红限</text>
           </svg>
         </div>
         <figcaption class="plate-caption"><span class="cap-num">图 1</span>：hν = W₀ + E<sub>k</sub>——频率管「包的大小」，光强管「包的个数」；红限就是「包太小」的边界</figcaption>
@@ -298,25 +332,30 @@ body {
         <span class="fig-num">图 2</span>
         <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
         <div class="blueprint">
-          <div class="gauge-wrap">
-            <svg width="120" height="120" viewBox="0 0 120 120" role="img" aria-label="红限频率 4.83 乘以 10 的 14 次方赫兹仪表">
-              <circle cx="60" cy="60" r="48" fill="none" stroke="var(--blue-note)" stroke-width="4"/>
-              <path d="M 60 60 L 60 14 A 46 46 0 0 1 105 72 Z" fill="var(--red)"/>
-              <text x="60" y="78" text-anchor="middle" font-family="var(--font-num)" font-weight="600" font-size="20" fill="var(--paper)">4.83</text>
-              <text x="60" y="96" text-anchor="middle" font-family="var(--font-mono)" font-size="9" fill="var(--blue-note)">×10¹⁴ Hz</text>
-            </svg>
+          <div class="threshold-wrap">
+            <div class="threshold-scale" role="img" aria-label="红限阈值线：低于阈值无光电子，高于阈值可逸出" aria-describedby="fig2-desc">
+              <div class="ts-axis-label">频率 ν 增大 <span aria-hidden="true">→</span></div>
+              <div class="ts-track" aria-hidden="true">
+                <span class="ts-threshold"></span>
+              </div>
+              <div class="ts-zone-row" aria-hidden="true">
+                <span>无光电子</span><span>可逸出</span>
+              </div>
+              <div class="ts-value" aria-hidden="true">ν₀ = 4.83×10¹⁴ Hz</div>
+              <div class="ts-note" aria-hidden="true">示意轴 · 非等距刻度</div>
+            </div>
             <div class="gv">
               <span class="ro-num">W₀ = 2.0 eV</span>
-              <span class="ro-lab">钠金属逸出功（例题设定）</span>
+              <span class="ro-lab">金属逸出功（例题设定）</span>
             </div>
             <div class="gv">
               <span class="ro-num">λ₀ ≈ 620 nm</span>
               <span class="ro-lab">红限波长 = c / ν₀</span>
             </div>
           </div>
-          <p class="trace-action" style="color:var(--blue-note);font-family:var(--font-mono);font-size:var(--text-xs);margin-top:var(--gap-sm)">红限 = 阈值型读数：ν ≥ ν₀ 才出电子——gauge 的指针位置就是「差多少越过门槛」</p>
+          <p class="trace-action" style="color:var(--blue-note);font-family:var(--font-mono);font-size:var(--text-xs);margin-top:var(--gap-sm)">红限是阈值关系：ν ≥ ν₀ 才可能产生光电子——越过垂直阈值线才有效</p>
         </div>
-        <figcaption class="plate-caption"><span class="cap-num">图 2</span>：红限频率仪表——ν₀ = W₀/h；低于指针位置的任何光强都无效，这是「阈值型」物理量的标准形态</figcaption>
+        <figcaption class="plate-caption" id="fig2-desc"><span class="cap-num">图 2</span>：红限阈值线——ν₀ = W₀/h ≈ 4.83×10¹⁴ Hz（W₀ = 2.0 eV 的例题设定）；低于阈值线的任何光强都无效，高于阈值后才可能产生光电子。横轴为定性示意，不代表等距频率刻度</figcaption>
       </figure>
       <aside class="archival-panel">
         <span class="archival-tag">定义 · 爱因斯坦光电效应方程</span>
@@ -324,7 +363,7 @@ body {
         <p><strong>物理含义</strong>：能量以量子 hν 整包交付；W₀ 是金属表面「最低门票」，与频率无关；E<sub>k max</sub> 与频率成线性关系，与光强无关——三条实验事实一条方程全收。</p>
       </aside>
       <div class="inset-panel">
-        <span class="inset-label">WORKED EXAMPLE · λ = 400 nm 打在 W₀ = 2.0 eV 的钠上</span>
+        <span class="inset-label">WORKED EXAMPLE · λ = 400 nm 打在 W₀ = 2.0 eV 的金属上（例题设定）</span>
         <div class="table-scroll">
           <table class="data-table">
             <thead><tr><th>步骤</th><th>操作</th><th>结果</th></tr></thead>
@@ -341,18 +380,18 @@ body {
       <figure class="plate full" id="fig-3">
         <span class="fig-num">图 3</span>
         <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
-        <div class="code" role="img" aria-label="光电效应能量计算代码"><span class="kw-s">const</span> h  = <span class="num">6.626e-34</span>;   <span class="cm">// Planck 常数 J·s</span>
-<span class="kw-s">const</span> c  = <span class="num">3.0e8</span>;        <span class="cm">// 光速 m/s</span>
-<span class="kw-s">const</span> e  = <span class="num">1.6e-19</span>;      <span class="cm">// 元电荷 C</span>
-<span class="kw-s">const</span> W0 = <span class="num">2.0</span>;          <span class="cm">// 钠逸出功 eV</span>
+        <div class="code" role="region" aria-label="光电效应能量计算代码"><span class="kw-s">const</span> h  = <span class="num">6.626e-34</span>;   <span class="cm">// Planck 常数 J·s</span>
+<span class="kw-s">const</span> c  = <span class="num">2.998e8</span>;      <span class="cm">// 光速 m/s</span>
+<span class="kw-s">const</span> e  = <span class="num">1.602e-19</span>;    <span class="cm">// 元电荷 C</span>
+<span class="kw-s">const</span> W0 = <span class="num">2.0</span>;          <span class="cm">// 例题设定 eV</span>
 <span class="kw-s">const</span> lambda = <span class="num">400e-9</span>;   <span class="cm">// 波长 m</span>
 <span class="kw-s">const</span> E  = (h * c / lambda) / e;          <span class="cm">// → 3.10 eV</span>
-<span class="hl"><span class="kw-s">if</span> (E &gt; W0) {                        <span class="cm">// 红限判定</span>
+<span class="hl"><span class="kw-s">if</span> (E &gt;= W0) {                       <span class="cm">// 红限判定：等号时 E_k = 0</span>
     <span class="kw-s">console</span>.log(<span class="st">"E_k ="</span>, (E - W0).toFixed(<span class="num">2</span>), <span class="st">"eV"</span>);  <span class="cm">// 1.10 eV</span>
 } <span class="kw-s">else</span> {
     <span class="kw-s">console</span>.log(<span class="st">"无光电子（低于红限）"</span>);
 }</span></div>
-        <figcaption class="plate-caption"><span class="cap-num">图 3</span>：方程三行可算——红限判定是 if，不是公式；考试写的也是这个逻辑</figcaption>
+        <figcaption class="plate-caption"><span class="cap-num">图 3</span>：方程三行可算。边界核对：E = W₀ 时 E<sub>k max</sub> = 0，E &lt; W₀ 时无光电子——代码与正文采用同一条红限约定</figcaption>
       </figure>
     </section>
 
@@ -360,28 +399,28 @@ body {
     <section class="sec" id="s-conflict">
       <span class="ruler-tick" aria-hidden="true"><span class="rt-num">04</span><span class="rt-word">CONFLICT</span></span>
       <span class="section-tag">误解 · WAVE VS QUANTA</span>
-      <h2><span class="sec-num">04</span>波动说在三个预言上全部落败</h2>
+      <h2><span class="sec-num">04</span>经典波动图像的三个失灵点</h2>
       <div class="staggered">
         <div style="border:2px solid var(--ink);padding:var(--gap-sm)">
           <p class="p-sm"><strong>经典预言（波动说）</strong>：光强 = 能量密度，光越强电子动能越大；任何频率只要足够强都能打出电子；弱光需要时间积累能量（秒级延迟）。</p>
         </div>
         <div style="background:var(--olive);border:2px solid var(--red);padding:var(--gap-sm)">
-          <p class="p-sm"><strong>实验事实</strong>：动能与光强无关、只随频率线性增长；低于红限永远打不出；出射无延迟（&lt;10⁻⁹ s）。三条预言全部反着来。</p>
+          <p class="p-sm"><strong>实验事实</strong>：最大动能与光强无关、只随频率近似线性增长；低于红限时（单光子条件下）不产生光电子；出射无延迟（&lt;10⁻⁹ s）。三条预测都与实验不一致。</p>
         </div>
       </div>
       <div class="dialogue">
-        <div class="d-voice a">
+        <div class="d-voice">
           <span class="d-name">波动说：</span>「光就是电磁波，能量连续分布——强光能量大，电子当然更容易被打出来。」
         </div>
         <div class="d-voice b">
-          <span class="d-name">光量子说：</span>能量是<strong>整包</strong>交付的。强光只是「包的个数多」，每包的大小仍由频率决定——包不够大（低于红限），再多包也打不出电子。<span class="kw">频率定门槛，光强定人数。</span>
+          <span class="d-name">光量子说：</span>能量是<strong>整包</strong>交付的。强光只是「包的个数多」，每包的大小仍由频率决定——包不够大（低于红限），再多包也打不出电子。<span class="kw">频率决定门槛，光强决定光电子数量。</span>
         </div>
-        <div class="d-voice a">
+        <div class="d-voice">
           <span class="d-name">波动说：</span>「弱光照射，电子在金属里多积累一会儿能量，总会攒够吧？」
         </div>
         <div class="d-voice b">
-          <span class="d-name">光量子说：</span>按波动模型，微弱的紫光要让电子攒够 2 eV 需要<strong>数秒</strong>；实测出射延迟小于 10⁻⁹ 秒——能量不是攒的，是<strong>瞬间整包</strong>到的。这一条直接判了波动说的死刑。</div>
-        <div class="d-voice a">
+          <span class="d-name">光量子说：</span>按波动模型，微弱的紫光要让电子攒够 2 eV 需要<strong>数秒</strong>；实测出射延迟小于 10⁻⁹ 秒——能量不是缓慢累积的，而是以<strong>量子化能量包</strong>交换。经典波动模型无法解释这一即时性。</div>
+        <div class="d-voice">
           <span class="d-name">波动说：</span>「那把光再加强一点，电子的动能总能大一点吧？」
         </div>
         <div class="d-voice b">
@@ -461,7 +500,7 @@ body {
           <div class="g1-cut" style="margin-bottom:var(--gap-md)">
             <h4>截止电压读数</h4>
             <p class="p-sm">V₀ = 1.10 V</p>
-            <p style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--steel);margin:0">E_k = e·V₀ = 1.10 eV</p>
+            <p style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--blue-note);margin:0">E_k = e·V₀ = 1.10 eV</p>
           </div>
           <p style="font-size:var(--text-sm)">G1 切角容器：工业精度读数——V₀ 与 E<sub>k max</sub> 的一一对应。</p>
         </div>
@@ -480,9 +519,9 @@ body {
     <section class="sec" id="s-impact">
       <span class="ruler-tick" aria-hidden="true"><span class="rt-num">06</span><span class="rt-word">IMPACT</span></span>
       <span class="section-tag">系统影响 · DUALITY</span>
-      <h2><span class="sec-num">06</span>光既是波又是粒子：物理学的第一次「二象性」</h2>
+      <h2><span class="sec-num">06</span>波与粒子：经典分类在这里失效</h2>
       <div class="text-rail">
-        <p>光电效应证明光有粒子性（能量整包），干涉衍射证明光有波动性——两者都是实测。这个矛盾没有「二选一」的答案：<strong>量子力学用波函数同时容纳两者</strong>，而光的二象性反过来启发了德布罗意（1924）：既然光有粒子性，粒子是否也有波动性？——物质波假说由此诞生，量子力学的波动力学版本（薛定谔方程）就此展开（<a class="fig-ref" href="#fig-6">见图 6</a>）。</p>
+        <p>光电效应表明，光与物质交换能量时呈现离散的量子行为；干涉与衍射则呈现传播中的波动特征。两者都是经验事实，不能靠把光塞回单一经典图像来消解。量子理论用态与概率幅描述光的传播和探测，具体呈现取决于实验安排；这一认识也启发了德布罗意提出物质波，并推动薛定谔波动力学的发展（<a class="fig-ref" href="#fig-6">见图 6</a>）。</p>
       </div>
       <figure class="plate light" id="fig-6">
         <span class="fig-num">图 6</span>
@@ -493,10 +532,10 @@ body {
             <p style="font-size:var(--text-sm)">赫兹发现光电效应 → 爱因斯坦光量子 → 密立根验证 → 德布罗意：物质波。</p>
           </div>
           <div class="g8-float">
-            <p style="font-size:var(--text-lg);font-weight:600;margin:0"><em class="kw">光同时是波和粒子——而粒子，也同时是波。</em></p>
+            <p style="font-size:var(--text-lg);font-weight:600;margin:0"><em class="kw">光不能被塞回单一的经典波或经典粒子范畴——量子描述统一了它的传播与交换。</em></p>
           </div>
         </div>
-        <figcaption class="plate-caption">图 6：波粒二象性是光电效应的系统影响——它打开了整个量子力学</figcaption>
+        <figcaption class="plate-caption">图 6：波粒二象性不是光电效应的逻辑终点，而是它推动量子理论发展的关键一步</figcaption>
       </figure>
       <div class="insight-panel">
         <p class="p-sm"><strong>应试技巧</strong>：光电效应计算三件套——① E(eV) = 1240/λ(nm)（背住 hc ≈ 1240 eV·nm）；② E<sub>k</sub> = E − W₀；③ 红限判断 E ≥ W₀。单位统一（J ↔ eV）是失分重灾区：出 eV 结果先问自己「÷e 了吗」。</p>
@@ -511,14 +550,14 @@ body {
           <div class="ro-lab">hc 速记常量</div>
         </div>
       </div>
-      <p class="giant-verdict" id="verdict-1">波动说输给的不是实验精度——<em>是「能量必须按频率分级」这一条物理事实</em>。</p>
+      <p class="giant-verdict" id="verdict-1">经典波动模型不是输在精度——<em>而是无法解释阈值、最大动能与即时响应同时成立</em>。</p>
     </section>
 
-    <!-- ═══ 07 真题演练 ═══ -->
+    <!-- ═══ 07 例题演练 ═══ -->
     <section class="sec density-dense" id="s-zhenti">
-      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">07</span><span class="rt-word">408</span></span>
-      <span class="section-tag">真题演练 · WORKED EXAMPLES</span>
-      <h2><span class="sec-num">07</span>高频考点三连问</h2>
+      <span class="ruler-tick" aria-hidden="true"><span class="rt-num">07</span><span class="rt-word">PRACTICE</span></span>
+      <span class="section-tag">例题演练 · WORKED EXAMPLES</span>
+      <h2><span class="sec-num">07</span>三个典型问题</h2>
       <div class="inset-panel">
         <span class="inset-label">Q1 · λ = 500 nm，W₀ = 2.3 eV，能否出电子？最大动能？</span>
         <div class="table-scroll">
@@ -526,18 +565,18 @@ body {
             <thead><tr><th>步骤</th><th>操作</th><th>结果</th></tr></thead>
             <tbody>
               <tr><td>1</td><td>E = 1240 / 500</td><td>2.48 eV</td></tr>
-              <tr><td>2</td><td>红限判定：2.48 &lt; 2.3？</td><td>否（2.48 &gt; 2.3）</td></tr>
+              <tr><td>2</td><td>能否越过红限：2.48 ≥ 2.3？</td><td class="key-cell">是</td></tr>
               <tr><td>3</td><td>E<sub>k</sub> = 2.48 − 2.3</td><td class="key-cell">0.18 eV</td></tr>
             </tbody>
           </table>
         </div>
       </div>
       <div class="text-rail">
-        <p><strong>Q2 · 光强加倍，截止电压如何变？</strong>光强加倍 → 光子数加倍 → <strong>光电流（饱和）加倍，截止电压不变</strong>（V₀ 只由频率与 W₀ 决定，即第 04 节对话的最后一问）；题设若同时提高频率，V₀ 按 ΔV₀ = (h/e)·Δν 增大。<strong>Q3 · 由 V₀–ν 图求 h 与 W₀</strong>：斜率 = h/e → h = 斜率 × e；延长线与 ν 轴交点 = 红限 ν₀ → W₀ = h·ν₀——两条信息一条直线全给（<a class="fig-ref" href="#fig-5">见图 5</a>）。</p>
+        <p><strong>Q2 · 同一频率下光强加倍，截止电压如何变？</strong>光子数增加，饱和光电流相应增加；<strong>截止电压不变</strong>，因为 V₀ 只由频率与 W₀ 决定（第 04 节的结论）。若另设更高频率，则截止电压按 ΔV₀ = (h/e)·Δν 增大。<strong>Q3 · 由 V₀–ν 图求 h 与 W₀</strong>：斜率 = h/e，故 h = 斜率 × e；直线与 ν 轴交点给出红限 ν₀，再由 W₀ = hν₀ 求逸出功（<a class="fig-ref" href="#fig-5">见图 5</a>）。</p>
       </div>
       <div class="warning-box">
         <span class="warning-tag">易错 · 三种「加倍」各改什么</span>
-        <p><strong>光强加倍 → 电子数量加倍</strong>；<strong>频率加倍 → 动能按 hΔν 增加</strong>；<strong>照射面积加倍 → 数量加倍（单位面积不变）</strong>。考题混用三者时，先写 hν = W₀ + E<sub>k</sub>，再问每个量进了哪一项。</p>
+        <p><strong>同频率下光强加倍 → 饱和光电流近似加倍，单个光电子的最大动能不变</strong>；<strong>频率增加 Δν → 最大动能增加 hΔν</strong>；<strong>照射面积改变总光通量，不改变截止电压</strong>。遇到混合变化，先写 hν = W₀ + E<sub>k max</sub>，再判断每个量进入哪一项。</p>
       </div>
     </section>
 
@@ -547,15 +586,15 @@ body {
       <span class="section-tag">回顾 · 考点清单</span>
       <h2><span class="sec-num">08</span>考点清单（索引）</h2>
       <ul class="checklist">
-        <li><span class="ck">01</span>三个实验事实：红限 / 动能-频率线性 / 无延迟（<a href="#s-problem">第 01 节</a>）。</li>
-        <li><span class="ck">02</span>本质钩：频率定门槛、光强定人数（<a href="#s-essence">第 02 节</a>）。</li>
-        <li><span class="ck">03</span>爱因斯坦方程 hν = W₀ + E<sub>k</sub>；红限 ν₀ = W₀/h（<a href="#fig-1">图 1</a>、<a href="#fig-2">图 2</a>）。</li>
-        <li><span class="ck">04</span>计算速记：E(eV) = 1240/λ(nm)；hc ≈ 1240 eV·nm（<a href="#fig-3">图 3</a>）。</li>
-        <li><span class="ck">05</span>波动说三预言全部落败；光强改数量不改动能（staggered + dialogue）。</li>
-        <li><span class="ck">06</span>截止电压 e·V₀ = E<sub>k max</sub>；V₀–ν 直线斜率 h/e（<a href="#fig-4">图 4</a>、<a href="#fig-5">图 5</a>）。</li>
-        <li><span class="ck">07</span>光强/频率/面积三种「加倍」各改什么（warning box）。</li>
-        <li><span class="ck">08</span>波粒二象性 → 物质波 → 量子力学（<a href="#fig-6">图 6</a>）。</li>
-        <li><span class="ck">09</span>核心判词回顾：<a href="#verdict-1">「能量必须按频率分级」</a>。</li>
+        <li><span class="ck">01</span><span class="checklist-body">三个实验事实：红限 / 最大动能与频率近似线性 / 无延迟（<a href="#s-problem">第 01 节</a>）。</span></li>
+        <li><span class="ck">02</span><span class="checklist-body">本质模型：频率决定单光子能量门槛，光强改变光子通量（<a href="#s-essence">第 02 节</a>）。</span></li>
+        <li><span class="ck">03</span><span class="checklist-body">爱因斯坦方程 hν = W₀ + E<sub>k max</sub>；红限 ν₀ = W₀/h（<a href="#fig-1">图 1</a>、<a href="#fig-2">图 2</a>）。</span></li>
+        <li><span class="ck">04</span><span class="checklist-body">计算速记：E(eV) = 1240/λ(nm)；hc ≈ 1240 eV·nm（<a href="#fig-3">图 3</a>）。</span></li>
+        <li><span class="ck">05</span><span class="checklist-body">经典波动图像的三处失灵；同频率下光强改变光电子数量，不改变最大动能。</span></li>
+        <li><span class="ck">06</span><span class="checklist-body">截止电压 e·V₀ = E<sub>k max</sub>；V₀–ν 直线斜率 h/e（<a href="#fig-4">图 4</a>、<a href="#fig-5">图 5</a>）。</span></li>
+        <li><span class="ck">07</span><span class="checklist-body">光强、频率与照射面积分别改变哪些量（warning box）。</span></li>
+        <li><span class="ck">08</span><span class="checklist-body">波粒二象性 → 物质波 → 量子理论（<a href="#fig-6">图 6</a>）。</span></li>
+        <li><span class="ck">09</span><span class="checklist-body">核心结论回顾：<a href="#verdict-1">「阈值、最大动能与即时响应同时构成约束」</a>。</span></li>
       </ul>
     </section>
 

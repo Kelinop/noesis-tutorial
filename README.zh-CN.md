@@ -17,8 +17,8 @@
 
 <h3>把技术概念转化为「设计过的工程知识页面」</h3>
 
-<p>构成主义技术编辑风格的 HTML 学习笔记。<br>
-不是教材搬运，也不是 Markdown 转 HTML。</p>
+<p>单文件、零构建的 HTML 学习页面，采用<strong>当代构成主义技术编辑语言</strong>。<br>
+以因果解释、可检验的心智模型与有依据的视觉层级为核心——不是教材搬运，也不是 Markdown 转 HTML。</p>
 
 <p>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-0f4c81?style=flat-square" alt="License: MIT"></a>
@@ -47,21 +47,21 @@
 
 | # | 例文 | 主题 | 页面气质 |
 |:---:|:---|:---|:---|
-| 01 | [KMP 全 408 考点](https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-kmp.html) | KMP（408） | 考点密集 / 图纸族：真实数据 trace、交互 stepper、双条错位图、档案面板 |
-| 02 | [麦克斯韦方程组](https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-maxwell-equations.html) | 麦克斯韦方程组 | 海报式 / 几何自由：ochre 时间线、G7 层级色阶、镜像对置构图、G8 拼贴 |
-| 03 | [光电效应](https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-photoelectric-effect.html) | 光电效应 | 短判词 / 对话 / 仪表：红日、红限仪表、立场对话、SVG 装置 |
+| 01 | [KMP 全 408 考点](https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-kmp.html) | KMP（408） | 高频考点 / 图纸族：构造输入 trace、交互 stepper、双条错位图、档案参照面板 |
+| 02 | [麦克斯韦方程组](https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-maxwell-equations.html) | 麦克斯韦方程组 | 历史海报 / 几何自由：时间线、递进推导、镜像对置构图、证据拼贴 |
+| 03 | [光电效应](https://htmlpreview.github.io/?https://github.com/Kelinop/noesis-tutorial/blob/main/references/example-photoelectric-effect.html) | 光电效应 | 阈值焦点 / 阈值轴 / 模型对话：红限阈值轴、立场碰撞、SVG 装置 |
 
-三篇例文覆盖差异最大化的三种页面气质；它们演示的是同一套由生成语法构造出的视觉语言，而非一份组件目录。
+三篇例文侧重三种内容关系：考点密集的图纸、历史推演的海报、阈值判断的标尺。它们演示同一套生成语法，不是可直接照搬的模板。
 
 ## 产出
 
 | 特性 | 说明 |
 |:---|:---|
-| **独立 HTML** | 零构建工具。唯一外部依赖：Google Fonts CDN。浏览器直接打开。 |
-| **因果链教学** | 问题 → 压力 → 旧方案失败 → 本质解释 → 机制（真实数据推演）→ 权衡 → 定义 → 系统影响 |
-| **视觉语言** | 分层色板（L0–L5）、20° 轴线、图版装裱——一套**生成语法**：少量不变量 + 形式词汇表，形式按内容语义自行构造 |
-| **考点深度** | 408 考研：考点定位、推导、陷阱、速算、关联考点 |
-| **质检关卡** | 交付前执行不变量校验 + 语义有效性自查 |
+| **单文件 HTML** | 零构建步骤。浏览器直接打开；Google Fonts 是可选 CDN 依赖，并保留可读回退。 |
+| **学习架构** | 学习者与先修知识 → 概念依赖图 → 因果弧 → 经普通例、边界例和迁移任务检验的心智模型 |
+| **视觉语言** | 当代构成主义技术编辑：材料职能（L0–L5）、字体层级、响应式构图、分层选型，以及从命题与视觉通道到尺度、标注、边界和无 JS/窄屏变体的图解施工流程；美学效果与表达新颖性是硬性约束之后的正面标准 |
+| **考点深度** | 考点定位、逐状态推导、陷阱、验证技巧与关联考点；分值主张仅在可靠来源支持时出现 |
+| **四道质量门** | 学习与范围、证据与正确性、产物的实际行为、视觉与语义有效性 |
 
 <a name="安装"></a>
 ## 安装
@@ -69,6 +69,9 @@
 这是一个 **Agent Skill**（`SKILL.md` + `references/`）。把仓库复制进你的 agent 的 skills 目录：
 
 ```bash
+# CodeBuddy（用户级）
+cp -r noesis-tutorial ~/.codebuddy/skills/
+
 # Claude Code / Claude Desktop
 cp -r noesis-tutorial ~/.claude/skills/
 
@@ -76,7 +79,7 @@ cp -r noesis-tutorial ~/.claude/skills/
 cp -r noesis-tutorial .claude/skills/
 ```
 
-任何会读取 `SKILL.md` 的 agent 都能使用——skill 的本质就是规则与样例。
+任何支持 `SKILL.md` 与可选参考文件的 agent 都能使用。`visual-language.md` 按需加载，示例按内容关系选择性阅读。
 
 ## 激活规则
 
@@ -84,10 +87,9 @@ cp -r noesis-tutorial .claude/skills/
 
 ```yaml
 name: noesis-tutorial
-description: Use only when the user asks for a learning artifact — a complete,
-  self-contained HTML learning page (technical tutorial, concept study page,
-  learning notes, exam-point review material). Conversational "explain X" / Q&A
-  requests do NOT trigger this skill; answer them directly.
+description: Use only when the user asks for a complete, no-build HTML learning
+  page (technical tutorial, concept study page, learning notes, or exam-point
+  review). Conversational "explain X" / Q&A requests do NOT trigger this skill.
   仅当用户明确要求交付 HTML 学习页面时使用；聊天式问答不触发本技能。
 ```
 
@@ -98,36 +100,38 @@ description: Use only when the user asks for a learning artifact — a complete,
 
 以学习页面的形式提出技术主题：
 
-> **「写一份 KMP 的完整 408 考点笔记」**
+> **「写一份 KMP 的完整 408 考点笔记，要 HTML 页面」**
 >
-> **"Write a complete study note on KMP with full exam points"**
+> **"Write a complete HTML study note on KMP with full exam points"**
 >
-> **「解释虚拟内存，要 HTML 页面」**
+> **「解释虚拟内存，做成 HTML 学习页面」**
 
 agent 按 `SKILL.md` 的**创建流程**执行：
 
 ```
-调研 → 因果链 → 本质模型 → 语义编排 → 形式构造 → HTML → 交付自查
+学习契约 → 证据台账 → 依赖图 → 受检验的心智模型
+→ 语义与审美编排 → 形式选择与图解施工 → 增量生成 HTML → 四道质量门
 ```
 
-交付前过**交付自查**（不变量校验 + 语义有效性）。页面独立自包含，浏览器直接打开。
+交付前依次检查学习与范围、证据与正确性、产物行为、视觉与语义有效性。产物是单文件、零构建页面，浏览器直接打开。
 
 ## 目录结构
 
 ```
 noesis-tutorial/
-├── SKILL.md                        # 工作流：使用时机、创建流程、教学架构、交付自查（中英双语）
+├── SKILL.md                        # 激活规则、教学架构、工作流、输出契约、四道质量门
 ├── references/
-│   ├── visual-language.md          # 单一视觉参考：不变量、生成语法、形式词汇表（中英混排）
-│   ├── example-kmp.html            # 考点密集 / 图纸族
-│   ├── example-maxwell-equations.html  # 海报式 / 几何自由
-│   └── example-photoelectric-effect.html  # 短判词 / 对话 / 仪表
+│   ├── visual-language.md          # 审美界定、不变量、形式选择、图解施工、字体排版、审美复核
+│   ├── example-kmp.html            # 考点密集 / 图纸主导
+│   ├── example-maxwell-equations.html  # 历史弧 / 海报主导
+│   └── example-photoelectric-effect.html  # 阈值机制 / 阈值轴主导
+├── assets/                         # README 预览图
 ├── README.md                       # English version
 ├── README.zh-CN.md                 # 本文件
 └── LICENSE                         # MIT License
 ```
 
-**执行输入**：`SKILL.md` + `visual-language.md` + 三篇例文。
+**执行输入**：`SKILL.md` 始终参与；写 CSS 前加载 `visual-language.md`，示例只读与当前内容关系最接近的相关部分。
 
 ---
 

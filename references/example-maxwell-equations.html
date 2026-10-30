@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>麦克斯韦方程组：一场关于不对称性的百年修补</title>
+<title>麦克斯韦方程组：从不对称到自洽</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;600&family=Urbanist:wght@300;400;500;600&family=Google+Sans+Code:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --paper: #f1ece2; --olive: #cfd6c0; --ink: #1c1c1c; --steel: #637880;
-  --blue: #0f4c81; --blue-note: #9db8cc; --ochre: #b8863b;
-  --white: #ffffff; --red: #e63946; --deep-red: #cc2a26; --amber: #e6b04a;
+  --paper: #f1ece2; --olive: #cfd6c0; --ink: #1c1c1c; --steel: #4a5d65;
+  --blue: #0f4c81; --blue-note: #a8c2d4; --ochre: #b8863b;
+  --white: #ffffff; --red: #e63946; --deep-red: #a92520; --amber: #e6b04a;
   --font-sans: "IBM Plex Sans", "Noto Sans SC", sans-serif;
   --font-mono: "Google Sans Code", "Noto Sans SC", monospace;
   --font-num: "Urbanist", "IBM Plex Sans", sans-serif;
@@ -46,7 +46,8 @@ body {
 .sb-head { background: var(--ink); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; padding: 6px 12px; }
 .sidebar nav a { display: block; padding: 8px 12px; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--steel); font-size: var(--text-sm); }
 .sidebar nav a .n { font-family: var(--font-num); color: var(--steel); margin-right: 8px; }
-.sidebar nav a.active { border-left: 4px solid var(--red); color: var(--red); font-weight: 600; }
+.sidebar nav a.active { border-left: 4px solid var(--red); color: var(--deep-red); font-weight: 600; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; box-shadow: 0 0 0 4px var(--ink); }
 .sb-track { position: relative; height: 64px; }
 .sidebar-progress { position: absolute; left: 0; bottom: 0; width: 4px; height: 0; background: var(--red); }
 .article { position: relative; min-width: 0; }
@@ -62,7 +63,7 @@ body {
 .rt-word { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: .25em; color: var(--steel); display: block; }
 .sec { position: relative; border-top: 4px solid var(--ink); padding: var(--gap-md) 0; }
 .sec.problem { border-top-color: var(--red); }
-.sec.problem .section-tag { background: var(--red); }
+.sec.problem .section-tag { background: var(--deep-red); }
 .sec.essence { border-top-color: var(--deep-red); }
 .sec.essence .section-tag { background: var(--deep-red); }
 .section-tag { display: inline-block; background: var(--ink); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; padding: 2px 10px; margin-bottom: var(--gap-sm); }
@@ -75,17 +76,22 @@ body {
 .article p { margin-bottom: var(--gap-sm); }
 .page-header { padding: var(--gap-lg) 0 var(--gap-md); }
 .kicker { display: inline-block; background: var(--ink); color: var(--paper); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; padding: 4px 18px 4px 10px; clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%); }
-/* ══ 本篇海报式页头变体 + 共享：钩子 · 判词 · 图版系统 ══ */
+/* ══ 本篇海报式页头变体 + 共享：本质模型 · 结论 · 图版系统 ══ */
 .poster-marks { display: flex; gap: 4px; margin: var(--gap-sm) 0; }
 .poster-marks i { width: 12px; height: 12px; display: inline-block; border: 1px solid var(--ink); }
-.page-header h1 { font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.02em; line-height: 1.05; margin: var(--gap-sm) 0 var(--gap-xs); }
+.page-header h1 { font-size: var(--text-3xl); font-weight: 600; letter-spacing: -0.02em; line-height: 1.05; margin: var(--gap-sm) 0 var(--gap-xs); text-wrap: balance; line-break: strict; }
 .page-header h1 em { font-style: normal; border-bottom: 6px solid var(--red); }
 .subtitle { font-size: var(--text-lg); font-weight: 500; color: var(--steel); max-width: var(--text-rail); }
 .meta { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .05em; margin-top: var(--gap-sm); }
 .hook { background: var(--olive); border: 2px solid var(--ink); padding: var(--gap-md); max-width: var(--text-rail); margin: var(--gap-md) 0; }
 .kw { color: var(--deep-red); font-weight: 600; }
-.giant-num { font-family: var(--font-num); font-weight: 600; font-size: 5rem; line-height: 1; color: var(--paper); -webkit-text-stroke: 2px var(--ink); }
-@supports not (-webkit-text-stroke: 1px black) { .giant-num { color: rgba(99, 120, 128, .35); } }
+.giant-num { font-family: var(--font-num); font-weight: 600; font-size: clamp(6rem, 10vw, 9rem); line-height: .72; letter-spacing: -.08em; color: var(--ink); }
+.sec.essence-index { display: grid; grid-template-columns: clamp(5rem, 9vw, 8.5rem) minmax(0, 1fr); column-gap: clamp(1rem, 2.5vw, 2.25rem); align-items: start; }
+.sec.essence-index > .section-tag { grid-column: 2; grid-row: 1; justify-self: start; margin-bottom: .75rem; }
+.sec.essence-index > h2 { grid-column: 2; grid-row: 2; max-width: 17em; margin-bottom: var(--gap-md); font-size: clamp(2.1rem, 3vw, 3.1rem); line-height: 1.12; text-wrap: balance; }
+.sec.essence-index > .giant-num { grid-column: 1; grid-row: 1 / span 2; align-self: start; }
+.sec.essence-index > .hook { grid-column: 2; grid-row: 3; }
+.sec.essence-index > .text-rail { grid-column: 2; grid-row: 4; }
 .wedge-block { width: 85%; background: var(--ink); color: var(--paper); padding: var(--gap-sm) 3rem; padding-bottom: 5rem; margin: var(--gap-md) 0; clip-path: polygon(0 0, 100% 0, calc(100% - 56px) 100%, 0 100%); font-size: var(--text-lg); font-weight: 500; line-height: 1.4; }
 .giant-verdict { font-size: clamp(1.75rem, 4.2vw, 3.2rem); font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; margin: var(--gap-lg) 0; }
 .giant-verdict em { font-style: normal; border-bottom: 6px solid var(--red); }
@@ -109,14 +115,14 @@ body {
 .timetable .tt-time { font-family: var(--font-num); font-weight: 600; font-size: var(--text-sm); }
 .timetable .tt-evt { font-size: var(--text-sm); margin-top: 2px; }
 .archive-card { border-left: 8px solid var(--ochre); padding: var(--gap-sm) var(--gap-md); max-width: var(--text-rail); margin: var(--gap-md) 0; }
-.archive-card .ac-quote { font-size: var(--text-sm); line-height: 1.6; font-style: italic; }
+.archive-card .ac-quote { font-size: var(--text-sm); line-height: 1.6; font-style: normal; }
 .archive-card .ac-src { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .05em; margin-top: var(--gap-xs); display: block; }
-.ac-stamp { display: inline-block; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .1em; transform: rotate(-4deg); margin-bottom: var(--gap-sm); }
+.ac-stamp { display: inline-block; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .1em; padding-bottom: 2px; border-bottom: 1px solid var(--steel); margin-bottom: var(--gap-sm); }
 .stair { display: flex; flex-direction: column; gap: 0; max-width: var(--text-rail); margin: var(--gap-md) 0; }
 .stair-item { border: 2px solid var(--ink); padding: var(--gap-sm); margin-bottom: 12px; }
 .stair-item:nth-child(1) { background: var(--paper); }
 .stair-item:nth-child(2) { background: var(--olive); }
-.stair-item:nth-child(3) { background: var(--steel); color: var(--paper); }
+.stair-item:nth-child(3) { background: var(--blue); color: var(--paper); }
 .stair-item:nth-child(4) { background: var(--ink); color: var(--paper); }
 .stair-item:nth-child(2) { margin-left: var(--gap-md); }
 .stair-item:nth-child(3) { margin-left: calc(var(--gap-md) * 2); }
@@ -129,7 +135,7 @@ body {
 .cause-node { background: var(--olive); border: 2px solid var(--ink); padding: var(--gap-sm) var(--gap-md); }
 .cause-node p { margin: 0; font-size: var(--text-sm); }
 .cause-tag { display: inline-block; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--paper); background: var(--ink); padding: 1px 8px; letter-spacing: .1em; margin-bottom: var(--gap-xs); }
-.cause-solution .cause-tag { background: var(--red); }
+.cause-solution .cause-tag { background: var(--deep-red); }
 .cause-arrow { text-align: center; font-size: var(--text-xl); color: var(--steel); line-height: 1; padding: var(--gap-xs) 0; }
 .color-field { padding: var(--gap-md); }
 .color-field.ochre-field { background: var(--ochre); color: var(--ink); max-width: 85%; }
@@ -148,32 +154,38 @@ body {
 .cmp td { padding: var(--gap-xs); border-bottom: 1px solid var(--ink); vertical-align: top; }
 .cmp td.num { font-family: var(--font-num); }
 .code { background: var(--ink); padding: var(--gap-md); overflow-x: auto; font-family: var(--font-mono); font-size: var(--text-sm); color: var(--paper); line-height: 1.7; white-space: pre; text-align: left; }
-.code .kw-s { color: var(--red); font-weight: 600; }
+.code .kw-s { color: var(--paper); font-weight: 600; text-decoration: underline 2px var(--red); text-underline-offset: 3px; }
 .code .st { color: var(--amber); }
 .code .num { color: var(--blue-note); }
-.code .cm { color: var(--steel); }
+.code .cm { color: var(--blue-note); }
 .code .hl { border-left: 2px solid var(--red); padding-left: var(--gap-xs); display: block; }
 .archival-panel { background: var(--ochre); color: var(--ink); border: 3px solid var(--ink); padding: var(--gap-sm) var(--gap-md); margin: var(--gap-md) 0; max-width: var(--text-rail); }
 .archival-panel p { font-size: var(--text-sm); line-height: 1.6; margin-bottom: 0; }
 .archival-panel p + p { margin-top: var(--gap-xs); }
 .archival-tag { display: inline-block; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--paper); background: var(--ink); padding: 2px 8px; margin-bottom: var(--gap-xs); letter-spacing: .1em; }
 .warning-box { background: var(--olive); border: 2px solid var(--ink); border-left: 4px solid var(--red); padding: var(--gap-sm) var(--gap-md); max-width: var(--text-rail); margin: var(--gap-md) 0; }
-.warning-tag { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--red); font-weight: 600; display: block; margin-bottom: var(--gap-xs); }
+.warning-tag { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: .1em; color: var(--deep-red); font-weight: 600; display: block; margin-bottom: var(--gap-xs); }
 .warning-box strong { color: var(--deep-red); }
 .strip { display: flex; align-items: flex-end; gap: var(--gap-md); border-bottom: 2px solid var(--steel); padding-bottom: var(--gap-sm); margin: var(--gap-md) 0; flex-wrap: wrap; }
 .readout .ro-num { font-family: var(--font-num); font-weight: 600; font-size: 4rem; line-height: 1; }
 .readout .ro-lab { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .1em; }
 .checklist { list-style: none; max-width: var(--text-rail); }
-.checklist li { padding: var(--gap-xs) 0; border-bottom: 1px solid rgba(28,28,28,.2); display: flex; gap: var(--gap-sm); }
+.checklist li { padding: var(--gap-xs) 0; border-bottom: 1px solid rgba(28,28,28,.2); display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: var(--gap-sm); align-items: start; }
 .checklist .ck { font-family: var(--font-num); font-weight: 600; color: var(--deep-red); }
+.checklist-body { min-width: 0; }
 .checklist a { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--red); text-decoration: none; }
 .colophon { border-top: 2px solid var(--ink); margin-top: var(--gap-lg); padding: var(--gap-xs) 0; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--steel); letter-spacing: .05em; display: flex; gap: var(--gap-md); flex-wrap: wrap; }
 @media (max-width: 768px) {
   .board { grid-template-columns: 1fr; padding: var(--gap-sm); }
-  .sidebar { position: static; width: 100%; }
-  .page-header h1 { font-size: var(--text-2xl); }
+  .sidebar { display: none; }
+  .page-header h1 { font-size: clamp(1.5rem, 7.5vw, 2.5rem); }
   .sec h2 { font-size: var(--text-xl); }
-  .giant-num { font-size: 3rem; }
+  .sec.essence-index { grid-template-columns: 3.4rem minmax(0, 1fr); column-gap: .75rem; }
+  .sec.essence-index > .section-tag { grid-column: 1 / -1; grid-row: 1; }
+  .sec.essence-index > h2 { grid-column: 2; grid-row: 2; max-width: none; margin-bottom: var(--gap-sm); font-size: var(--text-xl); }
+  .sec.essence-index > .giant-num { grid-column: 1; grid-row: 2; font-size: 3.4rem; line-height: .8; }
+  .sec.essence-index > .hook,
+  .sec.essence-index > .text-rail { grid-column: 1 / -1; }
   .giant-verdict { font-size: clamp(1.25rem, 4.9vw, 1.75rem); }
   .wedge-block { width: 100%; padding-bottom: 3rem; }
   .insight-panel { max-width: 100%; }
@@ -195,7 +207,7 @@ body {
     <div class="sb-head">目录</div>
     <nav>
       <a href="#s-problem"><span class="n">01</span>四组互不关联的定律</a>
-      <a href="#s-essence"><span class="n">02</span>本质钩 · 不对称补偿</a>
+      <a href="#s-essence"><span class="n">02</span>本质模型 · 不对称补偿</a>
       <a href="#s-history"><span class="n">03</span>演进史</a>
       <a href="#s-four"><span class="n">04</span>四个方程</a>
       <a href="#s-displacement"><span class="n">05</span>位移电流</a>
@@ -212,9 +224,9 @@ body {
     <header class="page-header">
       <span class="kicker">ELECTROMAGNETISM · 电磁学</span>
       <div class="poster-marks" aria-hidden="true"><i style="background:var(--ink)"></i><i style="background:var(--red)"></i><i style="background:var(--deep-red)"></i><i style="background:var(--ochre)"></i><i style="background:var(--olive)"></i></div>
-      <h1>麦克斯韦方程组：<em>一场关于不对称性的百年修补</em></h1>
-      <p class="subtitle">从库仑到麦克斯韦：四个方程如何把「电」与「磁」焊成一体，又为什么方程组自己预言了光速——而光速的不变，最终推翻了牛顿的时空。</p>
-      <p class="meta">2026-08 · 电磁学 / 物理学史 · 阅读 ≈ 30 MIN · 范围声明：史实经核查（库仑 1785、奥斯特 1820、法拉第 1831、麦克斯韦 1864）；公式用积分形式表述</p>
+      <h1>麦克斯韦方程组：<em>从不对称到自洽</em></h1>
+      <p class="subtitle">从库仑到麦克斯韦：四条定律如何被组织成统一的电磁理论，为什么方程组给出光速，以及光速不变如何迫使经典时空观让位。</p>
+      <p class="meta">2026-08 · 电磁学 / 物理学史 · 阅读 ≈ 30 MIN · 范围：公式采用积分形式；历史叙事用于建立问题背景，不代替原始文献考据</p>
     </header>
 
     <!-- ═══ 01 原始问题 ═══ -->
@@ -238,15 +250,15 @@ body {
     </section>
 
     <!-- ═══ 02 本质 ═══ -->
-    <section class="sec essence density-breather" id="s-essence">
-      <span class="section-tag">本质 · ESSENCE</span>
-      <h2>本质钩：电磁学是一部「不对称性补偿」的历史</h2>
+    <section class="sec essence essence-index density-breather" id="s-essence">
+      <span class="section-tag">本质模型 · ESSENCE MODEL</span>
+      <h2>用「对称性补偿」串起方程演进</h2>
       <div class="giant-num" aria-hidden="true">02</div>
       <div class="hook">
         <p>看麦克斯韦方程组，别数方程——看<strong>对称性</strong>：两个「散度」方程管场的来源（电荷有源、磁荷无源），两个「旋度」方程管场的变化（法拉第：磁变生电；麦克斯韦补上：<span class="kw">电变生磁</span>）。最后一个方程不是新实验，是<strong>对称性要求补上的半块拼图</strong>——而补上它之后，方程组自己开始「震荡」，震荡的传播速度恰好等于光速。</p>
       </div>
       <div class="text-rail">
-        <p>这个模型的断裂点：对称性只是<strong>美学指引</strong>，不是物理证明——位移电流之所以成立，靠的是它预言的现象（电磁波）被赫兹 1888 年实验证实。对称性负责提问题，实验负责给答案。</p>
+        <p>这个模型的适用边界：对称性只是<strong>美学指引</strong>，不是物理证明——位移电流之所以成立，靠的是它预言的现象（电磁波）被赫兹 1888 年实验证实。对称性负责提问题，实验负责给答案。</p>
       </div>
     </section>
 
@@ -361,7 +373,7 @@ body {
           <div class="cause-arrow">↓</div>
           <div class="cause-node cause-solution"><span class="cause-tag">后果</span><p>电场变化现在能产生磁场——「电变生磁」补上了对称性的另一半（<a class="fig-ref" href="#fig-1">见图 1</a> 右轨）。</p></div>
         </div>
-        <figcaption class="plate-caption"><span class="cap-num">图 2</span>：位移电流是「让定律自洽」的补丁——它没有实验直接支持，唯一出价是：方程组从此允许波动解</figcaption>
+        <figcaption class="plate-caption"><span class="cap-num">图 2</span>：位移电流的核心约束是电荷守恒与安培定律自洽；它同时使方程组允许波动解，并由后续电磁波实验接受检验</figcaption>
       </figure>
       <div class="warning-box">
         <span class="warning-tag">易错 · 位移电流不是电流</span>
@@ -380,7 +392,7 @@ body {
       <figure class="plate full" id="fig-3">
         <span class="fig-num">图 3</span>
         <div class="plate-marks" aria-hidden="true"><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i></div>
-        <div class="code" role="img" aria-label="光速计算：c 等于 1 除以根号下 mu0 乘 epsilon0 约等于 2.998 亿米每秒"><span class="kw-s">import</span> math
+        <div class="code" role="region" aria-label="光速计算：c 等于 1 除以根号下 mu0 乘 epsilon0 约等于 2.998 亿米每秒"><span class="kw-s">import</span> math
 mu0   = <span class="num">4</span> * math.pi * <span class="num">1e-7</span>     <span class="cm"># 真空磁导率（定义值）</span>
 eps0  = <span class="num">8.854187817e-12</span>       <span class="cm"># 真空介电常数（测量值）</span>
 c     = <span class="num">1</span> / math.sqrt(mu0 * eps0)  <span class="cm"># 方程组的波动解速度</span>
@@ -407,9 +419,9 @@ c     = <span class="num">1</span> / math.sqrt(mu0 * eps0)  <span class="cm"># �
               <line x1="600" y1="52" x2="600" y2="94"/>
             </g>
             <rect x="363" y="52" width="8" height="42" fill="none" stroke="var(--red)" stroke-width="2.5"/>
-            <text x="367" y="40" text-anchor="middle" font-family="var(--font-mono)" font-size="10" fill="var(--red)">可见 380–760 nm</text>
+            <text x="367" y="40" text-anchor="middle" font-family="var(--font-mono)" font-size="10" fill="var(--paper)">可见 380–760 nm</text>
             <line x1="367" y1="44" x2="367" y2="50" stroke="var(--red)" stroke-width="2"/>
-            <text x="367" y="112" text-anchor="middle" font-family="var(--font-mono)" font-size="10" fill="var(--blue-note)">人类唯一的电磁窗口</text>
+            <text x="367" y="112" text-anchor="middle" font-family="var(--font-mono)" font-size="10" fill="var(--blue-note)">人眼可见的窄窗</text>
             <g font-family="var(--font-mono)" font-size="11" fill="var(--paper)" text-anchor="middle">
               <text x="149" y="76">无线电 · 微波</text><text x="320" y="76">红外</text>
               <text x="396" y="76">紫外</text><text x="470" y="76">X 射线</text><text x="560" y="76">γ 射线</text>
@@ -425,7 +437,7 @@ c     = <span class="num">1</span> / math.sqrt(mu0 * eps0)  <span class="cm"># �
               <text x="310" y="142">10¹³</text><text x="407" y="142">10¹⁶</text><text x="503" y="142">10¹⁹</text>
               <text x="600" y="142">10²²</text>
             </g>
-            <text x="20" y="162" font-family="var(--font-mono)" font-size="11" fill="var(--blue-note)">频率 ν / Hz（对数刻度）——全部都是同一种东西：以 c 传播的电磁波，区别只在频率</text>
+            <text x="20" y="162" font-family="var(--font-mono)" font-size="11" fill="var(--blue-note)">频率 ν / Hz（对数刻度）——经典描述中同属以 c 传播的电磁波，差异由频率与波长表征</text>
           </svg>
         </div>
         <figcaption class="plate-caption"><span class="cap-num">图 4</span>：电磁波谱（对数频率的连续谱带）——「光是电磁波」把光学、无线电、X 射线全并进了一个物理对象</figcaption>
@@ -455,7 +467,7 @@ c     = <span class="num">1</span> / math.sqrt(mu0 * eps0)  <span class="cm"># �
         <figcaption class="plate-caption">图 5：结论从证据浮现——拼贴平面的浮动层即「系统影响」的高点</figcaption>
       </figure>
       <div class="insight-panel">
-        <p style="font-size:var(--text-sm);margin:0"><strong>应试要点</strong>：麦克斯韦方程组在考题中的三个常驻问法——① 位移电流的作用（修自洽 + 补对称性）；② 为什么预言光速（波动解速度 = 1/√(μ₀ε₀)）；③ 方程组与相对论的关系（光速绝对 → 时空相对）。答 ② 时写出 c = 1/√(μ₀ε₀) 并代入量级即满分。</p>
+        <p style="font-size:var(--text-sm);margin:0"><strong>应试要点</strong>：麦克斯韦方程组在考题中的三个常驻问法——① 位移电流的作用（修自洽 + 补对称性）；② 为什么预言光速（波动解速度 = 1/√(μ₀ε₀)）；③ 方程组与相对论的关系（光速绝对 → 时空相对）。答 ② 时写出 c = 1/√(μ₀ε₀)、代入常量并比较光速量级；这些是常见评分点，实际得分以题目要求与评分标准为准。</p>
       </div>
     </section>
 
@@ -465,7 +477,7 @@ c     = <span class="num">1</span> / math.sqrt(mu0 * eps0)  <span class="cm"># �
       <span class="section-tag">权衡 · TRADEOFF</span>
       <h2><span class="sec-num">08</span>统一的代价：方程从「实验总结」变成了「公理体系」</h2>
       <div class="text-rail">
-        <p>四方程统一了电、磁、光，代价是<strong>数学地位的重构</strong>：前三个方程曾是实验定律的精确表述，加入位移电流后，整个方程组变成<strong>公理</strong>——实验地位反转：不再是「方程组总结实验」，而是「方程组预言、实验来验证」。麦克斯韦方程组从此必须与麦克斯韦-玻尔兹曼速度分布律、洛伦兹变换配合使用；在量子尺度，它还要让位给量子电动力学。统一一次，边界就要重新画一次。</p>
+        <p>四方程统一了电、磁、光，也改变了理论的组织方式：加入位移电流后，方程组不再只是分立的实验总结，而能作为经典电动力学的基本框架产生可检验的预言。它与洛伦兹力共同连接场和带电粒子，在介质中还需要相应的本构关系；进入高速与微观情境时，则分别显现相对论形式与量子电动力学的适用边界。统一并没有取消边界，而是让边界表达得更清楚。</p>
       </div>
       <div class="strip">
         <div class="readout">
@@ -477,7 +489,7 @@ c     = <span class="num">1</span> / math.sqrt(mu0 * eps0)  <span class="cm"># �
           <div class="ro-lab">波动解速度 = 光速（2.998×10⁸ m/s）</div>
         </div>
       </div>
-      <p class="giant-verdict" id="verdict-1">麦克斯韦没有发现光的本质——<em>他只是补上了对称性，方程组自己喊出了光</em>。</p>
+      <p class="giant-verdict" id="verdict-1">麦克斯韦不是为公式补妆——<em>他让方程满足电荷守恒，并从中读出电磁波与光</em>。</p>
     </section>
 
     <!-- ═══ 09 回顾 ═══ -->
@@ -486,14 +498,14 @@ c     = <span class="num">1</span> / math.sqrt(mu0 * eps0)  <span class="cm"># �
       <span class="section-tag">回顾 · 考点清单</span>
       <h2><span class="sec-num">09</span>考点清单（索引）</h2>
       <ul class="checklist">
-        <li><span class="ck">01</span>历史脉络：库仑 → 奥斯特 → 安培 → 法拉第 → 麦克斯韦 → 赫兹（timetable + archive card）。</li>
-        <li><span class="ck">02</span>四方程分工：两个散度管「源」，两个旋度管「变」；级位即进度（G7 层级色阶）。</li>
-        <li><span class="ck">03</span>对称性双轨：法拉第 ↔ 位移电流互为镜像（<a href="#fig-1">图 1</a>）。</li>
-        <li><span class="ck">04</span>位移电流：安培定律在电容器处崩溃 → ε₀dΦ_E/dt 补丁（<a href="#fig-2">图 2</a> + warning box）。</li>
-        <li><span class="ck">05</span>预言光速：c = 1/√(μ₀ε₀) ≈ 3×10⁸（<a href="#fig-3">图 3</a>）。</li>
-        <li><span class="ck">06</span>电磁波谱：可见光只是 380–760 nm 窗口（<a href="#fig-4">图 4</a>）。</li>
-        <li><span class="ck">07</span>系统影响：光速不变 → 狭义相对论（<a href="#fig-5">图 5</a>）。</li>
-        <li><span class="ck">08</span>核心判词回顾：<a href="#verdict-1">「方程组自己喊出了光」</a>。</li>
+        <li><span class="ck">01</span><span class="checklist-body">历史脉络：库仑 → 奥斯特 → 安培 → 法拉第 → 麦克斯韦 → 赫兹（timetable + archive card）。</span></li>
+        <li><span class="ck">02</span><span class="checklist-body">四方程分工：两个散度管「源」，两个旋度管「变」；级位即进度（G7 层级色阶）。</span></li>
+        <li><span class="ck">03</span><span class="checklist-body">对称性双轨：法拉第 ↔ 位移电流互为镜像（<a href="#fig-1">图 1</a>）。</span></li>
+        <li><span class="ck">04</span><span class="checklist-body">位移电流：安培定律在电容器处崩溃 → ε₀dΦ_E/dt 补丁（<a href="#fig-2">图 2</a> + warning box）。</span></li>
+        <li><span class="ck">05</span><span class="checklist-body">预言光速：c = 1/√(μ₀ε₀) ≈ 3×10⁸（<a href="#fig-3">图 3</a>）。</span></li>
+        <li><span class="ck">06</span><span class="checklist-body">电磁波谱：可见光约占 380–760 nm 的窄窗（<a href="#fig-4">图 4</a>）。</span></li>
+        <li><span class="ck">07</span><span class="checklist-body">系统影响：光速不变促使经典时空观被狭义相对论取代（<a href="#fig-5">图 5</a>）。</span></li>
+        <li><span class="ck">08</span><span class="checklist-body">核心结论回顾：<a href="#verdict-1">「让方程满足电荷守恒，并从中读出电磁波与光」</a>。</span></li>
       </ul>
     </section>
 

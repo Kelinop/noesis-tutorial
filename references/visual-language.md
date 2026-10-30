@@ -1,195 +1,362 @@
-# Visual Language — 构成主义视觉语言 / Constructivist Visual Language
+# Visual Language — 构成主义技术编辑视觉语言
 
-The single visual reference for this skill. It is not a component catalog — it is a **generative grammar**: a small set of invariants, a style canon, and a vocabulary from which you *construct* forms that fit the content. The three example pages (`example-kmp.html`, `example-maxwell-equations.html`, `example-photoelectric-effect.html`) are the living demonstrations; consult them when you need to see a principle embodied.
+Use this single reference to construct the page's visual argument. Do not treat it as a component catalog or a historical reconstruction kit. The examples demonstrate possibilities; they never override the Invariants.
 
-> 自由来自边界清晰。Invariants（§2）不可协商；其余一切都是默认值、启发与候选——可以偏离，只要能说清偏离带来的语义增益。
+> 自由来自边界清晰。审美对象不是红色、切角与标尺的集合，而是信息、注意力、材料与留白之间的关系。
 
-## 1. Philosophy — 三原则
+## 1. Aesthetic Identity — 审美界定
 
-- **构造可见（Construction is visible）**：网格、轴线、标尺、对版标记裸露在外——读者看到的是一块被构造出来的展板，不是被装饰的页面。推论：构造元素必须真的可见——一条只藏在 8px 切角里的轴线不算显形（见 §3.1）。
-- **色彩即职能（Color is function）**：每种颜色是一个工程角色的材料，角色固定、永不互换。页面没有"装饰色"，只有"这种材料此刻承担什么职能"。
-- **几何即仪器（Geometry is instrumentation）**：几何形测量、指示、传递。每个形式必须能回答"它编码了什么"——答不上来就删除（见 §4.3）。
+### 1.1 Position
 
-参照系：展板、工程图纸、展览板、苏联统计图形——Rodchenko / Lissitzky 的构成主义材料与蓝图传统的融合。不是海报，不是 SaaS 落地页。
+Define the style as **contemporary constructivist technical editorial**: the rhetorical force of constructivist graphics, the precision of technical drawing, the reading discipline of editorial grids, and the explanatory economy of information design.
+
+Borrow methods, not costumes:
+
+| Reference | Borrow | Do not infer |
+|---|---|---|
+| Rodchenko / Lissitzky / Popova | Organized force, asymmetry, scale contrast, type as structure, economical materials | A mandatory angle, a universal red-black recipe, or historical authenticity |
+| Technical drawing / blueprints | Explicit coordinates, traces, registration, measurable relations | Decorative crosshairs around every element |
+| Editorial grids / typography | A stable reading rail, hierarchy, cadence, alignment, deliberate rupture | Uniform cards or symmetry as the default |
+| ISOTYPE / statistical graphics | Redundant encoding, countable relations, direct comparison, legends | Pictograms without an explained mapping |
+
+A poster composition is welcome when the learning arc needs one. Avoid generic SaaS polish, propaganda pastiche, and ornament whose only justification is “constructivist.”
+
+### 1.2 Three principles
+
+- **构造可见 / Construction is visible** — expose the grid, joints, axes, and transitions that explain how the page is organized. Hide construction that would only add noise.
+- **色彩即职能 / Color is function** — assign each material a stable local role. Never ask a hue alone to carry a distinction.
+- **几何即仪器 / Geometry is instrumentation** — use geometry to measure, direct, connect, separate, or compare. Preserve the content when a form fails; reselect the form rather than deleting the lesson.
+
+Judge beauty by four outcomes: **recognizable force, lucid hierarchy, apt form, and exact craft**. Visual excitement is not evidence of learning; aesthetic appeal and task performance require separate checks.
 
 ## 2. Invariants — 不可协商项
 
-Only these rules are absolute. Everything else in this document is a default or a candidate.
+Only this section is visually blocking. The Delivery Contract in `SKILL.md` is separately blocking. Canon and defaults may change for a stated semantic or compositional gain; examples are never rules.
 
-### 2.1 色层模型（L0–L5，色值与职能固定）
+### 2.1 Material roles and palette
 
-| 层 | 材料 | 职能 | 承载 |
+| Layer | Material | Function | Typical carriers |
 |---|---|---|---|
-| **L0** | paper `#f1ece2`（+ 材料档 olive `#cfd6c0`） | 空气 / 图底 | 页面底色、正文、陈述类容器底。olive 是 L0 的描图纸档，不是新色层 |
-| **L1** | ink `#1c1c1c` + steel `#637880` | 结构 | ink = 主结构（边框、标题带、判词、代码底）；steel = 次结构（刻度、图注、辅助线、字级注释），永不成面 |
-| **L2** | blue `#0f4c81` + blue-note `#9db8cc` | 图纸 | 只承载**可测量的内容**（机制图解、位格式、推演、读数）；注释一律 blue-note |
-| **L3** | ochre `#b8863b` | 档案 | 史料、引文、定义、约定；永不做文字色 |
-| **L4** | white `#ffffff` | 纸卡 | 仅三处：sidebar、页面级浮起 UI（含 G8 浮动平面）、punch card 孔位 |
-| **L5** | red `#e63946` + deep-red `#cc2a26` | 事件与焦点 | red = 动态事件（动词）；deep-red = 静态焦点（名词） |
-| 例外 | amber `#e6b04a` | 代码字符串 | 仅代码块作用域内 |
+| **L0** | paper `#f1ece2`; olive `#cfd6c0` | Air / exposition | Page ground, prose, explanatory and tracing-paper surfaces |
+| **L1** | ink `#1c1c1c`; steel `#4a5d65` | Structure / secondary reading | Text, rules, frames, code ground; steel only on light surfaces |
+| **L2** | blue `#0f4c81`; blue-note `#a8c2d4` | Measurement | Mechanism plates, derivations, readouts; blue-note on blue or ink only |
+| **L3** | ochre `#b8863b` | Record | Dated evidence, quotations, definitions, conventions; ink text only |
+| **L4** | white `#ffffff` | Lifted layer | Navigation, floating UI, collage planes, punch-card holes; not a general card color |
+| **L5** | red `#e63946`; deep-red `#a92520` | Intervention / resolution | red = movement, pressure, active path; deep-red = settled focus, key term, result |
+| Scoped | amber `#e6b04a` | Code string | Code blocks only |
 
-### 2.2 双红分工
+Keep these roles stable within a page. Explain any non-obvious mapping with a legend, label, shape, position, or text. Treat “red = verb / deep-red = noun” as a mnemonic, not a universal grammar.
 
-red = 动词：方向、动作、正在发生（主动路径、压力点、进度、失败格）。deep-red = 名词：被钉住的重点（判词词眼、关键数字、check 编号、结果格）。二者同屏不互替；相邻红系元素之间用 L0/L1 隔开。
+### 2.2 Contrast and redundant encoding
 
-### 2.3 叠加与对比度禁令（可读性底线）
+- Meet **4.5:1** for ordinary text and **3:1** for large text. Meet **3:1** for meaningful graphical parts, boundaries, and control states against adjacent colors.
+- Use `paper` or `white` for ordinary text on blue; use `blue-note` for secondary text on blue or ink. Use `steel` only on paper or olive. Use `deep-red`, not `red`, for small emphasized text on paper or olive.
+- Do not place essential red text or paper text on a red fill on blue. Keep red on blue as a supplementary stroke or marker, paired with a readable label and a non-color cue.
+- Do not use `ochre` as text. Do not place `steel`, `blue-note`, or either red on an incompatible surface merely to preserve a component recipe.
+- Never encode state, category, success, failure, or focus by color alone. Add text, shape, pattern, position, or line style.
 
-- steel 禁落 L2（注释用 blue-note）与 L3（注释用 ink）；blue-note 只落 L2。
-- deep-red 禁落蓝底（蓝底焦点改用 red）；红系禁落 L3。
-- ochre 只落 L0，不与 L2 相邻（间距 ≥32px），永不做文字色；ochre 上的文字用 ink（≈5.3:1 达标）。
-- steel / ochre 对比度低于 4.5:1——只做图注、刻度、标签等**非必要注释**，禁止承担必要正文。
-- white 只出现在 L4 的三处；内容表面四类：机制 → L2，代码 → ink 材料面，陈述 → L0/olive，档案 → L3。
+These are perceptual constraints, not exemptions for decorative text. Mark genuinely decorative marks `aria-hidden` and keep them out of the reading order.
 
-### 2.4 红面阈值
+### 2.3 Reading integrity
 
-红永不成面：字级、线级（≥2px）、小块（<64×64）合法；≥64×64 的实色红面违规；红色总量 ≤1% 视口。**边界**：线框（描边）与纯线条不是"面"，不受此限——红日（§3.4）、红梁等签名姿态因此合法；唯一实面例外是 ≤128px 的实心红圆（压力/转折结论，Rodchenko 红日）。UI 交互态（hover / active）豁免。
+- Keep body text upright, selectable, and unclipped. Do not rotate, crop, overlap, or bleed essential reading matter for a compositional effect.
+- Preserve content and operation at 200% zoom and at 320 CSS px width. Allow local two-dimensional scrolling only when the relation itself requires it, such as a trace table or diagram.
+- Keep labels, captions, evidence, and controls adjacent to what they explain. Do not let a signature element interrupt the primary reading path.
+- Preserve visible keyboard focus and a usable no-JS reading order.
 
-### 2.5 呼吸规则
+### 2.4 Material honesty
 
-连续深色（L1+L2+L3 填充面）≤60% 视口——任意滚动位置成立。dense ≠ 深色；留白是结构不是剩余（见 §3.5）。
+Ban continuous color gradients, glow, soft shadows, glass effects, and rounded card containers. Allow hard-stop grids, hatching, true circles, punch holes, and a hard offset shadow only when it expresses layering or state.
 
-### 2.6 轴线唯一
+Do not combine `clip-path` with border or outer shadow on the same clipped element. Put required outlines on an unclipped wrapper or construct the silhouette without them.
 
-全页唯一倾角 20°（自水平量取），唯一方向 `/`（自右上向左下）。所有斜切、楔形、三角指针、剖面线、对角分隔共享同一斜率。切角深度 ≈ 高度 × 0.36（tan20°），且只切入组件底部呼吸区、永不切入文本区。**轴线永不进入机制图解内部**——图解内一律正交；正文文字永不倾斜（display 字的例外见 §3.3）。
+## 3. Generative Grammar — 生成语法
 
-### 2.7 材料质感禁令
+### 3.1 Compose a visual thesis
 
-禁渐变、辉光、柔化阴影（硬投影例外，如 `8px 8px 0 red`）、毛玻璃、圆角容器（`border-radius` 仅两处：圆形焦点、punch 孔位）、`clip-path` 与 border/box-shadow 共存（会被裁切——切角件用剪影成型）。
-
-## 3. Style Canon — 风格正典
-
-The canon is how the invariants become *composition*. These are strong defaults, not gates — deviate when the content argues for it.
-
-### 3.1 轴线三级显形（Axis at Three Scales）
-
-The 20° axis must be *seen*, at three scales:
-
-- **micro（修边）**：kicker、标题带、楔形、三角指针的切角——现状即合法，但它只是标点。
-- **meso（构件）**：楔形块、爆炸框错位、阶梯错位、剖面线方向——构件级的轴线表达。
-- **macro（页面）**：**对角时刻（Diagonal Moment）**——每页 1–2 次页面级对角构图：海报页头的斜切色块或沿轴排布的标题组、高潮处的全幅对角分隔线、一块压向图版的对角色场。没有 macro 级的页面，轴线等于不存在。
-
-### 3.2 动态平衡（Dynamic Balance, not Symmetry）
-
-构图的合法性判据是**平衡**，不是对称。正文轨保持稳定居中（这是阅读纪律，不是构图律）；展件与页面级元素做砝码式构图，三枚砝码可单独或组合使用：
-
-- **面积砝码**：大对小——主图版对大留白、巨字对小注释。
-- **材料砝码**：重对轻——ink 面对 paper 空、色场对呼吸带。
-- **方向砝码**：对角对置——楔形指向与留白方向相反、出血与收窄对置。
-
-判据：视线在页面上不停滞、不倒向一边。说不出哪里失衡，就是平衡了；无需再为每一次非对称写论证。
-
-### 3.3 字即材料（Type as Material）
-
-Display 场景（页头标题、巨字判词、巨字编号、节编号）中，字是构图材料：
-
-- 字重开放到 **700**（CDN 链接须同步声明）；拉丁 display 词可全大写、紧凑行高（1.0–1.1）。
-- 判词可**齐幅堆叠**：每行独立缩放到同一宽度（Rodchenko 字块）。
-- 巨字编号可**出血**：部分溢出板面或图版边缘（Lissitzky 式），用描边或低对比填充保持背景性。
-- 正文纪律不变：400–600、行高 1.7、文字轨 ≈68 字符、正文永不倾斜。display 字可沿轴线倾斜——每页至多一处，且必须是页面最强的那个词。
-
-### 3.4 红的三姿态（Three Red Gestures）
-
-红色的合法签名姿态，**同页每种至多一次**，与红面阈值的边界见 §2.4：
-
-- **红日（Red Sun）**：线框红圆，直径可达 ~10rem——事件级焦点声明（压力/转折结论同时成立时）。描边不是面，不受阈值限；实心红圆 ≤128px 的例外同样保留。范式例：example-photoelectric-effect 的 E=hν。
-- **红楔（Red Wedge）**：纯几何刺穿动作——一个红色楔形/三角越过容器边界、指向压力点（Lissitzky「红楔刺白圆」）。无文字、不成面（线级或小块）。它指向的内容必须有压力语义。
-- **红梁（Red Beam）**：水平事件长条（高 ≤14px，宽 ≤ 板面宽），用作节间的事件分隔或页头定调。它替代了旧体系"禁止页面级线条"的绝对禁令——页面级线条合法的条件：沿轴线，或承担事件语义。
-
-三姿态互斥同屏；与 G8 拼贴、巨字判词共用同一高潮点时，只留一个。
-
-### 3.5 构造性留白（Designed Negative Space）
-
-空白是图底的形状，不是内容的剩余。每屏应有一处**被设计的空白**：有方向的留白（对角通道）、有位置的留白（单边大留白构成面积砝码）、有节奏的留白（dense 节后的 breather）。60% 规则（§2.5）是下限；构造性留白是目标。检查方式：眯眼看页面，空白应当像墨块一样有形状。
-
-### 3.6 图文咬合（Text-Geometry Interlock）
-
-- 标注引线沿轴线方向，不进入图解内部；图版标签可**骑缝压框**（标签块压住图版边框线，Lissitzky 式），不必全部缩在框内。
-- 图版必须被正文引用（见图 N / see Fig. N），或图题本身传达机制结论——无人引用的图版是装饰。
-- 词眼（deep-red 字级焦点）落在 L0；蓝底上的焦点用 red 字级标签。
-
-### 3.7 生产痕迹签名（Production Signatures）
-
-默认在线的页面签名：四角 crop marks（≥1100px）、页缘标尺刻度（静态 tick + 编号，无竖线、无滚动条）、图版对版十字、页脚 colophon（版式 / 字体 / 色版 / 图版数 / 轴线 20°）。它们是"艺术进入生产"的直接声明，短页可减配（标尺随 sidebar 一起省略），但 colophon 永不省略。
-
-## 4. Generative Grammar — 生成语法
-
-### 4.1 生成顺序
+After establishing the learning arc, write one internal sentence before choosing components:
 
 ```text
-内容关系 → 教学动作 → 语义标注 → 叙事状态（色层）→ 形式构造（词汇表为候选，不自限于词汇表）→ 构图（动态平衡 + 密度节奏）→ 不变量复核
+[核心学习转折] → [主导形式或材料对比]；以 [稳定阅读轨 / 留白 / 正交结构] 制衡；采用 [密度节奏]。
 ```
 
-### 4.2 语义标注（创作起点）
+Use this thesis to decide what should dominate and what should remain quiet. Do not begin with “which signature elements have not appeared yet.”
 
-选择任何颜色、组件或布局之前，为每个章节与图解单元写一行内部标注（不交付给读者）：
+### 3.2 Annotate before styling
+
+Annotate each section and consequential figure, not every decorative fragment.
+
+**Required form-selection triple**
 
 ```text
-[教学动作] [信息关系] [叙事状态] [强度] [证据属性] [阅读角色]
-例：手工推演 / 多变量状态变化 / 测量 / 重点 / 真实数据 / 主图
+[读者问题] [主要学习操作] [信息关系 + 证据状态]
+例：失配后哪个指针移动？ / 追踪状态转移 / 状态×时间；具体构造输入
 ```
 
-叙事状态映射色层：解释 → L0、结构 → L1、被测量/推演 → L2、被记录/定义 → L3、浮起 UI → L4、正在发生/被钉住 → L5。材料转场（L0→L2→L3→L5 的流动）应能被章节语义解释。
+Choose one primary learning operation from: **locate, sequence, trace, compare, quantify, predict, synthesize**. Add at most one supporting operation when it directly serves the primary one. If a unit asks the reader to perform more than two distinct operations, split it or narrow its purpose.
 
-### 4.3 形式有效性（Form Validity）
+**Optional material and attention note**
 
-- **编码自查（规则 B）**：每个机制组件写一行 `信息关系 → 形式 → 该形式编码了什么语义操作`（例：指针移动 → 双轨图 → 编码主串指针的前进与不退）。答不上来 → 打回重选形式，不是删组件。
-- **退化禁令（规则 A）**：形式退化为同构格阵（>16 个单元仅靠颜色区分，编码不了移动/方向/转移/连接）即失效。**免疫条款**：位置本身携带语义时（punch card 的位号、条带对齐的重叠位置）不算退化。
-- 语义没命中的页面允许全部矩形——多样性是语义匹配的自然结果，不是目标。
+```text
+[叙事状态] [强度] [阅读角色]
+```
 
-### 4.4 组合关系
+Map narrative state to material: exposition → L0, structure → L1, measurement → L2, record → L3, lifted interaction → L4, intervention or resolution → L5. Let material changes mark actual changes in reading work.
 
-- **协同**：组件承担不同的教学动作与页面角色，形成序列（直觉 → 推演 → 解释 → 回顾）。
-- **替代**：同一信息关系至少有两个可说明差异的候选；选择理由是"想强调什么"，不是"哪个唯一正确"。
-- **冲突**：两个形式争夺同一叙事角色或同一视觉高点 → 二选一（巨字判词 vs G8、trace vs stepper 展示同一推演、多个等重焦点同屏）。
-- **重点唯一性**：每页的强形式各一次——一个巨字判词、一个楔形（给全页最强冲突）、每种红姿态各一、每节最多一个高潮。
+### 3.3 Select and construct forms
 
-## 5. Form Vocabulary — 形式词汇表
+Select in layers. Do not compare options from different layers as if they were interchangeable:
 
-Entry points, not a catalog. One line each: what it encodes. Construct new forms freely when none fits — the vocabulary is proof of territory, not its border.
+| Layer | Decision | Examples |
+|---|---|---|
+| 1. Reader operation | What must the learner do? | locate, trace, compare, predict |
+| 2. Relation and evidence | What is connected, and how is it known? | state × time; cause → effect; constructed input |
+| 3. Encoding family | What spatial operation makes the relation visible? | trace, dual-band alignment, gauge, timeline |
+| 4. Container | How is the encoding mounted? | full plate, inset panel, table shell, code block |
+| 5. Rhetorical overlay | What interpretation is added after the encoding? | insight, warning, concluding verdict |
 
-**推演类**：trace（行=时间步 × 列=状态维的全表并置）· stepper（单步递进与当前焦点）· swimlane（角色 × 时序交接）· causal chain（压力传递方向，必须闭合到权衡）
-**结构类**：memory map（地址区间 × 归属）· nested tree（层级包含）· exploded frame（零件沿轴陈列）· punch card（位置 × 二值状态）· ASCII 图（等宽位置语义）· state diagram（状态转移与条件）
-**对齐类**：双条错位图（两条带的滑动对齐，重叠段即公共结构——prefix/suffix、序列比对）
-**读数类**：readout（数值的权重，尺度对比即构图）· gauge（阈值型读数，弧形刻度+阈值刻度+指针）· ratio bar（份额的相对量）· instrument strip（多件共用基线的仪表台）
-**陈述类**：essence hook（最小心智模型，定锚）· insight panel（分析性结论）· warning box（单向陷阱警示）· dialogue（立场交锋，正解从交锋浮现）· giant verdict（整幅判词，一页一次）
-**档案类**：archive card（证明"发生过"）· archival panel（声明"应当如此"的定义/约定）· timetable（精确时序）
-**对照类**：compare table（仅真正的二维查找）· split（等价并置）· asym（主从 2:1）· staggered（错位主从）
-**容器几何**：G1 切角（工业精度）· G2 楔（全页最强冲突的力量方向）· G3 圆（焦点声明；红圆=红日）· G5 色场（段落级材料归属，只用 ink/ochre）· G6 嵌套（语境 × 内容）· G7 阶梯（递进构建，≤4 级，级位即进度）· G8 拼贴（结论从证据浮现，与巨字判词二选一）
-**闭环**：checklist（索引即闭环，引用判词锚点；清单是索引不是内容）
+Only layer 3 competes as an explanatory form. A container or overlay must never substitute for an encoding. An essence model is content, not a visual component. Match the relation class before choosing a family: do not turn a causal claim into a chronology because a timeline is easier to draw.
 
-## 6. Composition — 构图启发
+**Candidate comparison.** Compare materially different candidates only when:
 
-- **板面**：页面是一块展板——文字轨 ≈68 字符偏左（可读性不动），图版轨占主栏可用宽（展件展开）。带 sidebar 时限宽居中；≤768px 全部塌单栏。
-- **天际线密度**：节密度三档 breather / standard / dense，形成节奏；dense 节之间用 L0 呼吸带分隔。
-- **页面角色**：定位 / 定锚 / 展示 / 拆解 / 对照 / 转场 / 高潮 / 闭环——检查缺失与重复争夺，不限制组件种类。
-- **构图先例（启发，不是模板）**：R1 红楔（单机制因果：问题压力 → 本质 → 主图版 → 判词 → 回顾）；R2 蓝图（多机制深潜：本质 → 图版集群 → 推演 → 仪器带）；R3 档案（史料驱动：ochre 时间线 → 压力 → 当代机制 → 拼贴影响）；R4 海报（短页单结论：海报页头 → 本质 → 单主图 → 判词）。
+- the relation admits more than one encoding family;
+- a candidate adds interaction, JavaScript, or substantial visual mass;
+- its no-JS or narrow-screen variant changes the learner's operation;
+- measured, constructed, and illustrative data require materially different treatment;
+- the canonical form is operationally adequate but compositionally inert, and a materially different form could carry the visual thesis more forcefully at comparable cognitive cost.
 
-## 7. Defaults — 可偏离的默认值
+Candidates must differ in information geometry, material logic, or compositional strategy—not merely a surface skin. Otherwise use the canonical family as a baseline and keep the decision lightweight.
 
-Deviating is legal; state the gain.
+**Hard gates.** Eliminate a candidate that:
 
-- **字体栈**：Latin IBM Plex Sans · 中文 Noto Sans SC · 数字 Urbanist · 代码 Google Sans Code（Google Fonts CDN，字重 300–700 按需声明，display 700 见 §3.3）。字重纪律：正文 400–600，700 仅 display，同屏 ≤3 种字重。
-- **Token 建议值**：`--gap: 0.5/1/2/4rem`；板面 1240px（带 sidebar）/ 980px（不带）；标尺轨 3rem；文字轨 46rem；图版网格 24px。
-- **页头**：标准式（kicker + 标题 + 4rem×8px 红梁 + 副题 + meta）或海报式（色票条 + clamp 标题 + 词眼红下划线 + meta）；meta 四字段：日期 · 学科 · 时长 · 范围声明。
-- **装裱**：机制图解默认全装裱（2px ink 框 + 对版十字 + 图号 + 图题），陈述/档案类保持流式；装裱图版必须被引用或图题传达结论。
-- **响应式**：单 768px 断点——多栏塌单栏、标尺与角标隐藏（编号移交节内前缀）、巨字收小、宽表横向滚动。
-- **交互**：仅当交互帮助理解（步进演示、scroll-spy）；渐进增强，无 JS 页面完整可读；禁装饰性动画。
-- **工程惯例**：单文件 inline CSS、kebab-case 文件名、`<title>` 用页面语言、 sole external dependency = Google Fonts。
+- implies a false quantity, order, membership, or causal relation;
+- fails contrast, legibility, or label space at its real rendered size;
+- cannot preserve the learning operation without JavaScript;
+- cannot recompose on a narrow viewport without destroying the relation;
+- misrepresents evidence status or precision.
 
-## 8. Traps — 高频陷阱（一句话各）
+No aesthetic gain compensates for failure at these gates.
 
-- `clip-path` 会裁掉 border 与 box-shadow——切角件用剪影，不要加边框。
-- 固定轨 grid：行内单元数必须严格等于轨数（多一个少一个都静默错位）——写完数一遍。
-- 圆形孔位单元必须 `box-sizing: border-box`，否则孔与环外径不一致、阵列错位。
-- 蓝底注释用 blue-note、焦点用 red；deep-red 落蓝底不可读。
-- 表格只给二维查找；单维数据用列表/readout，主从用 asym。
-- SVG 辅助线随表面换色（L2 上 blue-note，L0 上 steel）；结构线 ink，主动路径 red。
-- 深色面之间保持间距（同层 ≥12px，跨层 ≥32px）；图版内衬 ≥32px。
+**Selection order.** Treat aesthetic effect as a positive selection criterion, not a decoration allowance. Among survivors, prefer in this order: exact operation match → lower cognitive and interaction cost → aesthetic and compositional effect → expressive novelty.
 
-## 9. Examples — 示例索引
+Define aesthetic effect as clarity of the visual thesis, decisive hierarchy, material contrast, rhythm, and fit with the page—not ornament. Define novelty as a genuinely new relation or visual argument, not merely unfamiliar styling. Reuse is a practical fallback only when it matches the current aesthetic effect; it is never an automatic priority. Novelty is not a last tie-breaker: it may decide among operationally comparable forms and may justify a new or differentiated form when it materially strengthens the visual argument without avoidable cost.
 
-- **example-kmp.html** — 考点密集型 / 图纸族主导：真实数据 trace、步进演示、双条错位重叠图、档案面板、红梁与判词。
-- **example-maxwell-equations.html** — 海报式 + 档案族：色票页头、ochre 时间线、G7 层级色阶、镜像对置构图、连续谱带、G8 拼贴。
-- **example-photoelectric-effect.html** — 短判词型 + 对话：红日（E=hν 线框红圆）、阈值仪表、立场对话、装置图、红楔指针。
+**Form budget.** Use one primary form per learning turn and one primary encoding per relation. Add a supporting form only when it serves a different operation. A new or differentiated form may be chosen even when an existing form is operationally adequate, provided it preserves the operation and materially improves the aesthetic argument. Do not create multiple variants of the same relation merely to display novelty. A component whose removal eliminates no learning operation must still perform necessary compositional or rhetorical work; if it does neither, it is decoration.
 
-三篇覆盖差异最大化的三种页面气质；写新页面前，找气质最近的一篇通读其 CSS 与图版结构。
+**Selection record.** Record for each primary form:
+
+```text
+读者问题:
+主操作:
+信息关系 / 证据:
+候选（仅触发时）:
+选择 / 淘汰理由:
+美学 / 新颖性增益:
+容器 / 修辞覆盖:
+无 JS / 窄屏变体:
+验证问题:
+```
+
+A minor form needs one line: operation → form → what the reader can do.
+
+Two illustrative choices:
+
+- If the reader must see the whole failure pattern and the current step, a trace is primary; a separate stepper is redundant unless one-step focus lowers working-memory load. Prefer a trace with a current-step highlight.
+- If the reader must decompose one photon's energy, use a stacked energy bar; if the reader only needs to judge threshold crossing, use a gauge. Using both requires two declared operations.
+
+Selection is not construction. Once an encoding family is chosen, continue to §3.4 and build the diagram brief before writing markup or CSS.
+
+**Preconditions for common families**
+
+| Family | Use when | Reject or reshape when | Narrow / no-JS form |
+|---|---|---|---|
+| Trace / matrix | finite states × steps; global pattern matters | too many dimensions; cells become unreadable | local horizontal scroll with frozen labels; show full trace without JS |
+| Stepper | ordered single-path transitions; current state matters | parallel branches; whole-pattern comparison | keep all steps available without JS; preserve keyboard controls |
+| Timeline / timetable | chronology or intervals are the subject | causal hierarchy without time semantics | vertical sequence; keep dates attached to events |
+| Causal chain / state diagram | directed dependencies or conditional transitions | simple chronology; decoration | linearize with explicit direction and conditions |
+| Dual-band alignment | two sequences share an overlap or correspondence | ordinary side-by-side comparison | preserve alignment by scrolling; never stack into unrelated rows |
+| Readout | one key scalar deserves emphasis and comparison | the value lacks context; several values compete for focus | retain the number, unit, and comparison as text |
+| Gauge | a scalar with a meaningful threshold | categorical comparison; no real threshold; distribution | retain the value and threshold as text |
+| Ratio bar / instrument strip | part-to-whole or shared comparable baseline | different denominators; non-additive units | stack on a common scale; use a table when scale is unclear |
+| Compare table | genuine two-axis lookup | narrative sequence or one-dimensional comparison | local scroll with sticky headers |
+| Dialogue | competing models with real, differentiated positions | strawman positions; one voice | ordered speakers with names attached |
+
+**After rendering.** Run three tests:
+
+1. **Removal:** Which learning operation disappears if the figure is removed? If none, does it still perform necessary compositional or rhetorical work? If neither, remove it.
+2. **Prose removal:** Can the figure support its declared operation without explanatory prose? If not, it does not encode the relation.
+3. **Simpler alternative:** Does a simpler, more static, or lower-mass form preserve both the operation and the intended aesthetic effect? If yes, prefer it. If the richer form creates a distinct visual argument at acceptable cost, retain it.
+
+Reselect a failed form rather than decorating it. Delete the unit only when it has neither a teaching nor a compositional or rhetorical purpose. Preserve truthful position, scale, and direction; a unit-count threshold never makes a grid valid or invalid.
+
+### 3.4 Construct diagrams
+
+A diagram is an external reasoning surface, not a decorated summary. It earns its place when spatial indexing makes a target relation easier to find, compare, or operate on; it can also make a false relation feel obvious. Construct from the proposition, not from the container or the available geometry.
+
+**Distinguish diagram, chart, and plate.** A diagram organizes entities, states, and relations; a chart encodes quantities on scales; a plate is a mount. A decorative plate never substitutes for a missing diagrammatic structure.
+
+**Write a diagram brief** before markup, CSS, or JavaScript:
+
+```text
+图表主张:
+实体 / 状态 / 数量:
+关系与方向:
+证据与来源:
+边界 / 失效 / 对照:
+省略项:
+数量 → 通道 / 尺度 / 单位:
+标注计划:
+无 JS / 窄屏变体:
+读图验证问题:
+```
+
+**Build the proposition skeleton first.**
+
+- Keep only the entities, states, and relations required for the declared inference. Collapse secondary entities into labels or adjacent prose.
+- Define what each spatial relation means before drawing it: alignment = correspondence, overlap = shared membership or intersection, containment = subset or ownership, sequence = time or operation order, distance = difference or quantity only when intended, arrow = direction of dependency.
+- If the intended relation cannot be expressed by a truthful spatial relation, do not force it into a diagram.
+- Distinguish absence from zero, unknown from measured zero, and illustrative values from observed values.
+- Give the diagram one primary inference. If it needs more, use aligned panels, small multiples, or a secondary layer; do not make every relation compete in one frame.
+- Include the boundary, equality, failure, or comparison case when the model's meaning depends on it.
+
+**Assign channels and scales.**
+
+- Choose the coordinate system before the visual skin: time/sequence, common quantitative scale, state graph, part-to-whole, containment, or categorical grouping.
+- For quantitative judgments, prefer position on a common scale, then length. Use area or angle only for approximate magnitude, never for precise comparison. Use shape and hue primarily for categories. Do not use perspective, 3D depth, or shadow to encode magnitude.
+- Start length and area from a meaningful zero. Label log or transformed scales explicitly. Keep intervals truthful and units visible.
+- Use direct labels where they remain readable. Use a legend only for repeated category mapping or intentional lookup; never make color the only identifier.
+- Show uncertainty, sample size, or missing-data treatment when they affect the claimed inference. Do not display more precision than the evidence supports.
+- Make measured data, constructed inputs, and illustrative diagrams visibly distinct in the caption or plan. For constructed inputs, expose the generating parameters or derivation; for measured data, cite the source, time window, and transformations.
+- Use channel accuracy as an empirical default, not an unconditional law. A deliberate deviation must have a task-based reason and must pass the false-inference test.
+- Aesthetic hierarchy may change spacing, weight, contrast, or the placement of the main gesture; it must not change the quantitative geometry.
+
+**Design the diagram architecture.**
+
+- Separate the primary relation from reference marks, annotations, and production marks. Secondary layers must not compete with the encoded relation.
+- Attach labels to the marks or relations they explain. Use arrows for direction, not decoration. Reserve the strongest red gesture or scale jump for the primary inference.
+- Captions should state the inference, unit, boundary, or provenance the figure supports; they should not merely repeat its category.
+- Use negative space to isolate the turning point, not to float unrelated marks. Asymmetry must preserve the reading order and the truthful position of every mark.
+- Remove any mark whose absence would make the diagram clearer. A signature gesture is justified only when it reveals the relation at the main learning turn.
+
+**Decide interaction and responsive behavior.**
+
+- Prefer the static diagram. Add interaction only when progressive state disclosure reduces working-memory load or enables a comparison that cannot be held in one frame.
+- With JavaScript disabled, the full sequence, labels, values, and conclusion must remain available. Never encode the current state by color alone.
+- On narrow screens, verticalize sequences, split aligned panels, provide local scrolling with frozen labels, or fall back to a table. Do not shrink labels below readability or break a correspondence by stacking related tracks into unrelated rows.
+- If the relation cannot survive the narrow layout, change diagram family rather than forcing the desktop geometry into a smaller box.
+
+**Verify the diagram.**
+
+1. **Read-off:** Without explanatory prose, can the reader state the intended relation, not merely recognize the topic?
+2. **False inference:** Does any position, length, overlap, order, arrow, or color imply a quantity, cause, grouping, or precision that the model does not support?
+3. **Boundary:** Are the equality, failure, omission, or comparison conditions visible where the inference requires them?
+4. **Label recovery:** Can every mark be matched to a label and every label to a mark, with units and direction intact?
+5. **Scientific integrity:** Are source, evidence status, precision, axis/scale, and uncertainty adequate for the claim?
+6. **Accessibility:** Does a short identifier plus a visible long description or caption convey the essential structure, values, and conclusion to readers who cannot see the marks?
+7. **Aesthetic test:** Does the strongest gesture land on the primary inference? If removing a decorative mark improves both clarity and force, remove it.
+
+A diagram that fails a semantic test cannot be repaired by styling. Reselect the diagram family, simplify the proposition, or move the unsupported claim back into prose.
+
+### 3.5 Allocate attention
+
+- Give the current reading unit one dominant destination. Subordinate competing accents rather than distributing equal emphasis everywhere.
+- Reserve the strongest scale contrast, red gesture, or diagonal rupture for the page's main learning turn. Repetition turns rhetoric into wallpaper.
+- Use redundancy selectively: repeat a cue when it supports decoding or recall, not to restate identical prose in several containers.
+- Place signals before or beside the operation they explain. Separate decorative marks from instructional marks by position and visual weight.
+
+### 3.6 Build composition at three scales
+
+- **Macro — page:** establish a readable route, a dominant mass, and a counterweight. Use one or two meaningful compositional turns rather than constant rupture.
+- **Meso — section:** alternate dense analysis with spacious synthesis; let a dense section end in a conclusion, not merely another container.
+- **Section index:** when a display numeral accompanies a heading, bind them into one asymmetric index block: set the numeral in a narrow structural column, align its cap line with the kicker or headline, and keep the heading as the reading anchor. Do not park the numeral below the title as an orphan. On narrow screens, retain the numeral as a gutter element beside the heading rather than turning it into another full-width row.
+- **Micro — component:** align edges, baselines, ticks, labels, and figure numbers. Precision at this scale makes bold composition credible.
+
+Use dynamic balance, not symmetry, while keeping the prose rail stable. Test balance through focal competition, reading order, and directional force; “no obvious imbalance” is not a sufficient review.
+
+Treat **20° `/`** as the canonical house axis, not a historical law. Use one dominant oblique family across conspicuous cuts, wedges, and separators. Permit a different angle when mechanism geometry, data truth, or a deliberate compositional counterforce requires it; record the gain. Keep mechanism diagrams internally truthful and normally orthogonal.
+
+### 3.7 Design negative space and dark mass
+
+Shape negative space as a pause, channel, margin, or counterweight. Do not fill it simply because it is available. Break long dark runs at meaningful teaching boundaries, and preserve enough light surface for the next focal gesture to register.
+
+Use no universal percentage for red or dark coverage. Judge area, duration, contrast, adjacency, and reading task together at representative viewports.
+
+## 4. Typography and Language — 字体与语言
+
+### 4.1 Build hierarchy before choosing display tricks
+
+Distinguish display, section title, body, caption, label, and code through size, weight, spacing, and position. Use no more than three simultaneous text weights unless a fourth has a distinct reading role.
+
+Default to body weight 400–500, display weight 600–700, body line-height around 1.65–1.8, and a readable measure chosen by script. Start near 60–75 Latin characters or 34–42 Han characters per line, then adjust from actual font metrics and content. Treat these as starting points, not compliance thresholds.
+
+Use full-width display stacking, oversized numerals, or bleeding type only when they strengthen the visual thesis. Keep explanatory text out of those effects.
+
+### 4.2 Respect script and locale
+
+Set the correct `lang`; choose fonts for the page's scripts and include system fallbacks. Do not apply Latin tracking, capitalization, italics, or line-breaking habits to Chinese text.
+
+For Chinese pages, use locale-appropriate punctuation and glyph forms; prevent prohibited line-start or line-end punctuation where the platform supports it; keep numbers with units and short formulas together where possible. Prefer weight, emphasis marks, or underlining over synthetic italics. Avoid decorative full-width Latin or digits.
+
+Use English labels only when they add terminology or navigation value, never as texture. Make headings assert one defensible idea; make captions explain the mechanism or relation rather than repeat a category.
+
+### 4.3 Let typography carry the rhetoric
+
+Favor exact verbs, meaningful scale changes, deliberate line breaks, and parallel structure for parallel ideas. Do not manufacture profundity through oversized type, slogan-like fragments, or a concluding verdict unsupported by the preceding derivation.
+
+## 5. Form and Component Vocabulary — 形式与组件词汇
+
+Treat entries as candidates within their layer, not as interchangeable options. Only **encoding forms** compete during form selection; containers, layouts, and rhetorical overlays are chosen afterward. Use no form as a skin: each choice must answer the question of its layer.
+
+### 5.1 Encoding forms
+
+- **Process and change:** trace (time × state), stepper (guided decomposition), swimlane (actor × time), state diagram (transition × condition), timetable (ordered events).
+- **Structure:** memory map (interval × ownership), nested tree (containment), exploded frame (assembly), punch card (position × binary state), ASCII diagram (monospace position).
+- **Correspondence and cause:** dual-band alignment (overlap × correspondence), causal chain (pressure → mechanism → consequence → tradeoff), compare table (two-axis lookup only).
+- **Quantity:** readout (weighted value), gauge (value against threshold), ratio bar (share), instrument strip (values on a common baseline).
+- **Discourse:** dialogue (competing predictions and positions).
+
+### 5.2 Containers, layouts, and geometry
+
+- **Containers:** full or light plate, inset panel, archive card (evidence that something occurred), archival panel (definition or convention), code block, table shell, review index (closure that links to anchors).
+- **Compositional layouts:** split (equivalent alternatives), asym / staggered (primary-secondary relation), nest (context × content), stair (ordered progression), collage (synthesis from evidence).
+- **Geometric gestures:** cut (precision), wedge (directed pressure), circle (focus), field (material territory). They modulate composition; they do not replace an encoding.
+
+### 5.3 Rhetorical overlays
+
+Use after the encoding is valid: **insight panel** (earned synthesis), **warning box** (specific failure), **concluding verdict** (earned rhetorical closure). The essence model / 本质模型 is content, not a component. Overlays interpret or compress an existing relation; they never stand in for the trace, comparison, or derivation that proves it.
+
+## 6. Composition and Production Defaults — 可偏离默认值
+
+- **Rails:** stable prose rail plus a wider exhibit rail; collapse to one column when space no longer supports the relation.
+- **Spacing:** derive from a small scale such as `0.25 / 0.5 / 1 / 1.5 / 2 / 3 / 4 / 6rem`; use larger intervals for changes in reading work, not arbitrary card separation.
+- **Fonts:** IBM Plex Sans for Latin, Noto Sans SC for Chinese, Urbanist for display numerals, Google Sans Code for code; substitute appropriate fonts for other scripts.
+- **Board:** 1240px with navigation or 980px without; 24px diagram grid. Use a 768px collapse as a starting hypothesis, not the only permissible breakpoint.
+- **Header:** standard or poster composition. Include title, scope, discipline, and useful reading metadata; omit fields that would require invention.
+- **Mounting:** frame a mechanism plate when registration or separation aids reading. Cite it from prose or make its caption carry the mechanism conclusion.
+- **Production marks:** use crop marks, rulers, and registration crosses only when they reinforce scale, sequence, or construction. Short pages may omit them.
+- **Colophon:** close with a compact production or source note. Report only real values; do not turn the colophon into ornamental metadata.
+- **Interaction:** use steppers, scroll-spy, or controls only for an identifiable learning operation. Preserve semantic HTML, keyboard operation, reduced-motion behavior, and complete no-JS content.
+- **Engineering:** prefer single-file, no-build HTML with inline CSS and minimal inline JS. Use Google Fonts when network access is acceptable; provide local fallbacks and honor an offline request.
+
+A deviation needs one useful reason, not an essay. Record consequential deviations in the planning file.
+
+## 7. Aesthetic Review — 审美复核
+
+Review the actual rendered page at three distances and at desktop and mobile widths. This is a design critique, not a second copy of the Delivery Self-Check.
+
+1. **Thumbnail / 缩略：** identify the dominant mass, current focal point, and directional route. Check whether the page still has a coherent identity when small decorative marks disappear.
+2. **Reading / 阅读：** follow the page as a learner. Check whether headings predict content, signals arrive in time, dense sections release into synthesis, and the strongest gesture lands on the main learning turn.
+3. **Detail / 细部：** inspect type metrics, punctuation, alignment, caption adjacency, color contrast, truthful scales, and accidental tangencies. Remove marks that cannot explain their role.
+4. **Recomposition / 重组：** verify that narrow screens reorder and simplify the composition rather than merely shrinking desktop rhetoric. Preserve the reading route and essential relations.
+
+If the page is attractive but the learner cannot predict, trace, compare, or transfer the model, return to the learning and form decisions rather than adding polish.
+
+## 8. Examples — 示例索引
+
+Read only the example and sections closest to the required **mode + content relation + temperament**; never copy a complete scaffold by default.
+
+- `example-kmp.html` — exam-dense, blueprint-led: concrete trace, stepper, alignment, archival conventions.
+- `example-maxwell-equations.html` — historical arc, poster-led: timeline, stair, asymmetric composition, evidence collage.
+- `example-photoelectric-effect.html` — threshold mechanism, instrument-led: circular focus, threshold axis, dialogue, annotated apparatus.
+
+These examples demonstrate different content emphases, not the limits of the language.
