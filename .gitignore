@@ -1,6 +1,9 @@
 # ZCode agent session artifacts（会话计划/中间产物，不入库）
 .zcode/
 
+# CodeBuddy project data（保留本地，不入库）
+.codebuddy/
+
 # 历史版本快照（DESIGN-PROPOSAL §快照与回滚；如需版本化备份可移除此行）
 snapshots/
 
